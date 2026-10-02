@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="../favicon.png">
+<title>활동지 · EAIM 진로</title>
+<!-- EAIM 진로 활동지 v1.0 (2026-10-02) · study-plan — 문장은 앱 자료(../study-plan-data.js)를 그대로 읽고, 틀·기능은 ws.js 공통(에임 도덕 활동지 엔진을 옮김). AI·로그인·기록 없음. -->
+<link rel="stylesheet" href="ws.css">
+</head>
+<body>
+<script src="../career-apps.js"></script>
+<script src="../curriculum-career.js"></script>
+<script src="../lessonplan-data.js"></script>
+<script src="../study-plan-data.js"></script>
+<script src="../career-class.js"></script>
+<script src="ws.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.SP_DATA, E = WS.esc;
+
+  WS.start('study-plan');
+  WS.add(WS.h2('1. 이 직업에는 어떤 공부가 도움이 될까요?') + WS.guide('직업마다 도움이 될 과목을 2개 이상 ✔ 하세요. 다른 과목도 까닭이 있으면 맞아요.')
+    + D.jobs.map((j, i) => `<p class="qtext">${j.icon} ${E(j.name)}</p>` + WS.checks('j' + i, D.subjects.map(s => ({ t: s, ok: j.key.includes(s) ? true : null })))).join(''));
+  WS.add(WS.h2('2. 진로 목표와 학습 방법') + WS.lines([{ label: '나의 진로 목표' }, { label: '이번 달 학습 목표' }])
+    + WS.guide('해 보고 싶은 학습 방법 2개에 ✔') + WS.checks('m', D.methods.map(m => `${m.icon} ${m.name} — ${m.t}`), { max: 2, cols: false }));
+  WS.add(WS.h2('3. 이번 주 학습 계획표') + `<table><tr><th>요일</th><th>과목</th><th>학습 방법</th><th>시간(분)</th><th>✅</th></tr>${D.days.map(d => `<tr><th>${d}</th><td><input class="wide"></td><td><input class="wide"></td><td><input style="width:4em"></td><td class="c"><label class="box"><input type="checkbox" name="done-${d}"><span></span></label></td></tr>`).join('')}</table>`
+    + WS.write('한 주를 돌아보며', 2));
+
+  WS.done();
+})();
+</script>
+</body>
+</html>

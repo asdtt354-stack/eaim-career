@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="../favicon.png">
+<title>활동지 · EAIM 진로</title>
+<!-- EAIM 진로 활동지 v1.0 (2026-10-02) · work-play — 문장은 앱 자료(../work-play-data.js)를 그대로 읽고, 틀·기능은 ws.js 공통(에임 도덕 활동지 엔진을 옮김). AI·로그인·기록 없음. -->
+<link rel="stylesheet" href="ws.css">
+</head>
+<body>
+<script src="../career-apps.js"></script>
+<script src="../curriculum-career.js"></script>
+<script src="../lessonplan-data.js"></script>
+<script src="../work-play-data.js"></script>
+<script src="../career-class.js"></script>
+<script src="ws.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.WP_DATA, E = WS.esc;
+
+  WS.start('work-play');
+  const BK = Object.keys(D.bins);
+  WS.add(WS.h2('1. 일일까, 여가일까?') + WS.table('wp', D.cards.map(c => ({ text: c.t, ans: c.bin, ansText: c.why })), BK.map(k => ({ v: k, label: `${D.bins[k].icon}<br>${D.bins[k].name}` })), { head: '활동' }));
+  WS.add(WS.h2('2. 여가가 주는 것') + WS.guide('이야기마다 여가가 준 것을 2개씩 ✔ 하세요. (지어낸 이야기예요)')
+    + D.stories.map((s, i) => `<p class="qtext">${s.icon} ${E(s.who)}: ${E(s.t)}</p>` + WS.checks('g' + i, Object.keys(D.gives).map(k => ({ t: `${D.gives[k].icon} ${D.gives[k].name}`, ok: s.gives.includes(k) ? true : null })), { max: 2 })).join(''));
+  WS.add(WS.h2('3. 나의 일과 여가 시소') + WS.guide(`일주일 학교 밖 시간을 ${D.total}조각으로 나눠요. 실제 내 모습대로 — 맞고 틀린 것은 없어요.`)
+    + WS.lines(D.blocks.map(b => ({ label: `${b.icon} ${b.name} (${b.side === 'work' ? '💼 일' : '🎈 여가'})` })), { unit: ' 조각', narrow: true })
+    + WS.write('시소를 그려 봐요 (💼 일 ___조각 ⚖️ 🎈 여가 ___조각)', 3)
+    + WS.lines([{ label: '나를 행복하게 하는 여가' }, { label: '그 여가와 이어질 수 있는 일' }]) + WS.write('어른이 된 나의 조화로운 일과 여가 모습', 2));
+
+  WS.done();
+})();
+</script>
+</body>
+</html>

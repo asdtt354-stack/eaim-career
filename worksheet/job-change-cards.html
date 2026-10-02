@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="../favicon.png">
+<title>활동지 · EAIM 진로</title>
+<!-- EAIM 진로 활동지 v1.0 (2026-10-02) · job-change-cards — 문장은 앱 자료(../job-change-cards-data.js)를 그대로 읽고, 틀·기능은 ws.js 공통(에임 도덕 활동지 엔진을 옮김). AI·로그인·기록 없음. -->
+<link rel="stylesheet" href="ws.css">
+</head>
+<body>
+<script src="../career-apps.js"></script>
+<script src="../curriculum-career.js"></script>
+<script src="../lessonplan-data.js"></script>
+<script src="../job-change-cards-data.js"></script>
+<script src="../career-class.js"></script>
+<script src="ws.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.JC_DATA, E = WS.esc;
+
+  WS.start('job-change-cards');
+  const BK = Object.keys(D.bins);
+  WS.add(WS.h2('1. 사회가 바뀌면 직업도 바뀌어요') + WS.guide('변화 카드를 읽고 직업마다 📈 늘어날 · 📉 줄어들 · 🔄 일하는 모습이 바뀔 가능성 중 하나에 ✔ 하세요. 미래는 정해져 있지 않아요 — 까닭이 중요해요.')
+    + D.changes.map(c => `<h3 style="margin:12px 0 4px">${c.icon} ${E(c.name)} — ${E(c.t)}</h3>` + WS.table('c-' + c.id, c.jobs.map(j => ({ text: j.name, ans: j.bin, ansText: j.why })), BK.map(k => ({ v: k, label: `${D.bins[k].icon}<br>${D.bins[k].name}` })), { head: '직업 카드' })).join(''));
+  WS.add(WS.h2('2. 새 직업 발명소') + WS.guide('변화 카드 하나 + 내가 좋아하는 것 하나를 섞어 아직 없는 직업을 만들어요.')
+    + WS.lines([{ label: '변화 카드' }, { label: '내가 좋아하는 것', hint: D.likes.map(l => l.name).join(', ') }, { label: '새 직업 이름' }, { label: '필요한 진로 특성 2개', hint: D.traits.join(', ') }])
+    + WS.write('이 사람이 하는 일', 3));
+
+  WS.done();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="../favicon.png">
+<title>활동지 · EAIM 진로</title>
+<!-- EAIM 진로 활동지 v1.0 (2026-10-02) · after-grad — 문장은 앱 자료(../after-grad-data.js)를 그대로 읽고, 틀·기능은 ws.js 공통(에임 도덕 활동지 엔진을 옮김). AI·로그인·기록 없음. -->
+<link rel="stylesheet" href="ws.css">
+</head>
+<body>
+<script src="../career-apps.js"></script>
+<script src="../curriculum-career.js"></script>
+<script src="../lessonplan-data.js"></script>
+<script src="../after-grad-data.js"></script>
+<script src="../career-class.js"></script>
+<script src="ws.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.AG_DATA, E = WS.esc;
+
+  WS.start('after-grad', { help: '용돈 금액이나 건강 정보는 쓰지 않아요. 힘든 일이 있으면 선생님께 이야기해요.' });
+  WS.add(WS.h2('1. 졸업 뒤, 나는 어떤 길을 걸을까요?') + WS.lines(D.stages.map(s => ({ label: `${s.icon} ${s.name} (${s.t})`, hint: '예: ' + s.ex.join(' / ') }))));
+  WS.add(WS.h2('2. 자기 관리 미션') + D.areas.map(a => `<p class="qtext">${a.icon} ${E(a.name)} — ${E(a.q)}</p>` + WS.radios('a-' + a.id, a.opts.map(o => ({ t: o.t, ok: o.good })))
+    + `<p class="card-note">기르고 싶은 습관 하나</p>` + WS.radios('h-' + a.id, a.habits)).join(''));
+  const wk = (h) => [0, 1, 2].map(w => `<td class="c">${Array.from({ length: 7 }, (_, d) => `<label class="box"><input type="checkbox" name="d-${h}-${w * 7 + d}"><span></span></label>`).join('')}</td>`).join('');
+  WS.add(WS.h2('3. 21일 습관 챌린지') + WS.guide('고른 습관 3개를 쓰고, 지킨 날에 ✔ 하세요.')
+    + `<table><tr><th>습관</th><th>1주</th><th>2주</th><th>3주</th></tr>${[1, 2, 3].map(h => `<tr><td><input class="wide"></td>${wk(h)}</tr>`).join('')}</table>`
+    + WS.write('돌아보기: 습관이 나의 진로 준비에 어떤 도움이 되었나요?', 2));
+
+  WS.done();
+})();
+</script>
+</body>
+</html>

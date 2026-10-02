@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="../favicon.png">
+<title>활동지 · EAIM 진로</title>
+<!-- EAIM 진로 활동지 v1.0 (2026-10-02) · path-board — 문장은 앱 자료(../path-board-data.js)를 그대로 읽고, 틀·기능은 ws.js 공통(에임 도덕 활동지 엔진을 옮김). AI·로그인·기록 없음. -->
+<link rel="stylesheet" href="ws.css">
+</head>
+<body>
+<script src="../career-apps.js"></script>
+<script src="../curriculum-career.js"></script>
+<script src="../lessonplan-data.js"></script>
+<script src="../path-board-data.js"></script>
+<script src="../career-class.js"></script>
+<script src="ws.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.PB_DATA, E = WS.esc;
+
+  WS.start('path-board');
+  const LK = Object.keys(D.lanes);
+  WS.add(WS.h2('1. 세 갈래 길') + WS.cards(LK.map(k => ({ icon: D.lanes[k].icon, name: D.lanes[k].name, text: D.lanes[k].t })))
+    + WS.guide('보드게임에서 내가 걸어간 길을 순서대로 적어요 (예: 🏫 → 🛠️ → 🌟).') + WS.write('내가 걸은 길과 길을 바꾼 까닭', 2)
+    + WS.write('막힘 칸에서 나는 무엇을 골랐나요? (다시 도전 / 다른 길 / 돌아가 준비) 그 까닭은?', 2));
+  WS.add(WS.h2('2. 진로 퀴즈') + WS.table('qz', D.quiz.map(q => ({ text: q.q, ans: q.a ? 'O' : 'X', ansText: q.why })), [{ v: 'O', label: '⭕' }, { v: 'X', label: '❌' }], { head: '문장' }));
+  WS.add(WS.h2('3. 같은 꿈, 다른 길') + WS.guide('직업마다 닿는 길이 여러 개예요. 하나를 골라 길을 살펴봐요. (대표 예시예요 — 실제 조건은 커리어넷에서 확인해요)')
+    + WS.cards(D.jobs.map(j => ({ icon: j.icon, name: j.name, text: j.routes.map(r => r[0] + ' ' + r.slice(1).join(' → ')).join(' / ') })))
+    + WS.write('내 꿈에 닿는 또 다른 길 (우선 길이 막히면 갈 대안 길)', 2));
+
+  WS.done();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="../favicon.png">
+<title>활동지 · EAIM 진로</title>
+<!-- EAIM 진로 활동지 v1.0 (2026-10-02) · exp-link — 문장은 앱 자료(../exp-link-data.js)를 그대로 읽고, 틀·기능은 ws.js 공통(에임 도덕 활동지 엔진을 옮김). AI·로그인·기록 없음. -->
+<link rel="stylesheet" href="ws.css">
+</head>
+<body>
+<script src="../career-apps.js"></script>
+<script src="../curriculum-career.js"></script>
+<script src="../lessonplan-data.js"></script>
+<script src="../exp-link-data.js"></script>
+<script src="../career-class.js"></script>
+<script src="ws.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.EL_DATA, E = WS.esc;
+
+  WS.start('exp-link', { help: '다른 사람을 알아볼 수 있는 이야기는 쓰지 않아요.' });
+  WS.add(WS.h2('1. 내가 해 온 경험 모으기') + WS.guide('교과 수업·동아리·봉사·학교 행사·집·취미·진로 체험에서 기억에 남는 경험을 적고, 찾은 것(😊 흥미 · 🎯 잘하는 것 · 💎 보람 · 🛠️ 새로 익힌 힘 · 🌧️ 어려움에서 배움)도 적어요.')
+    + WS.lines([1, 2, 3, 4, 5, 6].map(n => ({ label: `경험 ${n}`, hint: n === 1 ? '예: ' + D.places[1].ex + ' — 🎯 잘하는 것' : '' }))));
+  WS.add(WS.h2('2. 나의 경험 마인드맵') + WS.write('가운데에 "나"를 쓰고 경험을 가지처럼 이어 그려요. 관심 진로와 이어지는 경험에는 금색(또는 별표) 선을 그어요.', 10));
+  WS.add(WS.h2('3. 경험을 진로와 이어요') + WS.lines([{ label: '관심 있는 진로' }, { label: '이어지는 경험' }]) + WS.write('어떻게 이어지나요?', 2)
+    + WS.checks('next', D.nexts, { max: 2 }) + WS.write('다음 경험 계획', 1));
+
+  WS.done();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="../favicon.png">
+<title>활동지 · EAIM 진로</title>
+<!-- EAIM 진로 활동지 v1.0 (2026-10-02) · booth-startup — 문장은 앱 자료(../booth-startup-data.js)를 그대로 읽고, 틀·기능은 ws.js 공통(에임 도덕 활동지 엔진을 옮김). AI·로그인·기록 없음. -->
+<link rel="stylesheet" href="ws.css">
+</head>
+<body>
+<script src="../career-apps.js"></script>
+<script src="../curriculum-career.js"></script>
+<script src="../lessonplan-data.js"></script>
+<script src="../booth-startup-data.js"></script>
+<script src="../career-class.js"></script>
+<script src="ws.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.BS_DATA, E = WS.esc;
+
+  WS.start('booth-startup');
+  const BK = Object.keys(D.booths);
+  WS.add(WS.h2('1. 어떤 문제를 풀 부스인가요?') + WS.guide(`게임 속 가상 돈 ${D.startMoney.toLocaleString('ko-KR')}원으로 시작해요. 부스 하나를 골라요.`)
+    + WS.radios('booth', BK.map(k => `${D.booths[k].icon} ${D.booths[k].name} — ${D.booths[k].problem.t} (재료비 ${D.booths[k].cost}원, 가격 ${D.booths[k].prices.join('/')}원)`)));
+  WS.add(WS.h2('2. 주사위 사건표') + WS.guide('종이로 할 때는 시간마다 주사위를 굴려 사건을 정해요. 손님 수는 선생님이 정해 주시거나 주사위 두 개의 합 × 3으로 해요.')
+    + WS.cards(D.events.slice(1, 7).map((e, i) => ({ icon: `🎲${i + 1} ${e.icon}`, name: e.name, text: e.t }))));
+  WS.add(WS.h2('3. 세 번 운영하기') + D.rounds.map((r, i) => `<h3 style="margin:10px 0 4px">${r.icon} ${E(r.name)} — ${E(r.crowd.t)}</h3>` + WS.lines([{ label: '준비 수량 · 가격 · 홍보' }, { label: '사건(주사위) · 찾아온 손님' }, { label: '판 개수 · 남은 것 · 이익' }, { label: '배운 점 한 줄' }])).join(''));
+  WS.add(WS.h2('4. 돌아보기') + WS.checks('badge', Object.values(D.badges).map(b => `${b.icon} ${b.name} — ${b.t}`), { cols: false })
+    + WS.write('돈 말고, 우리 부스가 만든 가치는 무엇인가요?', 2) + WS.write('잘 안 된 순간에서 배운 점, 다음에 바꿀 것', 2));
+
+  WS.done();
+})();
+</script>
+</body>
+</html>

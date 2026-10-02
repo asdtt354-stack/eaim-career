@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="../favicon.png">
+<title>활동지 · EAIM 진로</title>
+<!-- EAIM 진로 활동지 v1.0 (2026-10-02) · my-traits — 문장은 앱 자료(../my-traits-data.js)를 그대로 읽고, 틀·기능은 ws.js 공통(에임 도덕 활동지 엔진을 옮김). AI·로그인·기록 없음. -->
+<link rel="stylesheet" href="ws.css">
+</head>
+<body>
+<script src="../career-apps.js"></script>
+<script src="../curriculum-career.js"></script>
+<script src="../lessonplan-data.js"></script>
+<script src="../my-traits-data.js"></script>
+<script src="../career-class.js"></script>
+<script src="ws.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.MT_DATA, E = WS.esc;
+
+  WS.start('my-traits');
+  WS.add(WS.h2('1. 🪞 경험 거울 — 시간 가는 줄 몰랐던 순간') + WS.checks('mo', D.moments.map(m => `${m.icon} ${m.t}`), { max: 3 }) + WS.write('그 순간 하나를 짧게 써요', 2));
+  WS.add(WS.h2('2. 🪞 능력 거울 — 나의 눈, 친구의 눈') + WS.table('ab', D.abilities.map(a => ({ text: `${a.icon} ${a.name} — ${a.t}` })), [1, 2, 3, 4, 5].map(n => ({ v: n, label: '★'.repeat(n) })), { head: '나의 별점' })
+    + WS.guide('친구에게: "이 친구가 잘하는 것 같은 것 3개에 ✔ 해 주세요." (친구 이름은 쓰지 않아요)') + WS.checks('fr', D.abilities.map(a => `${a.icon} ${a.name}`), { max: 3 }));
+  WS.add(WS.h2('3. 💎 가치 경매') + WS.guide(`코인 ${D.coins}개로 갖고 싶은 가치를 사요. 10코인씩, 모두 더하면 ${D.coins}이 되게 써요.`)
+    + WS.lines(D.values.map(v => ({ label: `${v.icon} ${v.name}`, hint: v.t })), { unit: ' 코인', narrow: true }));
+  WS.add(WS.h2('4. 나의 진로 특성 카드') + WS.lines([{ label: '😊 흥미' }, { label: '🎯 적성' }, { label: '💎 가치관 (가장 많이 산 3개)' }])
+    + WS.write('"나는 ___을 좋아하고, ___을 잘하며, ___을 중요하게 여기는 사람이에요."', 2) + WS.write('경험과 배움으로 앞으로 키우고 싶은 특성', 1));
+
+  WS.done();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="../favicon.png">
+<title>활동지 · EAIM 진로</title>
+<!-- EAIM 진로 활동지 v1.0 (2026-10-02) · multi-growth — 문장은 앱 자료(../multi-growth-data.js)를 그대로 읽고, 틀·기능은 ws.js 공통(에임 도덕 활동지 엔진을 옮김). AI·로그인·기록 없음. -->
+<link rel="stylesheet" href="ws.css">
+</head>
+<body>
+<script src="../career-apps.js"></script>
+<script src="../curriculum-career.js"></script>
+<script src="../lessonplan-data.js"></script>
+<script src="../multi-growth-data.js"></script>
+<script src="../career-class.js"></script>
+<script src="ws.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.MG_DATA, E = WS.esc;
+
+  WS.start('multi-growth', { help: '나라 이름·가족 이야기·사는 곳·이름은 쓰지 않아요. 내 강점과 꿈만 써요.' });
+  WS.add(WS.h2('1차시 🌱 나의 강점 보물지도') + WS.guide('나에게 맞는 강점을 3개 이상(최대 8개) ✔ 하세요. 두 언어·두 문화를 아는 것도 큰 강점이에요.')
+    + D.groups.map(g => `<h3 style="margin:8px 0 2px">${g.icon} ${E(g.name.t)}</h3>` + WS.checks('st-' + g.id, g.items.map(i => i.t))).join('')
+    + WS.write('나를 한 문장으로: "나는 ___을(를) 잘하는 사람이에요."', 1));
+  WS.add(WS.h2('2차시 🧭 강점과 이어지는 직업') + WS.guide('관심 가는 직업 3개에 ✔ 하세요. 언어 직업만 있는 것이 아니에요 — 모든 직업이 열려 있어요.')
+    + WS.checks('jobs', D.jobs.map(j => `${j.icon} ${j.name} — ${j.t}`), { max: 3, cols: false })
+    + WS.write('가장 끌리는 직업과 그 까닭 (내 강점과 이어서)', 2) + WS.write('그 직업인에게 묻고 싶은 질문', 1));
+  WS.add(WS.h2('3차시 💡 나만의 성장 창업 아이디어') + WS.radios('prob', D.problems.map(p => p.t))
+    + WS.lines([{ label: '또는 내가 본 불편' }, { label: '누구를 위한 아이디어?' }, { label: '아이디어 이름' }, { label: '이번 달 첫 번째 작은 실험' }, { label: '함께할 사람 (이름 말고 역할)' }])
+    + WS.write('나의 강점으로 어떻게 풀까요?', 2));
+  WS.add(WS.h2('4차시 🍎 나의 진로 경로와 성장나무') + WS.checks('now', D.nowActs.map(a => a.t))
+    + WS.lines([{ label: '구체적으로 한 가지' }, { label: '고등학교에서 해 보고 싶은 것' }, { label: '🥇 우선 경로' }, { label: '🥈 대안 경로' }, { label: '1년 뒤의 나에게 한마디' }])
+    + WS.write('🌳 나의 성장나무를 그려요 (뿌리 = 강점, 줄기 = 직업, 가지 = 창업 아이디어, 열매 = 진로 경로)', 8));
+
+  WS.done();
+})();
+</script>
+</body>
+</html>

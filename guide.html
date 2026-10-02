@@ -158,6 +158,13 @@ li{margin:3px 0}
       <li><span class="btnname">🖨️ 인쇄·PDF</span>, <span class="btnname">⬇️ Word 파일(.doc)</span>, <span class="btnname">📋 표째 복사</span>(한글·워드에 붙여 넣기)로 가져가요.</li>
     </ol>
     <div class="box i">ℹ️ AI가 대신 써 주는 기능이 아니에요. 성취기준·핵심 아이디어·내용 요소·평가 방법·창체 진로 활동은 교육과정 원문 그대로이고, 탐구 질문과 마음 열기·활동은 초안이에요. 선생님이 우리 반에 맞게 고쳐서 완성해요. 저장되지 않으니 설정을 먼저 정하고 고쳐 주세요.</div>
+    <h3>📄 A4 활동지</h3>
+    <p>앱마다 같은 단계로 된 A4 활동지가 있어요. 첫 화면 앱 카드 아래나 앱 위쪽의 <span class="btnname">📄 활동지</span>로 열어요. 기기가 부족한 날에도 한 차시가 돼요.</p>
+    <ul><li>화면에서 바로 쓰거나, 빈 채로 <span class="btnname">🖨️ 인쇄·PDF</span>하면 줄 칸이 있는 종이 활동지가 돼요.</li>
+    <li><span class="btnname">⬇️ Word 파일(.doc)</span>로 받아 문장을 고쳐 쓸 수 있어요.</li>
+    <li><span class="btnname">👩‍🏫 선생님용 풀이</span>를 켜면 예시 답이 초록으로 보여요. 켠 채 인쇄하면 풀이지가 돼요. 까닭을 쓰는 문항은 정답이 없어요.</li>
+    <li>축제 부스 게임·진로 경로 보드게임 활동지는 주사위로 종이에서도 할 수 있게 만들었어요.</li>
+    <li>쓴 내용은 그 기기에만 잠시 남고 탭을 닫으면 사라져요. 선생님께 내기는 앱에서 해요.</li></ul>
     <h3>🛂 나의 진로 여권 (학생 포트폴리오)</h3>
     <p>앱마다 마지막 줄에 <span class="btnname">🛂 여권에 도장</span>이 있어요. 누르면 그 활동 결과가 학생 기기의 <b>진로 여권</b>(첫 화면 위쪽 남색 카드)에 모여요. 수업 QR로 들어와 <span class="btnname">선생님께 내기</span>를 하면 도장이 저절로 찍혀요.</p>
     <ul><li>여권은 학생 기기에만 남아요. 다른 기기로 옮길 때는 <b>파일로 저장 → 파일 불러오기</b>, 함께 쓰는 기기는 <b>이 기기에서 지우기</b>.</li>
@@ -300,6 +307,7 @@ fetch('activities.json').then(r=>r.json()).then(list => {
       <dt>순서</dt><dd><ol style="margin:0 0 0 18px">${steps}</ol></dd>
       <dt>성취기준</dt><dd class="std">${(a.standards||[]).map(c => { const s = CUR.find(c); return esc(c)+(s?' '+esc(s.text):''); }).join('<br>')}</dd>
       <dt>창체 진로 활동</dt><dd class="std">${esc(a.cce ? a.cce.activity+' — '+a.cce.example : '')}</dd>
+      ${A.worksheet ? `<dt>활동지</dt><dd><a href="${esc(A.worksheet)}">📄 A4 활동지 열기</a></dd>` : ''}
       ${ls[0] ? `<dt>지도안</dt><dd><a href="eaim-career-lessonplan.html#${esc(ls[0].id)}">📝 이 앱으로 지도안 만들기</a></dd>` : ''}</dl></div>`; }).join('');
   document.getElementById('studentApps').innerHTML = apps.map(a => { const k = key(a), A = APPS[k] || {};
     return `<div class="app" id="student-${esc(k)}"><h3><a href="${esc(a.url)}">${A.icon||''} ${esc(a.title)}</a></h3><ol style="margin:0 0 0 18px">${(STUDENT_TIPS[k]||[]).map(t=>`<li>${t}</li>`).join('')}</ol></div>`; }).join('');

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="../favicon.png">
+<title>활동지 · EAIM 진로</title>
+<!-- EAIM 진로 활동지 v1.0 (2026-10-02) · info-detective — 문장은 앱 자료(../info-detective-data.js)를 그대로 읽고, 틀·기능은 ws.js 공통(에임 도덕 활동지 엔진을 옮김). AI·로그인·기록 없음. -->
+<link rel="stylesheet" href="ws.css">
+</head>
+<body>
+<script src="../career-apps.js"></script>
+<script src="../curriculum-career.js"></script>
+<script src="../lessonplan-data.js"></script>
+<script src="../info-detective-data.js"></script>
+<script src="../career-class.js"></script>
+<script src="ws.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.ID_DATA, E = WS.esc;
+
+  WS.start('info-detective');
+  const MK = D.methods.map(m => m.id), VK = Object.keys(D.verdicts);
+  WS.add(WS.h2('1. 궁금할 땐 어디서 찾을까요?') + WS.cards(D.methods.map(m => ({ icon: m.icon, name: m.name, text: m.t + (m.links ? ' (' + m.links.map(l => l[0] + ': ' + l[1].replace('https://', '')).join(', ') + ')' : '') })))
+    + WS.table('q', D.questions.map(q => ({ text: q.q, ans: q.a, ansText: q.why })), D.methods.map(m => ({ v: m.id, label: `${m.icon}<br>${m.name}` })), { head: '궁금한 것' }));
+  WS.add(WS.h2('2. 🔎 탐정 수사 — 이 정보, 믿어도 될까요?') + WS.guide('다섯 가지 단서로 살펴봐요: ' + D.clues.join(' · ') + ' (정보 카드는 지어낸 글이에요)')
+    + WS.table('v', D.cards.map(c => ({ text: `[${c.src} · ${c.date}] "${c.t}"`, ans: c.a, ansText: c.why })), VK.map(k => ({ v: k, label: `${D.verdicts[k].icon}<br>${D.verdicts[k].name}` })), { head: '정보 카드' }));
+  WS.add(WS.h2('3. 나의 진로 조사 노트') + WS.guide('찾은 내용은 내 말로 써요 (그대로 베끼지 않아요).')
+    + WS.lines([{ label: '관심 직업' }, { label: '하는 일' }, { label: '필요한 능력·자격' }, { label: '준비 방법 (학과·자격·경험)' }, { label: '앞으로의 모습(전망)' }, { label: '출처 1 (이름·날짜)' }, { label: '출처 2 (이름·날짜)' }])
+    + WS.checks('ck', ['출처가 공공 기관이나 직업인 본인이에요', '날짜가 최근이에요', '두 출처의 내용이 서로 맞아요', '광고나 과장이 아니에요'], { cols: false }));
+
+  WS.done();
+})();
+</script>
+</body>
+</html>

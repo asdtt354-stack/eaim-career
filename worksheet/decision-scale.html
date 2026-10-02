@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="../favicon.png">
+<title>활동지 · EAIM 진로</title>
+<!-- EAIM 진로 활동지 v1.0 (2026-10-02) · decision-scale — 문장은 앱 자료(../decision-scale-data.js)를 그대로 읽고, 틀·기능은 ws.js 공통(에임 도덕 활동지 엔진을 옮김). AI·로그인·기록 없음. -->
+<link rel="stylesheet" href="ws.css">
+</head>
+<body>
+<script src="../career-apps.js"></script>
+<script src="../curriculum-career.js"></script>
+<script src="../lessonplan-data.js"></script>
+<script src="../decision-scale-data.js"></script>
+<script src="../career-class.js"></script>
+<script src="ws.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.DS_DATA, E = WS.esc;
+
+  WS.start('decision-scale');
+  const SK = Object.keys(D.styles);
+  WS.add(WS.h2('1. 나의 결정 방식') + WS.cards(SK.map(k => ({ icon: D.styles[k].icon, name: D.styles[k].name, sub: D.styles[k].sub, text: `${D.styles[k].t} 👍 ${D.styles[k].plus} 🤔 ${D.styles[k].minus}` })))
+    + WS.table('sc', D.scenes.map(s => ({ text: s.t, ans: s.a })), SK.map(k => ({ v: k, label: `${D.styles[k].icon}<br>${D.styles[k].name}` })), { head: '장면' })
+    + WS.radios('my', SK.map(k => `나는 보통 ${D.styles[k].name}을 해요`)));
+  const cell = '<input style="width:3.2em;text-align:center">';
+  WS.add(WS.h2('2. 진로 저울') + WS.guide('고민 중인 진로 2~3개를 쓰고, 따질 것 4~6개에 중요도(1~3)를 적은 뒤, 진로마다 점수(1~5)를 매겨요. 합계 = 중요도 × 점수를 모두 더한 값.')
+    + `<table><tr><th>따질 것</th><th>중요도<br>(1~3)</th><th>진로 ① <input style="width:6em"></th><th>진로 ② <input style="width:6em"></th><th>진로 ③ <input style="width:6em"></th></tr>`
+    + D.criteria.map(c => `<tr><td>${c.icon} ${E(c.name)}<br><span class="card-note">${E(c.t)}</span></td><td class="c">${cell}</td><td class="c">${cell}</td><td class="c">${cell}</td><td class="c">${cell}</td></tr>`).join('')
+    + `<tr><th>합계</th><td></td><td class="c">${cell}</td><td class="c">${cell}</td><td class="c">${cell}</td></tr></table>`);
+  WS.add(WS.h2('3. 조언을 구하고 잠정적으로 정해요') + WS.checks('help', D.helpers.map(h => `${h.icon} ${h.name}`))
+    + WS.lines([{ label: '물어볼 질문' }, { label: '잠정 결정' }, { label: '다시 점검할 때' }]) + WS.write('이렇게 정한 까닭 (저울 결과와 내 마음을 함께)', 2));
+
+  WS.done();
+})();
+</script>
+</body>
+</html>

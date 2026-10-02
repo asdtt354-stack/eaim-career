@@ -98,7 +98,7 @@ if (matchMedia('(display-mode: standalone)').matches) document.getElementById('i
      <div class="row" style="margin-top:8px;gap:6px"><span class="badge gold">${tag(a)}</span>${(a.stds || [a.std]).map(s => `<span class="badge">${esc(s)}</span>`).join('')}</div></a>`).join('');
 
   const appCard = (id, a) => a.ready
-    ? `<a class="app" href="${esc(a.file)}"><span class="ic" aria-hidden="true">${a.icon}</span><span><b>${esc(a.name)}</b><small>${esc(a.desc)}</small></span></a>`
+    ? `<div style="display:flex;flex-direction:column;gap:3px"><a class="app" href="${esc(a.file)}"><span class="ic" aria-hidden="true">${a.icon}</span><span><b>${esc(a.name)}</b><small>${esc(a.desc)}</small></span></a>${a.worksheet ? `<a href="${esc(a.worksheet)}" style="align-self:flex-end;font-size:.78rem;font-weight:700;color:var(--ink);text-decoration:none;border:1px solid var(--line);background:#fff;border-radius:99px;padding:2px 10px">📄 활동지</a>` : ''}</div>`
     : `<div class="app wait"><span class="ic" aria-hidden="true">${a.icon}</span><span><b>${esc(a.name)}<span class="soon">준비 중</span></b><small>${esc(a.desc)}</small></span></div>`;
 
   document.getElementById('areas').innerHTML = CUR.areas.map(ar => {

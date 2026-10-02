@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="../favicon.png">
+<title>활동지 · EAIM 진로</title>
+<!-- EAIM 진로 활동지 v1.0 (2026-10-02) · high-school — 문장은 앱 자료(../high-school-data.js)를 그대로 읽고, 틀·기능은 ws.js 공통(에임 도덕 활동지 엔진을 옮김). AI·로그인·기록 없음. -->
+<link rel="stylesheet" href="ws.css">
+</head>
+<body>
+<script src="../career-apps.js"></script>
+<script src="../curriculum-career.js"></script>
+<script src="../lessonplan-data.js"></script>
+<script src="../high-school-data.js"></script>
+<script src="../career-class.js"></script>
+<script src="ws.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.HS_DATA, E = WS.esc;
+
+  WS.start('high-school', { help: `${D.asof} 정보예요. 학교 유형과 입학 제도는 바뀔 수 있으니 우리 지역 교육청 고입 안내를 확인해요.` });
+  WS.add(WS.h2('1. 고등학교 유형') + WS.cards(D.types.map(t => ({ icon: t.icon, name: t.name, text: `${t.learn} 🙋 ${t.fit}` })))
+    + WS.table('pf', D.profiles.map(p => ({ text: p.t, ans: p.fits[0], ansText: p.why })), D.types.map(t => ({ v: t.id, label: `${t.icon}<br>${t.name}` })), { head: '이 친구에게 어울리는 학교는? (답이 여러 개일 수 있어요)' }));
+  WS.add(WS.h2('2. 고교학점제 — 내가 고르는 시간표') + WS.bullets(D.credit) + WS.lines([{ label: '나의 진로 목표' }])
+    + WS.guide(`2학년 때 듣고 싶은 선택 과목 ${D.pickN}개에 ✔ 하세요. (2022 개정 교육과정 과목 예시, 학교마다 여는 과목이 달라요)`)
+    + D.subjects.map(a => `<p class="qtext">${E(a.area)}</p>` + WS.checks('s-' + a.area, [...a.g.map(n => n + ' (일반)'), ...a.c.map(n => n + ' (진로)'), ...a.f.map(n => n + ' (융합)')])).join('')
+    + WS.write('이 과목들을 고른 까닭 (진로와 이어서)', 2));
+  WS.add(WS.h2('3. 나에게 맞는 고등학교') + WS.checks('mt', D.matters, { max: 3 })
+    + WS.lines([{ label: '🥇 가고 싶은 유형' }, { label: '🥈 대안 유형' }, { label: '설명회에서 물어볼 질문' }]) + WS.note('꼭 확인할 곳: 학교알리미(schoolinfo.go.kr), 우리 지역 교육청 고입 정보, 학교 홈페이지·입학 설명회'));
+
+  WS.done();
+})();
+</script>
+</body>
+</html>

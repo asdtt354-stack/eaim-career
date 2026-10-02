@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="../favicon.png">
+<title>활동지 · EAIM 진로</title>
+<!-- EAIM 진로 활동지 v1.0 (2026-10-02) · entre-explorer — 문장은 앱 자료(../entre-explorer-data.js)를 그대로 읽고, 틀·기능은 ws.js 공통(에임 도덕 활동지 엔진을 옮김). AI·로그인·기록 없음. -->
+<link rel="stylesheet" href="ws.css">
+</head>
+<body>
+<script src="../career-apps.js"></script>
+<script src="../curriculum-career.js"></script>
+<script src="../lessonplan-data.js"></script>
+<script src="../entre-explorer-data.js"></script>
+<script src="../career-class.js"></script>
+<script src="ws.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.EE_DATA, E = WS.esc;
+
+  WS.start('entre-explorer');
+  const SK = Object.keys(D.spirits);
+  WS.add(WS.h2('1. 창업가 이야기에서 찾아요') + WS.guide('창업가 정신 여섯 가지를 읽고, 이야기마다 가장 크게 드러난 것 하나에 ✔ 하세요. (모두 새로 지은 이야기예요)')
+    + WS.cards(SK.map(k => ({ icon: D.spirits[k].icon, name: D.spirits[k].name, text: D.spirits[k].t })))
+    + WS.table('st', D.stories.map(s => ({ text: `${s.icon} ${s.title} — ${s.t}`, ans: s.main, ansText: s.why })), SK.map(k => ({ v: k, label: `${D.spirits[k].icon}<br>${D.spirits[k].name}` })), { head: '이야기' }));
+  WS.add(WS.h2('2. 창업의 특성 O X') + WS.table('ox', D.ox.map(o => ({ text: o.q, ans: o.a ? 'O' : 'X', ansText: o.why })), [{ v: 'O', label: '⭕' }, { v: 'X', label: '❌' }], { head: '문장' })
+    + WS.write('내가 가장 기르고 싶은 창업가 정신과 그 까닭', 2));
+  WS.add(WS.h2('3. 나의 1분 피칭 카드') + WS.guide('학교·동네·환경·어르신·다문화 이웃·동물·나의 관심 가운데 불편을 하나 찾아요.')
+    + WS.lines([{ label: '누가 불편한가요?' }, { label: '어떤 불편인가요?' }, { label: '어떻게 풀까요? (아이디어)' }, { label: '이름' }, { label: '한 줄 슬로건' }, { label: '이번 주에 해 볼 작은 실험' }])
+    + WS.write('로고를 그리거나, 1분 피칭 대본을 써요', 4));
+
+  WS.done();
+})();
+</script>
+</body>
+</html>

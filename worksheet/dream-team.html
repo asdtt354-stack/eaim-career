@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="../favicon.png">
+<title>활동지 · EAIM 진로</title>
+<!-- EAIM 진로 활동지 v1.0 (2026-10-02) · dream-team — 문장은 앱 자료(../dream-team-data.js)를 그대로 읽고, 틀·기능은 ws.js 공통(에임 도덕 활동지 엔진을 옮김). AI·로그인·기록 없음. -->
+<link rel="stylesheet" href="ws.css">
+</head>
+<body>
+<script src="../career-apps.js"></script>
+<script src="../curriculum-career.js"></script>
+<script src="../lessonplan-data.js"></script>
+<script src="../dream-team-data.js"></script>
+<script src="../career-class.js"></script>
+<script src="ws.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.DT_DATA, E = WS.esc;
+
+  WS.start('dream-team');
+  const TK = Object.keys(D.traits);
+  WS.add(WS.h2('1. 드림팀 꾸리기') + WS.radios('mission', D.missions.map(m => `${m.icon} ${m.name} — ${m.t}`))
+    + WS.guide('동료 카드를 읽고 함께 일하고 싶은 동료 3명에 ✔ 하세요. (지어낸 인물이에요)')
+    + WS.checks('team', D.people.map(p => `${p.icon} ${p.name} (${p.skill}) — ${p.say}`), { max: 3, cols: false }));
+  WS.add(WS.h2('2. 위기를 넘어라') + WS.cards(TK.map(k => ({ icon: D.traits[k].icon, name: D.traits[k].name, text: D.traits[k].t })))
+    + WS.table('cr', D.crises.map(c => ({ text: `${c.icon} ${c.name}`, ans: c.need[0], ansText: '필요한 힘: ' + c.need.map(k => D.traits[k].name).join(', ') })), TK.map(k => ({ v: k, label: `${D.traits[k].icon}<br>${D.traits[k].name}` })), { head: '위기 — 가장 필요한 힘은?' })
+    + WS.write('함께 일하고 싶은 직업인은 어떤 사람일까요? 한 문장으로', 2));
+  WS.add(WS.h2('3. 나는 어떤 동료일까요?') + WS.table('self5', TK.map(k => ({ text: `${D.traits[k].icon} ${D.traits[k].name}: ${D.selfItems[k]}` })), [1, 2, 3, 4, 5].map(n => ({ v: n, label: '★'.repeat(n) })), { head: '나를 돌아봐요' })
+    + WS.lines([{ label: '가장 키우고 싶은 힘' }, { label: '이번 주 실천 한 가지' }, { label: '나를 소개하는 동료 한마디' }]));
+
+  WS.done();
+})();
+</script>
+</body>
+</html>

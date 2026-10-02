@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="../favicon.png">
+<title>활동지 · EAIM 진로</title>
+<!-- EAIM 진로 활동지 v1.0 (2026-10-02) · path-map — 문장은 앱 자료(../path-map-data.js)를 그대로 읽고, 틀·기능은 ws.js 공통(에임 도덕 활동지 엔진을 옮김). AI·로그인·기록 없음. -->
+<link rel="stylesheet" href="ws.css">
+</head>
+<body>
+<script src="../career-apps.js"></script>
+<script src="../curriculum-career.js"></script>
+<script src="../lessonplan-data.js"></script>
+<script src="../path-map-data.js"></script>
+<script src="../career-class.js"></script>
+<script src="ws.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.PM_DATA, E = WS.esc;
+
+  WS.start('path-map');
+  WS.add(WS.h2('1. 관심 분야') + WS.checks('f', D.fields.map(f => `${f.icon} ${f.name}`), { max: 2 }) + WS.lines([{ label: '🥇 가장 가고 싶은 직업' }, { label: '🥈 대안 직업 (같아도 돼요)' }]));
+  const row = (t) => `<tr><th>${t}</th><td><input class="wide"></td><td><input class="wide"></td></tr>`;
+  WS.add(WS.h2('2. 나의 진로 경로 지도') + WS.cards(D.highs.slice(0, 5).map(h => ({ icon: h.icon, name: h.name, text: h.t })))
+    + WS.note('졸업 뒤 길: ' + D.afters.map(a => a.icon + ' ' + a.name).join(' · '))
+    + `<table><tr><th></th><th>🥇 우선 경로</th><th>🥈 대안 경로</th></tr>${row('중학교에서 할 일')}${row('고등학교 유형')}${row('고등학교에서 할 일')}${row('졸업 뒤 길')}${row('졸업 뒤 할 일')}${row('도착: 직업')}</table>`
+    + WS.write('지도로 그려 봐요: 중학교에서 두 길이 갈라지고, 갈아탈 곳에 🔀 를 표시해요', 6));
+  WS.add(WS.h2('3. 언제 갈아탈까요?') + WS.checks('sig', D.signals, { cols: false }) + WS.write('경로를 그리고 나에게 하는 한마디', 1));
+
+  WS.done();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="../favicon.png">
+<title>활동지 · EAIM 진로</title>
+<!-- EAIM 진로 활동지 v1.0 (2026-10-02) · job-day — 문장은 앱 자료(../job-day-data.js)를 그대로 읽고, 틀·기능은 ws.js 공통(에임 도덕 활동지 엔진을 옮김). AI·로그인·기록 없음. -->
+<link rel="stylesheet" href="ws.css">
+</head>
+<body>
+<script src="../career-apps.js"></script>
+<script src="../curriculum-career.js"></script>
+<script src="../lessonplan-data.js"></script>
+<script src="../job-day-data.js"></script>
+<script src="../career-class.js"></script>
+<script src="ws.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.JD_DATA, E = WS.esc;
+
+  WS.start('job-day');
+  const TK = Object.keys(D.traits);
+  const cols = TK.map(k => ({ v: k, label: `${D.traits[k].icon}<br>${D.traits[k].name}` }));
+  WS.add(WS.h2('1. 직업인의 하루 따라가기') + WS.guide('😊 흥미 = 좋아하는 것 · 🎯 적성 = 잘할 수 있는 능력 · 💎 가치관 = 일에서 중요하게 여기는 것. 장면마다 하나에 ✔ 하세요. (지어낸 인물이에요)')
+    + D.people.slice(0, 3).map(p => `<h3 style="margin:10px 0 4px">${p.icon} ${E(p.name)} (${E(p.group)})</h3>` + WS.table('p-' + p.id, p.scenes.map(s => ({ text: `${s.time} ${s.t}`, ans: s.a, ansText: s.why })), cols, { head: '장면' })).join('')
+    + WS.note('앱에서는 직업인 6명을 만날 수 있어요.'));
+  WS.add(WS.h2('2. 직업군마다 필요한 진로 특성') + D.groupQ.map((g, i) => `<p class="qtext">${E(g.group)} 직업군 — 3개 ✔</p>` + WS.checks('g' + i, D.allNeeds.map(n => ({ t: n, ok: g.need.includes(n) ? true : null })), { max: 3 })).join('')
+    + WS.write('10년 뒤 직업 세계에서 더 필요해질 진로 특성과 까닭', 2));
+  WS.add(WS.h2('3. 나와 닮은 직업인, 만나 보고 싶은 직업인') + WS.lines([{ label: '나와 닮은 직업인' }, { label: '닮은 점 (흥미·적성·가치관)' }, { label: '인터뷰해 보고 싶은 직업인 (이름 말고)' }, { label: '질문 1' }, { label: '질문 2' }, { label: '질문 3' }]));
+
+  WS.done();
+})();
+</script>
+</body>
+</html>

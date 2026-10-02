@@ -28,6 +28,9 @@
 ## 🛂 나의 진로 여권 (passport.html)
 앱마다 "🛂 여권에 도장" 단추(CU.stampButton) — 결과가 이 기기 localStorage `eaim_career_passport` 에 모임. 수업에서 선생님께 내면 저절로 도장(career-ui.js 가 CareerClass.submit 을 감쌈). 여권 화면: 영역별 도장·내용 보기·진로 선언문·인쇄·파일 저장/불러오기(합치기)·지우기·선생님께 여권 내기.
 
+## 📄 A4 활동지 (worksheet/)
+앱 16개마다 활동지. 공통 엔진 worksheet/ws.js·ws.css(에임 도덕 활동지 엔진을 옮김) — 화면에서 쓰기·인쇄(빈 칸은 줄 칸)·Word(.doc)·선생님용 풀이·빈 활동지로. 문장은 앱 자료 파일을 그대로 읽고, 머리의 탐구 질문·학습 목표·스스로 돌아보기는 curriculum-career.js·lessonplan-data.js 에서.
+
 ## 파일
 - index.html 첫 화면(영역 → 성취기준 → 앱) · teacher.html 선생님 페이지(수업 방·QR·결과물·답장·CSV·게임 점수)
 - guide.html 사용 가이드(공통규칙 9-1) · eaim-career-lessonplan.html 지도안
