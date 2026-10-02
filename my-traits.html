@@ -102,6 +102,7 @@
       <input type="text" id="grow" maxlength="80" placeholder="예: 사람들 앞에서 말하는 힘 — 발표 동아리에 들어가 볼래요">
       <div class="row no-print" style="margin-top:12px">
         <button type="button" class="ghost" id="btnCopy">📋 복사</button>
+        <button type="button" class="ghost" id="btnStamp">🛂 여권에 도장</button>
         <button type="button" class="ghost" id="btnPrint">🖨 인쇄</button>
         <button type="button" class="teal hidden" id="send">선생님께 내기</button>
       </div>
@@ -197,6 +198,7 @@
       `[나를 소개] ${S.me.trim()}`, `[키우고 싶은 특성] ${S.grow.trim()}`].join('\n');
   }
   $('btnCopy').addEventListener('click', () => CU.copy(summary()));
+  CU.stampButton('my-traits', summary);
   $('btnPrint').addEventListener('click', () => window.print());
   $('send').addEventListener('click', async () => {
     if (!S.me.trim() || !S.grow.trim()) return CU.toast('나를 소개하는 문장과 키우고 싶은 특성을 써 주세요.');

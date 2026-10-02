@@ -158,6 +158,10 @@ li{margin:3px 0}
       <li><span class="btnname">🖨️ 인쇄·PDF</span>, <span class="btnname">⬇️ Word 파일(.doc)</span>, <span class="btnname">📋 표째 복사</span>(한글·워드에 붙여 넣기)로 가져가요.</li>
     </ol>
     <div class="box i">ℹ️ AI가 대신 써 주는 기능이 아니에요. 성취기준·핵심 아이디어·내용 요소·평가 방법·창체 진로 활동은 교육과정 원문 그대로이고, 탐구 질문과 마음 열기·활동은 초안이에요. 선생님이 우리 반에 맞게 고쳐서 완성해요. 저장되지 않으니 설정을 먼저 정하고 고쳐 주세요.</div>
+    <h3>🛂 나의 진로 여권 (학생 포트폴리오)</h3>
+    <p>앱마다 마지막 줄에 <span class="btnname">🛂 여권에 도장</span>이 있어요. 누르면 그 활동 결과가 학생 기기의 <b>진로 여권</b>(첫 화면 위쪽 남색 카드)에 모여요. 수업 QR로 들어와 <span class="btnname">선생님께 내기</span>를 하면 도장이 저절로 찍혀요.</p>
+    <ul><li>여권은 학생 기기에만 남아요. 다른 기기로 옮길 때는 <b>파일로 저장 → 파일 불러오기</b>, 함께 쓰는 기기는 <b>이 기기에서 지우기</b>.</li>
+    <li>학기 말에 여권 수업 방을 열면 학생이 <span class="btnname">선생님께 여권 내기</span>로 도장 목록과 진로 선언문을 한 번에 내요 — 포트폴리오 평가·세특 원료로 쓸 수 있어요(교육과정 평가 방법 "포트폴리오 평가").</li></ul>
     <p class="std">선생님 도구는 앱 수에 세지 않아요.</p>
   </section>
 
@@ -276,6 +280,7 @@ const STUDENT_TIPS = {
   'my-traits': ['시간 가는 줄 몰랐던 순간 3개를 누르고 경험을 써요.', '능력마다 ★ 을 매기고, 친구에게 기기를 건네 내 강점 3개를 받아요(안 해도 돼요).', '코인 100개로 가치를 사요. 세 거울을 모은 카드에 나를 소개하는 문장을 써요.'],
   'info-detective': ['질문마다 알맞은 정보 찾기 방법을 눌러요.', '정보 카드마다 ✅ 🔎 🚫 중 하나를 눌러요. 다섯 가지 단서로 살펴봐요.', '관심 직업을 찾아보고 조사 노트를 내 말로 써요. 출처 2개도 써요.'],
   'high-school': ['학교 유형 카드를 모두 눌러 읽고, 친구에게 맞는 학교를 눌러요.', '고교학점제를 읽고 2학년 선택 과목 6개를 눌러 시간표를 짜요.', '중요한 것 3개, 가고 싶은 유형과 대안, 설명회 질문을 정해요.'],
+  'passport': ['표지에 별명을 써요(이름은 쓰지 않아요).', '활동 끝에서 <b>🛂 여권에 도장</b>을 누르면 도장이 찍혀요. 수업에서 선생님께 내면 저절로 찍혀요.', '도장을 누르면 내용이 펼쳐져요. 마지막 장에 진로 선언문을 쓰고 인쇄해요.'],
   'decision-scale': ['친구들의 결정 장면이 어떤 방식인지 골라요. 나는 보통 어떻게 정하는지 골라요.', '고민 중인 진로 2~3개를 쓰고, 따질 것 4~6개와 중요도를 골라 점수를 매겨요. 저울이 기울어요.', '물어볼 사람과 질문, 잠정 결정과 까닭, 다시 볼 때를 정해 결정 카드를 만들어요.'],
   'path-board': ['모둠 인원과 별명·말·꿈 직업을 골라요(별명만 써요).', '차례대로 🎲 주사위를 눌러요. 출발 칸을 지나면 세 갈래 길 가운데 하나를 골라요.', '🔀 갈림길에서는 길을 바꿀 수 있어요. 🚧 막힘 칸에서는 다시 도전·다른 길·돌아가 준비 중에 골라요. 🎴 변화 카드와 ❓ 퀴즈도 있어요.', '끝나면 같은 꿈에 닿는 다른 길을 보고, 나의 대안 길을 써서 선생님께 내요.'],
   'multi-growth': ['1차시: 나의 강점을 3개 넘게 골라요. 나를 한 문장으로 써요.', '2차시: ✨ 강점과 이어지는 직업을 보고 3개 골라요. 모든 직업이 열려 있어요.', '3차시: 불편을 골라 내 강점으로 푸는 아이디어를 만들어요.', '4차시: 우선 경로와 대안 경로를 쓰면 성장나무에 열매가 열려요. 포스터로 인쇄해요.', '차시가 끝날 때마다 <b>이 차시 선생님께 내기</b>를 눌러요. 다른 기기에서 이어 하려면 <b>파일로 저장</b>해요.'],
@@ -284,18 +289,18 @@ const STUDENT_TIPS = {
 fetch('activities.json').then(r=>r.json()).then(list => {
   const apps = list.filter(a => a.target !== 'teacher');
   const games = apps.filter(a => a.activityType==='game'), ai = apps.filter(a => a.ai);
-  document.getElementById('stats').innerHTML = [[apps.length,'만든 앱'],[games.length,'게임'],[14,'성취기준'],[ai.length,'AI가 들어간 앱']].map(([n,l])=>`<div class="stat"><div class="n">${n}</div><div class="l">${l}</div></div>`).join('');
+  document.getElementById('stats').innerHTML = [[apps.filter(a => !(APPS[key(a)] || {}).tool).length,'만든 앱'],[games.length,'게임'],[14,'성취기준'],[ai.length,'AI가 들어간 앱']].map(([n,l])=>`<div class="stat"><div class="n">${n}</div><div class="l">${l}</div></div>`).join('');
   document.getElementById('appList').innerHTML = apps.map(a => { const k = key(a), A = APPS[k] || {}, ls = LES.filter(l => l.app === k);
     const steps = ls.length > 1
       ? ls.map(l => `<li>${l.session}차시 ${esc(l.steps.map(s=>s.name).join(' → '))} — 결과물: ${esc(l.output)}</li>`).join('')
       : (ls[0] ? ls[0].steps.map((s,i)=>`<li>Step ${i+1} ${esc(s.name)} — ${esc(s.guide)}</li>`).join('') + `<li>결과물: ${esc(ls[0].output)} (인쇄·복사·선생님께 내기)</li>` : '');
     return `<div class="app" id="${esc(k)}"><h3><a href="${esc(a.url)}">${A.icon ? A.icon+' ' : ''}${esc(a.title)}</a></h3>
-      <div class="tags"><span class="tag pub">공개 · 로그인 없이 연습</span>${a.classroom?'<span class="tag cls">수업 QR이면 선생님께 내기</span>':''}<span class="tag ${a.ai?'ai':''}">${a.ai?'AI 있음':'AI 없음'}</span><span class="tag">${esc(scopeText(a))}</span>${a.activityType==='game'?'<span class="tag">🎮 게임 · 점수는 세특과 무관</span>':''}</div>
+      <div class="tags"><span class="tag pub">공개 · 로그인 없이 연습</span>${a.classroom?'<span class="tag cls">수업 QR이면 선생님께 내기</span>':''}<span class="tag ${a.ai?'ai':''}">${a.ai?'AI 있음':'AI 없음'}</span><span class="tag">${esc((APPS[key(a)] || {}).tool ? '모으는 도구 · 학기 내내' : scopeText(a))}</span>${a.activityType==='game'?'<span class="tag">🎮 게임 · 점수는 세특과 무관</span>':''}</div>
       <dl class="row"><dt>무엇을 하나</dt><dd>${esc(a.summary||A.desc||'')}</dd>
       <dt>순서</dt><dd><ol style="margin:0 0 0 18px">${steps}</ol></dd>
       <dt>성취기준</dt><dd class="std">${(a.standards||[]).map(c => { const s = CUR.find(c); return esc(c)+(s?' '+esc(s.text):''); }).join('<br>')}</dd>
       <dt>창체 진로 활동</dt><dd class="std">${esc(a.cce ? a.cce.activity+' — '+a.cce.example : '')}</dd>
-      <dt>지도안</dt><dd><a href="eaim-career-lessonplan.html#${esc(ls[0] ? ls[0].id : k)}">📝 이 앱으로 지도안 만들기</a></dd></dl></div>`; }).join('');
+      ${ls[0] ? `<dt>지도안</dt><dd><a href="eaim-career-lessonplan.html#${esc(ls[0].id)}">📝 이 앱으로 지도안 만들기</a></dd>` : ''}</dl></div>`; }).join('');
   document.getElementById('studentApps').innerHTML = apps.map(a => { const k = key(a), A = APPS[k] || {};
     return `<div class="app" id="student-${esc(k)}"><h3><a href="${esc(a.url)}">${A.icon||''} ${esc(a.title)}</a></h3><ol style="margin:0 0 0 18px">${(STUDENT_TIPS[k]||[]).map(t=>`<li>${t}</li>`).join('')}</ol></div>`; }).join('');
   scrollToHash();

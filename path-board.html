@@ -114,6 +114,7 @@
       <textarea id="r2" maxlength="300" placeholder="예: 학교 길이 막히면 → 일하며 자격증 → 나중에 대학"></textarea>
       <div class="row no-print" style="margin-top:12px">
         <button type="button" class="ghost" id="btnCopy">📋 복사</button>
+        <button type="button" class="ghost" id="btnStamp">🛂 여권에 도장</button>
         <button type="button" class="ghost" id="btnPrint">🖨 인쇄</button>
         <button type="button" class="ghost" id="btnAgain">🔁 다시 하기</button>
         <button type="button" class="teal hidden" id="send">선생님께 내기</button>
@@ -342,6 +343,7 @@
     ].join('\n');
   }
   $('btnCopy').addEventListener('click', () => CU.copy(summary()));
+  CU.stampButton('path-board', summary);
   $('btnPrint').addEventListener('click', () => window.print());
   $('btnAgain').addEventListener('click', () => { $('scEnd').hidden = true; $('scSetup').hidden = false; drawSetup(); window.scrollTo({ top: 0 }); });
   $('send').addEventListener('click', async () => {

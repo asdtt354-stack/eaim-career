@@ -94,6 +94,7 @@
     <div class="card">
       <div class="row no-print">
         <button type="button" class="ghost" id="btnCopy">📋 복사</button>
+        <button type="button" class="ghost" id="btnStamp">🛂 여권에 도장</button>
         <button type="button" class="ghost" id="btnPrint">🖨 마인드맵 인쇄</button>
         <button type="button" class="teal hidden" id="send">선생님께 내기</button>
       </div>
@@ -188,6 +189,7 @@
     ].join('\n');
   }
   $('btnCopy').addEventListener('click', () => CU.copy(summary()));
+  CU.stampButton('exp-link', summary);
   $('btnPrint').addEventListener('click', () => window.print());
   $('send').addEventListener('click', async () => {
     if (!S.career.trim() || !S.exps.some(e => e.link) || !S.why.trim() || !S.nexts.length) return CU.toast('관심 진로·이어지는 경험·까닭·다음 경험을 채워 주세요.');

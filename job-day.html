@@ -98,6 +98,7 @@
       <div class="jcard" id="card"></div>
       <div class="row no-print" style="margin-top:12px">
         <button type="button" class="ghost" id="btnCopy">📋 복사</button>
+        <button type="button" class="ghost" id="btnStamp">🛂 여권에 도장</button>
         <button type="button" class="ghost" id="btnPrint">🖨 인쇄</button>
         <button type="button" class="teal hidden" id="send">선생님께 내기</button>
       </div>
@@ -184,6 +185,7 @@
       `[10년 뒤 필요한 특성] ${S.future.trim()}`, `[나와 닮은 직업인] ${p ? p.name : ''} — ${S.why.trim()}`,
       `[인터뷰할 직업인] ${S.who.trim()}`, `[질문] ${[S.q1, S.q2, S.q3].map(q => q.trim()).filter(Boolean).join(' / ')}`].join('\n'); }
   $('btnCopy').addEventListener('click', () => CU.copy(summary()));
+  CU.stampButton('job-day', summary);
   $('btnPrint').addEventListener('click', () => window.print());
   $('send').addEventListener('click', async () => {
     if (!S.like || !S.why.trim() || ![S.q1, S.q2, S.q3].every(q => q.trim())) return CU.toast('닮은 직업인·까닭·질문 3개를 채워 주세요.');

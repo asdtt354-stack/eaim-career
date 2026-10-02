@@ -115,6 +115,35 @@
   /* 설치(홈 화면·바탕화면 아이콘) — 서비스 워커 등록. 보안 주소(https)에서만 */
   if ('serviceWorker' in navigator && location.protocol === 'https:') { try { navigator.serviceWorker.register('career-sw.js'); } catch {} }
 
-  window.CU = { esc, tx, plain, initEasy, setEasy, speak, toast, copy, download, classroom, store, sstore, shuffle, won };
+
+  /* 🛂 진로 여권 도장 (v1.4) — 앱 결과를 이 기기의 여권에 모은다(eaim_career_passport).
+     기기에만 남는 개인 포트폴리오. 공식 기록은 선생님께 낸 것(submissions). 여권 화면에서 파일 저장·지우기. */
+  const PK = 'eaim_career_passport';
+  function passport() { try { return JSON.parse(localStorage.getItem(PK) || 'null') || { v: 1, nick: '', stamps: {} }; } catch { return { v: 1, nick: '', stamps: {} }; } }
+  function stamp(app, text) {
+    if (!app || app === 'passport' || !String(text || '').trim()) return false;
+    const P = passport(), old = P.stamps[app];
+    P.stamps[app] = { text: String(text).slice(0, 4000), at: new Date().toISOString(), n: (old ? old.n : 0) + 1, first: old ? old.first : new Date().toISOString() };
+    try { localStorage.setItem(PK, JSON.stringify(P)); } catch { return false; }
+    return true;
+  }
+  function stampButton(app, getText) {
+    const b = document.getElementById('btnStamp'); if (!b) return;
+    b.addEventListener('click', () => {
+      const t = getText();
+      if (!String(t || '').replace(/\[[^\]]*\]/g, '').replace(/[\s\-/·,:|]/g, '').trim()) return toast('먼저 활동을 채워 주세요.');
+      if (stamp(app, t)) { toast('🛂 진로 여권에 도장을 찍었어요!'); b.textContent = '🛂 도장 찍음 ✓'; setTimeout(() => { b.textContent = '🛂 여권에 도장'; }, 2200); }
+      else toast('이 기기에서는 여권에 저장할 수 없어요. 복사해서 보관해요.');
+    });
+  }
+  /* 수업에서 선생님께 내면 저절로 도장 */
+  function hookSubmit() {
+    const CC = window.CareerClass; if (!CC || CC._stampHooked) return;
+    const orig = CC.submit; CC._stampHooked = true;
+    CC.submit = async function (rec) { const r = await orig.call(CC, rec); if (r && r.ok && CC.student) stamp(CC.student.app, rec.content); return r; };
+  }
+
+  window.CU = { esc, tx, plain, initEasy, setEasy, speak, toast, copy, download, classroom, store, sstore, shuffle, won, passport, stamp, stampButton };
+  hookSubmit();
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initEasy); else initEasy();
 })();

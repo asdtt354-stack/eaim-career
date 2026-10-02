@@ -98,6 +98,7 @@
       <div class="row no-print" style="margin-top:12px">
         <button type="button" class="ghost" data-back>← 카드 더 하기</button>
         <button type="button" class="ghost" id="btnCopy">📋 복사</button>
+        <button type="button" class="ghost" id="btnStamp">🛂 여권에 도장</button>
         <button type="button" class="ghost" id="btnPrint">🖨 인쇄</button>
         <button type="button" class="teal hidden" id="send">선생님께 내기</button>
       </div>
@@ -234,6 +235,7 @@
     ].filter(Boolean).join('\n');
   }
   $('btnCopy').addEventListener('click', () => CU.copy(summary()));
+  CU.stampButton('job-change-cards', summary);
   $('btnPrint').addEventListener('click', () => window.print());
   $('send').addEventListener('click', async () => {
     if (!S.chg || !S.like || !S.name.trim() || !S.doText.trim()) return CU.toast('변화 카드·좋아하는 것·이름·하는 일을 채워 주세요.');

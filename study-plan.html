@@ -84,6 +84,7 @@
       <div class="sheet" id="sheet"></div>
       <div class="row no-print" style="margin-top:12px">
         <button type="button" class="ghost" id="btnCopy">📋 복사</button>
+        <button type="button" class="ghost" id="btnStamp">🛂 여권에 도장</button>
         <button type="button" class="ghost" id="btnPrint">🖨 인쇄</button>
         <button type="button" class="ghost" id="btnClear">이 기기에서 지우기</button>
         <button type="button" class="teal hidden" id="send">선생님께 내기</button>
@@ -177,6 +178,7 @@
     ].filter(Boolean).join('\n');
   }
   $('btnCopy').addEventListener('click', () => CU.copy(summary()));
+  CU.stampButton('study-plan', summary);
   $('btnPrint').addEventListener('click', () => window.print());
   $('send').addEventListener('click', async () => {
     if (planned().length < 3) return CU.toast('3일 이상 계획을 세워 주세요.');

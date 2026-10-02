@@ -96,6 +96,7 @@
       <div class="namecard" id="card"></div>
       <div class="row no-print" style="margin-top:12px">
         <button type="button" class="ghost" id="btnCopy">📋 복사</button>
+        <button type="button" class="ghost" id="btnStamp">🛂 여권에 도장</button>
         <button type="button" class="ghost" id="btnPrint">🖨 인쇄</button>
         <button type="button" class="teal hidden" id="send">선생님께 내기</button>
       </div>
@@ -199,6 +200,7 @@
     ].join('\n');
   }
   $('btnCopy').addEventListener('click', () => CU.copy(summary()));
+  CU.stampButton('dream-team', summary);
   $('btnPrint').addEventListener('click', () => window.print());
   $('send').addEventListener('click', async () => {
     if (TK.some(k => !S.self[k]) || !S.growK || !S.grow.trim()) return CU.toast('별점 다섯 개와 키울 힘·실천을 채워 주세요.');

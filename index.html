@@ -54,6 +54,8 @@
   </div>
 </header>
 <main class="wrap">
+  <a href="passport.html" class="card" style="display:flex;gap:14px;align-items:center;text-decoration:none;color:#f3e3c2;background:linear-gradient(135deg,#1d2b4a,#2d3f6b);border:0;margin-top:18px">
+    <span style="font-size:2.6rem">🛂</span><span><b style="font-size:1.15rem;color:#fff">나의 진로 여권</b><br><span class="small">활동 끝에서 <b>🛂 여권에 도장</b>을 누르면 여기에 모여요. 도장 <b id="pcnt">0</b>개</span></span></a>
   <h2 style="margin:18px 0 10px">✨ 지금 해 볼 수 있어요</h2>
   <p class="todo" style="margin:0 0 12px"><span class="h">👉 이렇게 시작해요</span>카드를 누르면 활동이 열려요. 활동 안의 초록 상자 <b>"👉 지금 할 일"</b> 순서대로 누르고 쓰면 돼요. 💡 표시는 읽어 두는 설명이에요.</p>
   <div class="feature" id="feature"></div>
@@ -90,7 +92,8 @@ if (matchMedia('(display-mode: standalone)').matches) document.getElementById('i
   const APPS = window.CAREER_APPS, AREAS = window.CAREER_AREAS, CUR = window.EAIM_CAREER_CURRICULUM;
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const tag = (a) => a.activityType === 'game' ? '🎮 게임' : a.activityType === 'project' ? '📂 여러 차시 프로젝트' : '📝 한 차시 수업';
-  document.getElementById('feature').innerHTML = Object.entries(APPS).filter(([, a]) => a.ready).map(([id, a]) =>
+  try { const pp = JSON.parse(localStorage.getItem('eaim_career_passport') || 'null'); document.getElementById('pcnt').textContent = pp ? Object.keys(pp.stamps || {}).length : 0; } catch (e) {}
+  document.getElementById('feature').innerHTML = Object.entries(APPS).filter(([, a]) => a.ready && !a.tool).map(([id, a]) =>
     `<a class="fcard" href="${esc(a.file)}"><span class="ic">${a.icon}</span><b>${esc(a.name)}</b><small class="muted">${esc(a.desc)}</small>
      <div class="row" style="margin-top:8px;gap:6px"><span class="badge gold">${tag(a)}</span>${(a.stds || [a.std]).map(s => `<span class="badge">${esc(s)}</span>`).join('')}</div></a>`).join('');
 

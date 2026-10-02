@@ -93,6 +93,7 @@
       <div class="report" id="report"></div>
       <div class="row no-print" style="margin-top:12px">
         <button type="button" class="ghost" id="btnCopy">📋 복사</button>
+        <button type="button" class="ghost" id="btnStamp">🛂 여권에 도장</button>
         <button type="button" class="ghost" id="btnPrint">🖨 인쇄</button>
         <button type="button" class="teal hidden" id="send">선생님께 내기</button>
       </div>
@@ -169,6 +170,7 @@
       `[출처] ${S.src1.trim()} / ${S.src2.trim()} · 점검 ${Object.values(S.chk).filter(Boolean).length}/${CH.length}`].join('\n');
   }
   $('btnCopy').addEventListener('click', () => CU.copy(summary()));
+  CU.stampButton('info-detective', summary);
   $('btnPrint').addEventListener('click', () => window.print());
   $('send').addEventListener('click', async () => {
     if (!S.job.trim() || !S.does.trim() || !S.src1.trim() || !S.src2.trim()) return CU.toast('직업·하는 일·출처 2개를 채워 주세요.');

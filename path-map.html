@@ -90,6 +90,7 @@
       <input type="text" id="note" maxlength="100" placeholder="예: 길은 여러 개야. 지금은 과학 공부부터!">
       <div class="row no-print" style="margin-top:12px">
         <button type="button" class="ghost" id="btnCopy">📋 복사</button>
+        <button type="button" class="ghost" id="btnStamp">🛂 여권에 도장</button>
         <button type="button" class="ghost" id="btnPrint">🖨 지도 인쇄</button>
         <button type="button" class="teal hidden" id="send">선생님께 내기</button>
       </div>
@@ -169,6 +170,7 @@
     ].join('\n');
   }
   $('btnCopy').addEventListener('click', () => CU.copy(summary()));
+  CU.stampButton('path-map', summary);
   $('btnPrint').addEventListener('click', () => window.print());
   $('send').addEventListener('click', async () => {
     if (!S.hB || !S.aB || !S.sig.length) return CU.toast('대안 경로와 갈아탈 신호를 채워 주세요.');

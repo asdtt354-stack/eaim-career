@@ -108,6 +108,7 @@
       <div class="hcard" id="card"></div>
       <div class="row no-print" style="margin-top:12px">
         <button type="button" class="ghost" id="btnCopy">📋 복사</button>
+        <button type="button" class="ghost" id="btnStamp">🛂 여권에 도장</button>
         <button type="button" class="ghost" id="btnPrint">🖨 인쇄</button>
         <button type="button" class="teal hidden" id="send">선생님께 내기</button>
       </div>
@@ -200,6 +201,7 @@
       `[중요한 것] ${S.matters.join(', ')}`, `[학교 유형] 우선 ${T(S.t1)?.name || '-'} / 대안 ${T(S.t2)?.name || '-'}`, `[질문] ${S.ask.trim()}`].join('\n');
   }
   $('btnCopy').addEventListener('click', () => CU.copy(summary()));
+  CU.stampButton('high-school', summary);
   $('btnPrint').addEventListener('click', () => window.print());
   $('send').addEventListener('click', async () => {
     if (S.matters.length < 3 || !S.t1 || !S.ask.trim()) return CU.toast('중요한 것 3개·가고 싶은 유형·질문을 채워 주세요.');

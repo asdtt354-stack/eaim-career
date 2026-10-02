@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="career.webmanifest">
+<meta name="theme-color" content="#e2703a">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="EAIM 진로">
+<title>나의 진로 여권 · EAIM 진로</title>
+<!-- 나의 진로 여권 v1.0 (2026-10-02) — 앱마다 "🛂 여권에 도장"(또는 수업에서 선생님께 내기)으로 모은 결과를 한 권으로.
+     이 기기에만 남음(localStorage eaim_career_passport) + 파일 저장·불러오기·지우기. AI 없음. 수업 QR이면 여권 전체를 선생님께 낼 수 있음.
+     교육과정 근거: 진로와 직업 교수·학습 "활동 기록의 누적을 통해 성장 과정을 확인", 평가 "포트폴리오 평가" -->
+<link rel="stylesheet" href="career.css">
+<style>
+  body{background:#efe9df}
+  .cover{background:linear-gradient(160deg,#1d2b4a,#2d3f6b);color:#f3e3c2;border-radius:22px;padding:26px 20px;text-align:center;box-shadow:0 10px 30px rgba(20,30,60,.3);position:relative;overflow:hidden}
+  .cover::after{content:'';position:absolute;inset:10px;border:2px solid rgba(243,227,194,.35);border-radius:16px;pointer-events:none}
+  .cover h1{margin:6px 0 0;font-size:1.6rem;letter-spacing:.12em;color:#f3e3c2}
+  .cover .en{font-size:.78rem;letter-spacing:.35em;opacity:.8}
+  .cover svg{width:110px;height:110px;margin:10px auto 4px;display:block}
+  .cover input{max-width:240px;text-align:center;background:rgba(255,255,255,.1);border:1px solid rgba(243,227,194,.5);color:#fff;margin:8px auto 0;display:block}
+  .cover input::placeholder{color:rgba(243,227,194,.7)}
+  .cover .meta{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:12px;font-size:.86rem}
+  .cover .meta b{font-size:1.4rem;display:block;color:#fff}
+  .pg{background:#fffdf7;border-radius:18px;padding:16px;margin:14px 0;box-shadow:0 4px 14px rgba(60,40,20,.1);border-left:8px solid var(--c,#e2703a)}
+  .pg h2{margin:0 0 4px;font-size:1.1rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .pg .done-badge{font-size:.75rem;background:var(--gold);color:#3a2a00;border-radius:999px;padding:2px 10px}
+  .slots{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));margin-top:10px}
+  .slot{border:2px dashed #d8cfc2;border-radius:16px;padding:12px 8px;text-align:center;background:#fff;min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--ink);text-decoration:none;font-size:.82rem;font-weight:700;cursor:pointer;width:100%;font-family:inherit}
+  .slot .ring{width:78px;height:78px;border-radius:50%;border:3px dashed #d8cfc2;display:flex;align-items:center;justify-content:center;font-size:1.8rem;opacity:.45}
+  .slot.got{border-style:solid;border-color:#eadfcd}
+  .stamp{width:88px;height:88px;border-radius:50%;border:4px double var(--sc,#d9534f);color:var(--sc,#d9534f);display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(-12deg);font-size:.62rem;font-weight:800;line-height:1.15;background:rgba(255,255,255,.6);animation:thump .45s}
+  .stamp .ic{font-size:1.6rem}
+  @keyframes thump{0%{transform:rotate(-12deg) scale(1.6);opacity:0}70%{transform:rotate(-12deg) scale(.92);opacity:1}100%{transform:rotate(-12deg) scale(1)}}
+  @media (prefers-reduced-motion:reduce){.stamp{animation:none}}
+  .slot small{font-weight:500;color:var(--sub)}
+  .view{white-space:pre-wrap;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;font-size:.88rem;margin-top:10px}
+  .bar{height:14px}
+  .decl{border:3px solid var(--gold);background:#fffaf0}
+  .decl .sig{font-family:inherit;font-size:1.05rem;text-align:right;margin-top:10px;color:var(--sub)}
+  @media print{
+    body{background:#fff}.pg,.cover{box-shadow:none;break-inside:avoid}.cover{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .slot{min-height:auto;break-inside:avoid}.slot .ring{display:none}.view{display:block !important}
+    .stamp{animation:none}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top no-print">
+    <a class="home" href="index.html">← EAIM 진로</a>
+    <h1>🛂 나의 진로 여권</h1>
+    <button class="easy-btn" type="button" aria-pressed="false">쉬운 말</button>
+  </header>
+  <p class="row no-print" style="margin:0"><span class="badge gold">진로 포트폴리오</span><a class="badge blue" href="guide.html#student-passport" style="text-decoration:none">📘 사용법</a><span id="mode" class="mode hidden"></span></p>
+
+  <div class="todo no-print"><span class="h">👉 지금 할 일</span>
+    <ol class="n"><li>표지에 별명을 써요 (이름은 쓰지 않아요)</li><li>빈 칸을 누르면 그 활동으로 가요. 활동 끝에서 <b>🛂 여권에 도장</b> 을 누르면 여기에 도장이 찍혀요</li><li>도장을 누르면 내가 한 내용이 펼쳐져요. 마지막 장에 <b>나의 진로 선언문</b>을 써요</li></ol>
+    <ol class="e"><li>별명을 써요</li><li>빈 칸을 눌러 활동해요. 끝에 도장 단추를 눌러요</li><li>도장을 누르면 내용이 보여요. 마지막에 선언문을 써요</li></ol></div>
+
+  <section class="cover" id="cover">
+    <div class="en">CAREER PASSPORT</div>
+    <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="54" fill="none" stroke="#f3e3c2" stroke-width="3"/><circle cx="60" cy="60" r="44" fill="none" stroke="#f3e3c2" stroke-width="1.5" stroke-dasharray="3 4"/>
+      <path d="M60 16 L68 60 L60 104 L52 60 Z" fill="#f3e3c2"/><path d="M16 60 L60 52 L104 60 L60 68 Z" fill="#f3e3c2" opacity=".6"/><circle cx="60" cy="60" r="7" fill="#ffd166"/></svg>
+    <h1>진로 여권</h1>
+    <div style="font-size:.85rem;opacity:.85">EAIM 진로 · 나를 알고, 세상을 탐색하고, 나의 길을 설계하는 여행</div>
+    <input type="text" id="nick" maxlength="12" placeholder="여권 주인의 별명" aria-label="별명">
+    <div class="meta"><div><b id="cnt">0</b>도장</div><div><b id="areasDone">0</b>/3 영역 완주</div><div><b id="since">-</b>첫 도장</div></div>
+    <div class="bar" style="max-width:300px;margin:12px auto 0;background:rgba(255,255,255,.15)"><i id="prog" style="background:#ffd166;width:0"></i></div>
+  </section>
+
+  <div id="pages"></div>
+
+  <section class="pg decl" style="--c:var(--gold)">
+    <h2>📜 나의 진로 선언문</h2>
+    <p class="muted small" style="margin:0 0 6px">여권에 모인 활동을 돌아보며 써요. 언제든 고쳐 쓸 수 있어요.</p>
+    <label class="field" for="d1"><span class="n">지금 나의 꿈 (잠정적이어도 좋아요)</span><span class="e">지금의 꿈</span></label>
+    <input type="text" id="d1" maxlength="60">
+    <label class="field" for="d2"><span class="n">여권에서 발견한 나의 강점</span><span class="e">나의 좋은 점</span></label>
+    <input type="text" id="d2" maxlength="100">
+    <label class="field" for="d3"><span class="n">가장 기억에 남는 활동과 까닭</span><span class="e">기억에 남는 활동</span></label>
+    <input type="text" id="d3" maxlength="100">
+    <label class="field" for="d4"><span class="n">다음 한 걸음</span><span class="e">다음에 할 일</span></label>
+    <input type="text" id="d4" maxlength="100">
+    <div class="sig" id="sig"></div>
+  </section>
+
+  <div class="card no-print">
+    <div class="row">
+      <button type="button" id="btnPrint">🖨 여권 인쇄·PDF</button>
+      <button type="button" class="ghost" id="btnCopy">📋 전체 복사</button>
+      <button type="button" class="teal hidden" id="send">선생님께 여권 내기</button>
+    </div>
+    <div id="reply" class="reply hidden"></div>
+    <details style="margin-top:12px"><summary class="muted small">💾 여권 보관 (다른 기기로 옮기기·지우기)</summary>
+      <p class="muted small">여권은 이 기기에만 남아요. 다른 기기에서 이어 하려면 파일로 저장해서 불러와요. 함께 쓰는 기기라면 끝나고 지워 주세요. 선생님께 낸 것은 지워지지 않아요.</p>
+      <div class="row"><button type="button" class="ghost" id="fSave">파일로 저장</button>
+        <label class="btn ghost" style="cursor:pointer">파일 불러오기<input type="file" id="fLoad" accept=".json,application/json" hidden></label>
+        <button type="button" class="ghost" id="fClear">이 기기에서 지우기</button></div>
+    </details>
+  </div>
+</div>
+
+<script src="curriculum-career.js"></script>
+<script src="career-apps.js"></script>
+<script src="career-class.js"></script>
+<script src="career-ui.js"></script>
+<script>
+(function () {
+  'use strict';
+  const APPS = window.CAREER_APPS, AREAS = window.CAREER_AREAS, CUR = window.EAIM_CAREER_CURRICULUM, esc = CU.esc;
+  const $ = (id) => document.getElementById(id);
+  const PK = 'eaim_career_passport';
+  const COLORS = ['#d9534f', '#3d6fd1', '#2a9d8f', '#9b5de5', '#e2703a'];
+  let P = CU.passport(); P.decl = P.decl || {};
+  const save = () => { try { localStorage.setItem(PK, JSON.stringify(P)); } catch {} };
+  const list = Object.entries(APPS).filter(([, a]) => a.ready && !a.tool);
+  const dt = (iso) => { const d = new Date(iso); return isNaN(d) ? '' : `${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()}`; };
+  let open = '';
+
+  function draw() {
+    const stamps = P.stamps || {};
+    const got = list.filter(([id]) => stamps[id]);
+    $('cnt').textContent = `${got.length}/${list.length}`;
+    $('prog').style.width = Math.round(100 * got.length / list.length) + '%';
+    const firsts = got.map(([id]) => stamps[id].first || stamps[id].at).sort();
+    $('since').textContent = firsts.length ? dt(firsts[0]) : '-';
+    let areasDone = 0;
+    $('pages').innerHTML = CUR.areas.map(ar => {
+      const meta = AREAS[ar.id];
+      const apps = list.filter(([, a]) => a.area === ar.id).sort((x, y) => x[1].order - y[1].order);
+      const n = apps.filter(([id]) => stamps[id]).length, full = n === apps.length;
+      if (full) areasDone++;
+      return `<section class="pg" style="--c:${meta.color}"><h2>${meta.icon} ${esc(ar.name)} <span class="small muted">${n}/${apps.length}</span>${full ? '<span class="done-badge">🏅 영역 완주</span>' : ''}</h2>
+        <div class="slots">${apps.map(([id, a], i) => { const st = stamps[id];
+          return st ? `<button type="button" class="slot got" data-open="${id}" aria-expanded="${open === id}"><span class="stamp" style="--sc:${COLORS[(i + ar.id.charCodeAt(1)) % COLORS.length]}"><span class="ic">${a.icon}</span>${esc(a.name.length > 8 ? a.name.slice(0, 8) + '…' : a.name)}<span>${dt(st.at)}</span></span><small>${esc(a.std)}${st.n > 1 ? ` · ${st.n}번째` : ''}</small></button>`
+            : `<a class="slot" href="${esc(a.file)}"><span class="ring">${a.icon}</span>${esc(a.name)}<small>${esc(a.std)} · 활동하러 가기 →</small></a>`; }).join('')}</div>
+        ${apps.some(([id]) => id === open && stamps[id]) ? `<div class="view" id="view">${esc(stamps[open].text)}<div class="row no-print" style="margin-top:8px"><a class="btn ghost" href="${esc(APPS[open].file)}">다시 하기 →</a></div></div>` : ''}
+        <div class="print-views hidden">${apps.filter(([id]) => stamps[id]).map(([id, a]) => `<div class="view"><b>${a.icon} ${esc(a.name)}</b> · ${dt(stamps[id].at)}\n${esc(stamps[id].text)}</div>`).join('')}</div></section>`;
+    }).join('');
+    $('areasDone').textContent = areasDone;
+    $('nick').value = P.nick || '';
+    ['d1', 'd2', 'd3', 'd4'].forEach(k => { $(k).value = P.decl[k] || ''; });
+    sig();
+  }
+  function sig() { $('sig').textContent = `— ${P.nick || '여권 주인'} · ${dt(new Date().toISOString())}`; }
+  $('pages').addEventListener('click', (e) => { const b = e.target.closest('[data-open]'); if (!b) return; open = open === b.dataset.open ? '' : b.dataset.open; draw(); document.getElementById('view')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); });
+  $('nick').addEventListener('input', (e) => { P.nick = e.target.value; save(); sig(); });
+  ['d1', 'd2', 'd3', 'd4'].forEach(k => $(k).addEventListener('input', (e) => { P.decl[k] = e.target.value; save(); }));
+
+  function allText() {
+    const st = P.stamps || {};
+    return [`[진로 여권] ${P.nick || ''} · 도장 ${list.filter(([id]) => st[id]).length}/${list.length}`,
+      ...list.filter(([id]) => st[id]).map(([id, a]) => `\n■ ${a.name} (${a.std}) ${dt(st[id].at)}\n${st[id].text}`),
+      `\n■ 나의 진로 선언문\n꿈: ${P.decl.d1 || ''}\n강점: ${P.decl.d2 || ''}\n기억에 남는 활동: ${P.decl.d3 || ''}\n다음 한 걸음: ${P.decl.d4 || ''}`].join('\n');
+  }
+  $('btnCopy').addEventListener('click', () => CU.copy(allText()));
+  $('btnPrint').addEventListener('click', () => { document.querySelectorAll('.print-views').forEach(x => x.classList.remove('hidden')); window.print(); setTimeout(() => document.querySelectorAll('.print-views').forEach(x => x.classList.add('hidden')), 500); });
+  $('send').addEventListener('click', async () => {
+    const st = P.stamps || {}, n = list.filter(([id]) => st[id]).length;
+    if (!n) return CU.toast('아직 도장이 없어요. 활동을 하고 도장을 찍어요.');
+    if (!(P.decl.d1 || '').trim()) return CU.toast('진로 선언문의 꿈 칸을 써 주세요.');
+    if (CareerClass.safetyCheck(Object.values(P.decl).join(' '))) return CareerClass.showNotice('danger');
+    $('send').disabled = true; $('send').textContent = '내는 중...';
+    const r = await CareerClass.submit({ kind: 'passport', title: `진로 여권 — 도장 ${n}개`, content: allText(), result: { score: n, total: list.length },
+      detail: { stamps: Object.fromEntries(list.filter(([id]) => st[id]).map(([id]) => [id, st[id].at])), decl: P.decl } });
+    $('send').disabled = false; $('send').textContent = '선생님께 여권 내기';
+    if (r.ok) CU.toast('선생님께 여권을 냈어요.');
+  });
+  $('fSave').addEventListener('click', () => {
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify({ app: 'career/passport', v: 1, data: P })], { type: 'application/json' }));
+    a.download = '나의_진로_여권.json'; document.body.appendChild(a); a.click(); a.remove(); });
+  $('fLoad').addEventListener('change', async (e) => { const f = e.target.files[0]; if (!f) return;
+    try { const j = JSON.parse(await f.text()); if (j.app !== 'career/passport' || !j.data || typeof j.data.stamps !== 'object') throw 0;
+      const cur = P.stamps || {}; Object.entries(j.data.stamps).forEach(([k, v]) => { if (!cur[k] || (v.at > cur[k].at)) cur[k] = v; });
+      P = Object.assign({}, j.data, { stamps: cur, decl: Object.assign({}, j.data.decl, P.decl) }); save(); draw(); CU.toast('불러와서 합쳤어요.'); }
+    catch { CU.toast('진로 여권 파일이 아니에요.'); } e.target.value = ''; });
+  $('fClear').addEventListener('click', () => { if (!confirm('이 기기에 있는 진로 여권을 모두 지울까요?')) return; try { localStorage.removeItem(PK); } catch {} P = { v: 1, nick: '', stamps: {}, decl: {} }; draw(); });
+  window.addEventListener('storage', (e) => { if (e.key === PK) { P = CU.passport(); P.decl = P.decl || {}; draw(); } });
+
+  draw();
+  CU.classroom({ app: 'passport', modeEl: $('mode'), sendEl: $('send'), replyEl: $('reply') });
+})();
+</script>
+<p class="eaim-copy">© 2026 박성애 · EAIM · 교육 목적 무료 사용, 무단 복제·상업적 이용 금지 · <a href="https://eaim.kr/#copyright" target="_blank" rel="noopener" style="color:inherit">이용 안내</a></p>
+</body>
+</html>

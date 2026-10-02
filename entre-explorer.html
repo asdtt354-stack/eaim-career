@@ -127,6 +127,7 @@
       <div class="pitch" id="pitch"></div>
       <div class="row no-print" style="margin-top:12px">
         <button type="button" class="ghost" id="btnCopy">📋 복사</button>
+        <button type="button" class="ghost" id="btnStamp">🛂 여권에 도장</button>
         <button type="button" class="ghost" id="btnSave">💾 내려받기</button>
         <button type="button" class="ghost" id="btnPrint">🖨 인쇄</button>
         <button type="button" class="teal hidden" id="send">선생님께 내기</button>
@@ -263,6 +264,7 @@
 
   const ready = () => S.who.trim() && S.problem.trim() && S.idea.trim() && S.name.trim();
   $('btnCopy').addEventListener('click', () => CU.copy(pitchText()));
+  CU.stampButton('entre-explorer', pitchText);
   $('btnSave').addEventListener('click', () => CU.download(`피칭카드_${S.name || '창업가정신'}`, pitchText()));
   $('btnPrint').addEventListener('click', () => window.print());
   $('send').addEventListener('click', async () => {

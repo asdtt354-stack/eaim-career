@@ -55,6 +55,10 @@ window.CAREER_APPS = {
   'high-school':      { area: '02', order: 5, std: '[9진로02-05]', stds: ['[9진로02-05]'], icon: '🏫', name: '고등학교 탐험', file: 'high-school.html', open: true, ready: true, activityType: 'writing',
                         desc: '고등학교 유형을 살펴보고, 고교학점제 모의 시간표를 짜고, 나에게 맞는 학교를 찾아요 (2026년 기준)' },
 
+  /* ── 모으는 도구 ── */
+  'passport':         { area: '', tool: true, order: 99, std: '', stds: [], icon: '🛂', name: '나의 진로 여권', file: 'passport.html', open: true, ready: true, activityType: 'project',
+                        desc: '활동마다 받은 도장이 한 권에 모이는 나의 진로 포트폴리오' },
+
   /* ── 준비 중 (성취기준마다 하나씩) ── */
 };
 
