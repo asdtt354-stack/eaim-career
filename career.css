@@ -1,0 +1,74 @@
+/* EAIM 진로 공통 모양 v1.0 (2026-10-02) */
+:root{
+  --bg:#fbf8f3; --card:#fff; --ink:#2b2a33; --sub:#6b6874; --line:#e8e2d8;
+  --main:#e2703a; --main-soft:#fde9dd; --teal:#2a9d8f; --teal-soft:#dff3f0;
+  --blue:#3d6fd1; --blue-soft:#e3ebfb; --gold:#e9b949; --gold-soft:#fcf3d9;
+  --red:#d9534f; --radius:16px; --shadow:0 4px 18px rgba(60,40,20,.08);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;line-height:1.6;word-break:keep-all;-webkit-text-size-adjust:100%}
+a{color:var(--blue)}
+.wrap{max-width:920px;margin:0 auto;padding:16px}
+header.top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:6px 0 12px}
+header.top .home{font-size:.85rem;color:var(--sub);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;background:#fff}
+header.top h1{font-size:1.35rem;margin:0;flex:1;min-width:200px}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 9px;border-radius:999px;background:var(--main-soft);color:var(--main);white-space:nowrap}
+.badge.teal{background:var(--teal-soft);color:var(--teal)}
+.badge.blue{background:var(--blue-soft);color:var(--blue)}
+.badge.gold{background:var(--gold-soft);color:#9a7413}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin:14px 0}
+.card h2{font-size:1.12rem;margin:0 0 8px}
+.card h3{font-size:1rem;margin:12px 0 6px}
+.muted{color:var(--sub);font-size:.9rem}
+.small{font-size:.82rem}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+.grid.two{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+button,.btn{font:inherit;cursor:pointer;border:none;border-radius:12px;padding:10px 16px;background:var(--main);color:#fff;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:6px;justify-content:center;touch-action:manipulation}
+button:disabled{opacity:.45;cursor:not-allowed}
+button.ghost,.btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+button.teal{background:var(--teal)} button.blue{background:var(--blue)}
+.chip{font:inherit;cursor:pointer;border:2px solid var(--line);background:#fff;color:var(--ink);border-radius:14px;padding:10px 12px;text-align:left;font-weight:500;line-height:1.45;display:block;width:100%}
+.chip:hover{border-color:#d9cfc0}
+.chip.on{border-color:var(--main);background:var(--main-soft)}
+.chip.ok{border-color:var(--teal);background:var(--teal-soft)}
+.chip.no{border-color:var(--red);background:#fde8e7}
+input[type=text],textarea,select{font:inherit;width:100%;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#fff;color:var(--ink)}
+textarea{min-height:84px;resize:vertical}
+label.field{display:block;margin:10px 0 4px;font-weight:700;font-size:.92rem}
+.steps{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 4px}
+.steps span{font-size:.78rem;padding:3px 10px;border-radius:999px;background:#efe9df;color:var(--sub)}
+.steps span.now{background:var(--main);color:#fff}
+.steps span.done{background:var(--teal-soft);color:var(--teal)}
+.notice{background:var(--gold-soft);border-left:4px solid var(--gold);padding:10px 12px;border-radius:10px;font-size:.9rem;margin:10px 0}
+.tip{background:var(--blue-soft);border-left:4px solid var(--blue);padding:10px 12px;border-radius:10px;font-size:.9rem;margin:10px 0}
+.std{font-size:.8rem;color:var(--sub);border:1px dashed var(--line);border-radius:10px;padding:8px 10px;margin-top:8px}
+.std b{color:var(--ink)}
+.bar{height:12px;background:#efe9df;border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;background:var(--teal);border-radius:999px;transition:width .4s}
+.hidden{display:none !important}
+.center{text-align:center}
+.big{font-size:2.2rem;line-height:1.2}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#2b2a33;color:#fff;padding:10px 18px;border-radius:999px;font-size:.9rem;z-index:99;opacity:0;transition:opacity .25s;pointer-events:none;max-width:90vw;text-align:center}
+.toast.show{opacity:1}
+.easy-btn{font-size:.8rem;padding:5px 12px;border-radius:999px;background:#fff;color:var(--teal);border:2px solid var(--teal)}
+.easy-btn.on{background:var(--teal);color:#fff}
+.eaim-copy{font-size:.68rem;color:#888;text-align:center;margin:18px 0 10px;line-height:1.6;word-break:keep-all}
+@media (max-width:520px){ .wrap{padding:12px} .card{padding:14px} header.top h1{font-size:1.15rem} .big{font-size:1.8rem} }
+@media print{ .no-print,header.top .home,.eaim-copy,.toast{display:none !important} body{background:#fff} .card{box-shadow:none;break-inside:avoid} }
+/* 쉬운 말 두 벌 */
+body:not(.easy) .e{display:none !important}
+body.easy .n{display:none !important}
+.say{font:inherit;font-size:.78rem;padding:3px 9px;border-radius:999px;background:#fff;border:1px solid var(--line);color:var(--sub);cursor:pointer;vertical-align:middle;margin-left:4px}
+.mode{display:inline-block;font-size:.82rem;background:var(--teal-soft);color:var(--teal);border-radius:999px;padding:3px 12px;font-weight:700}
+.reply{background:#fff7e6;border:2px solid var(--gold);border-radius:14px;padding:12px 14px;margin:12px 0}
+.story{background:#fffdf8;border:1px solid var(--line);border-radius:14px;padding:14px;margin:8px 0}
+.story .who{font-weight:800}
+.pitch{border:3px solid var(--main);border-radius:20px;padding:20px;background:linear-gradient(160deg,#fff,#fff6ef)}
+.pitch .logo{width:64px;height:64px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:2rem;color:#fff}
+.meter{display:flex;align-items:center;gap:8px;margin:4px 0}
+.meter b{min-width:92px;font-size:.88rem}
+.meter .bar{flex:1}
+.cardflip{border-radius:18px;padding:18px;color:#fff;box-shadow:var(--shadow)}
+[hidden]{display:none !important}

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>축제 부스 창업 게임 · EAIM 진로</title>
+<!-- 축제 부스 창업 게임 v1.0 (2026-10-02) — [9진로02-06], AI 없음, 공개(점수·내기는 수업 QR) -->
+<link rel="stylesheet" href="career.css">
+<style>
+  .booths{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+  .booth{border:2px solid var(--line);border-radius:16px;padding:14px;background:#fff;cursor:pointer;text-align:left;color:var(--ink);font-weight:400;display:block}
+  .booth.on{border-color:var(--main);background:var(--main-soft)}
+  .booth .ic{font-size:2.2rem}
+  .hud{display:flex;gap:8px;flex-wrap:wrap}
+  .hud div{flex:1;min-width:110px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:8px 12px}
+  .hud small{display:block;color:var(--sub);font-size:.75rem}
+  .hud b{font-size:1.15rem}
+  .seg{display:flex;gap:6px;flex-wrap:wrap}
+  .seg button{background:#fff;color:var(--ink);border:2px solid var(--line);font-weight:600;flex:1;min-width:90px}
+  .seg button.on{border-color:var(--main);background:var(--main-soft)}
+  .qty{display:flex;align-items:center;gap:8px}
+  .qty button{width:46px;padding:10px 0;font-size:1.2rem}
+  .qty output{font-size:1.5rem;font-weight:800;min-width:60px;text-align:center}
+  .event{border-radius:18px;padding:18px;background:linear-gradient(135deg,#3d6fd1,#2a9d8f);color:#fff;text-align:center;animation:pop .5s}
+  @keyframes pop{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+  @media (prefers-reduced-motion:reduce){.event{animation:none}}
+  table.r{width:100%;border-collapse:collapse;font-size:.92rem}
+  table.r td{padding:6px 4px;border-bottom:1px solid var(--line)}
+  table.r td:last-child{text-align:right;font-weight:700}
+  .crowd{display:flex;gap:2px;flex-wrap:wrap;font-size:1.1rem;line-height:1.2;margin:8px 0}
+  .badges{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+  .bd{border:2px solid var(--line);border-radius:14px;padding:10px;font-size:.85rem;background:#fff}
+  .bd.got{border-color:var(--gold);background:var(--gold-soft)}
+  .bd:not(.got){opacity:.45}
+  .bd b{display:block}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="home" href="index.html">← EAIM 진로</a>
+    <h1>🎪 축제 부스 창업 게임</h1>
+    <button class="easy-btn" type="button" aria-pressed="false">쉬운 말</button>
+  </header>
+  <p class="row" style="margin:0"><span class="badge">[9진로02-06]</span><span class="badge gold">게임</span>
+    <a class="badge blue" href="guide.html#student-booth-startup" style="text-decoration:none">📘 사용법</a>
+    <span id="mode" class="mode hidden"></span></p>
+
+  <!-- 시작 -->
+  <section id="scStart">
+    <div class="card" id="introS">
+      <h2>학교 축제에서 부스를 열어요! <button class="say" data-say="introS">🔊</button></h2>
+      <p class="n">축제는 1부·2부·3부 세 번 열려요. 시간마다 <b>준비할 수량, 가격, 홍보</b>를 정하고, 결과를 보고 <b>바꿔 가며</b> 다시 도전해요. 돈만 세지 않아요 — <b>손님 만족</b>과 <b>사회적 가치</b>도 함께 봐요.</p>
+      <p class="e">축제에서 가게를 세 번 열어요. 수량, 가격, 홍보를 정해요. 결과를 보고 바꿔요. 돈, 손님 기분, 도움을 함께 봐요.</p>
+      <p class="muted small">게임 속 가상 돈이에요. 처음 가진 돈: <b id="startMoney"></b></p>
+    </div>
+    <div class="card">
+      <h2>어떤 문제를 풀 부스인가요?</h2>
+      <div class="booths" id="booths"></div>
+      <label class="field" for="teamName">우리 부스 이름 (선택)</label>
+      <input type="text" id="teamName" maxlength="20" placeholder="예: 시원한 한 모금">
+      <div class="row" style="margin-top:12px"><button type="button" id="btnStart" disabled>축제 시작! →</button></div>
+    </div>
+  </section>
+
+  <!-- 준비 -->
+  <section id="scPlan" hidden>
+    <div class="hud" id="hud"></div>
+    <div class="card">
+      <h2 id="planTitle"></h2>
+      <div class="tip" id="crowd"></div>
+      <h3>📦 몇 개 더 준비할까요?</h3>
+      <p class="muted small" id="stockNote"></p>
+      <div class="qty"><button type="button" class="ghost" data-q="-5">−</button><output id="qty">0</output><button type="button" class="ghost" data-q="5">+</button>
+        <span class="muted small" id="qtyCost"></span></div>
+      <h3>🏷️ 가격</h3>
+      <div class="seg" id="price"></div>
+      <h3>📣 홍보</h3>
+      <div class="seg" id="promo"></div>
+      <div id="ideaBox" class="hidden"><h3>💡 새 아이디어</h3>
+        <label class="row" style="gap:8px;cursor:pointer"><input type="checkbox" id="idea" style="width:22px;height:22px"> <span id="ideaText"></span></label></div>
+      <p class="muted small" id="spend"></p>
+      <div class="row" style="margin-top:10px"><button type="button" id="btnOpen">부스 열기! 🎪</button></div>
+    </div>
+  </section>
+
+  <!-- 결과 -->
+  <section id="scResult" hidden>
+    <div class="event" id="event"></div>
+    <div class="card">
+      <h2 id="resTitle"></h2>
+      <div class="crowd" id="crowdViz" aria-hidden="true"></div>
+      <table class="r" id="resTable"></table>
+      <div class="meter"><b>😊 손님 만족</b><div class="bar"><i id="satBar"></i></div><span id="satNum"></span></div>
+      <div id="tipBox" class="tip"></div>
+      <div id="reflectBox">
+        <label class="field" for="lesson"><span class="n">이번 시간에 배운 점 한 줄</span><span class="e">무엇을 배웠나요? 한 줄</span></label>
+        <input type="text" id="lesson" maxlength="80" placeholder="예: 가격을 너무 높이면 손님이 줄어든다">
+      </div>
+      <div class="row" style="margin-top:10px"><button type="button" id="btnNext">다음 →</button></div>
+    </div>
+  </section>
+
+  <!-- 끝 -->
+  <section id="scEnd" hidden>
+    <div class="card center">
+      <div class="big" id="endIcon">🎉</div>
+      <h2 id="endTitle">축제가 끝났어요!</h2>
+      <div class="hud" id="endHud"></div>
+    </div>
+    <div class="card">
+      <h2>🏅 창업가 정신 배지</h2>
+      <div class="badges" id="badges"></div>
+    </div>
+    <div class="card">
+      <h2>돌아보기</h2>
+      <div id="lessons" class="muted small"></div>
+      <label class="field" for="valueQ"><span class="n">돈 말고, 우리 부스가 만든 가치는 무엇인가요?</span><span class="e">돈 말고 누구를 도왔나요?</span></label>
+      <textarea id="valueQ" maxlength="300"></textarea>
+      <label class="field" for="failQ"><span class="n">잘 안 된 순간에서 배운 점, 진짜 창업가라면 다음에 무엇을 바꿀까요?</span><span class="e">잘 안 된 것에서 무엇을 배웠나요? 다음에는 무엇을 바꿀까요?</span></label>
+      <textarea id="failQ" maxlength="300"></textarea>
+      <div class="row no-print" style="margin-top:12px">
+        <button type="button" class="ghost" id="btnCopy">📋 복사</button>
+        <button type="button" class="ghost" id="btnAgain">🔁 다시 하기</button>
+        <button type="button" class="teal hidden" id="send">선생님께 내기</button>
+      </div>
+      <div id="reply" class="reply hidden"></div>
+    </div>
+  </section>
+
+  <div class="std" id="stdBox"></div>
+</div>
+
+<script src="curriculum-career.js"></script>
+<script src="career-apps.js"></script>
+<script src="booth-startup-data.js"></script>
+<script src="career-class.js"></script>
+<script src="career-ui.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.BS_DATA, esc = CU.esc, tx = CU.tx, won = CU.won;
+  const $ = (id) => document.getElementById(id);
+  const std = window.EAIM_CAREER_CURRICULUM.find('[9진로02-06]');
+  $('stdBox').innerHTML = `<b>${std.code}</b> ${esc(std.text)}<br><span class="small">교육과정 고려사항: 창업가 정신은 혁신적이며 창의적인 사고와 실패를 두려워하지 않는 자세로 문제 해결과 가치 창출을 추구하는 도전적 정신</span>`;
+  $('startMoney').textContent = won(D.startMoney);
+
+  let G; // 게임 상태
+  function fresh() { return { booth: '', team: '', money: D.startMoney, stock: 0, round: 0, plan: { qty: 0, price: 1, promo: 'none', idea: false }, log: [], usedIdea: false }; }
+  G = fresh();
+
+  /* ── 시작 ── */
+  function drawBooths() {
+    $('booths').innerHTML = Object.entries(D.booths).map(([k, b]) => `<button type="button" class="booth ${G.booth === k ? 'on' : ''}" data-b="${k}">
+      <div class="ic">${b.icon}</div><b>${esc(b.name)}</b><div class="small" style="margin:4px 0">😟 ${tx(b.problem)}</div>
+      <div class="muted small">재료비 ${won(b.cost)} · ${esc(b.note)}</div></button>`).join('');
+    $('btnStart').disabled = !G.booth;
+  }
+  $('booths').addEventListener('click', (e) => { const b = e.target.closest('[data-b]'); if (!b) return; G.booth = b.dataset.b; drawBooths(); });
+  $('btnStart').addEventListener('click', () => { G.team = $('teamName').value.trim(); G.round = 0; plan(); });
+
+  const B = () => D.booths[G.booth];
+  function show(id) { ['scStart', 'scPlan', 'scResult', 'scEnd'].forEach(s => { $(s).hidden = s !== id; }); window.scrollTo({ top: 0 }); }
+  function hud(el) {
+    const prof = G.log.reduce((n, r) => n + r.profit, 0);
+    el.innerHTML = `<div><small>가진 돈</small><b>${won(G.money)}</b></div><div><small>재고</small><b>${G.stock}개</b></div>
+      <div><small>지금까지 이익</small><b style="color:${prof < 0 ? 'var(--red)' : 'var(--teal)'}">${won(prof)}</b></div>
+      <div><small>사회적 가치</small><b>${G.log.reduce((n, r) => n + r.value, 0)}점</b></div>`;
+  }
+
+  /* ── 준비 ── */
+  function plan() {
+    const R = D.rounds[G.round], b = B();
+    show('scPlan'); hud($('hud'));
+    $('planTitle').innerHTML = `${R.icon} ${esc(R.name)} 준비 — ${b.icon} ${esc(G.team || b.name)}`;
+    $('crowd').innerHTML = `🔎 고객 조사: ${tx(R.crowd)}`;
+    G.plan.qty = Math.min(G.plan.qty || 20, maxQty()); G.plan.idea = false;
+    $('ideaBox').classList.toggle('hidden', G.round === 0);
+    $('ideaText').innerHTML = `${tx(D.idea)} — ${won(D.idea.cost)}`;
+    $('idea').checked = false;
+    drawPlan();
+  }
+  function maxQty() { return Math.max(0, Math.floor((G.money - promoCost() - (G.plan.idea ? D.idea.cost : 0)) / B().cost)); }
+  function promoCost() { return D.promos.find(p => p.id === G.plan.promo).cost; }
+  function drawPlan() {
+    const b = B();
+    G.plan.qty = Math.max(0, Math.min(G.plan.qty, maxQty()));
+    $('qty').textContent = G.plan.qty;
+    $('stockNote').textContent = b.keep ? `지금 남은 재고 ${G.stock}개 + 새로 준비할 수량` : '음료는 남으면 버려요. 너무 많이 만들면 손해와 쓰레기가 생겨요.';
+    $('qtyCost').textContent = `재료비 ${won(G.plan.qty * b.cost)}`;
+    $('price').innerHTML = b.prices.map((p, i) => `<button type="button" class="${G.plan.price === i ? 'on' : ''}" data-p="${i}">${D.priceName[i]}<br><b>${won(p)}</b></button>`).join('');
+    $('promo').innerHTML = D.promos.map(p => `<button type="button" class="${G.plan.promo === p.id ? 'on' : ''}" data-pr="${p.id}">${esc(p.name)}${p.cost ? `<br><b>${won(p.cost)}</b>` : ''}</button>`).join('');
+    const spend = G.plan.qty * b.cost + promoCost() + (G.plan.idea ? D.idea.cost : 0);
+    $('spend').textContent = `이번에 쓸 돈 ${won(spend)} → 남는 돈 ${won(G.money - spend)}`;
+    $('btnOpen').disabled = (G.stock + G.plan.qty) <= 0;
+  }
+  document.querySelectorAll('[data-q]').forEach(btn => btn.addEventListener('click', () => { G.plan.qty += +btn.dataset.q; drawPlan(); }));
+  $('price').addEventListener('click', (e) => { const b = e.target.closest('[data-p]'); if (!b) return; G.plan.price = +b.dataset.p; drawPlan(); });
+  $('promo').addEventListener('click', (e) => { const b = e.target.closest('[data-pr]'); if (!b) return; G.plan.promo = b.dataset.pr; drawPlan(); });
+  $('idea').addEventListener('change', (e) => { G.plan.idea = e.target.checked; drawPlan(); });
+
+  /* ── 열기 (계산) ── */
+  $('btnOpen').addEventListener('click', () => {
+    const b = B(), R = D.rounds[G.round], P = G.plan;
+    const promo = D.promos.find(p => p.id === P.promo);
+    const spend = P.qty * b.cost + promo.cost + (P.idea ? D.idea.cost : 0);
+    G.money -= spend; G.stock += P.qty; if (P.idea) G.usedIdea = true;
+    const ev = D.events[Math.floor(Math.random() * D.events.length)];
+    let broken = 0;
+    if (ev.broke && b.keep) { broken = Math.round(G.stock * ev.broke); G.stock -= broken; }
+    const noise = 0.88 + Math.random() * 0.24;
+    const demand = Math.max(1, Math.round(b.base * R.mult[G.booth] * (ev.mul[G.booth] || 1) * ev.all * D.priceMul[P.price] * promo.mul * (P.idea ? D.idea.mul : 1) * noise));
+    const sold = Math.min(demand, G.stock), away = demand - sold;
+    const price = b.prices[P.price], revenue = sold * price;
+    G.stock -= sold;
+    let wasted = 0; if (!b.keep) { wasted = G.stock; G.stock = 0; }
+    G.money += revenue;
+    let sat = 75 + (P.price === 0 ? 12 : P.price === 2 ? -15 : 0) - Math.round(30 * away / demand) + (P.idea ? 8 : 0);
+    sat = Math.max(10, Math.min(100, sat));
+    const value = Math.max(0, sold * b.value - wasted);
+    const rec = { round: G.round, event: ev.name, demand, sold, away, wasted, broken, price, priceIdx: P.price, promo: P.promo, idea: P.idea, revenue, spend, profit: revenue - spend, sat, value, leftover: G.stock, lesson: '' };
+    G.log.push(rec);
+    showResult(rec, ev);
+  });
+
+  function showResult(r, ev) {
+    show('scResult');
+    const R = D.rounds[r.round], b = B();
+    $('event').innerHTML = `<div class="big">${ev.icon}</div><b style="font-size:1.15rem">${esc(ev.name)}</b><div>${esc(ev.t)}</div>`;
+    $('resTitle').textContent = `${R.icon} ${R.name} 결과`;
+    $('crowdViz').innerHTML = '🙂'.repeat(Math.min(r.sold, 60)) + '😞'.repeat(Math.min(r.away, 30));
+    $('resTable').innerHTML = `
+      <tr><td>찾아온 손님</td><td>${r.demand}명</td></tr>
+      <tr><td>판 개수 (${won(r.price)})</td><td>${r.sold}개</td></tr>
+      <tr><td>물건이 없어 돌려보낸 손님</td><td>${r.away}명</td></tr>
+      ${b.keep ? `<tr><td>남은 재고 (다음 시간에 팔아요)</td><td>${r.leftover}개</td></tr>` : `<tr><td>남아서 버린 음료</td><td>${r.wasted}잔</td></tr>`}
+      ${r.broken ? `<tr><td>망가진 물건</td><td>${r.broken}개</td></tr>` : ''}
+      <tr><td>번 돈</td><td>${won(r.revenue)}</td></tr>
+      <tr><td>쓴 돈</td><td>${won(r.spend)}</td></tr>
+      <tr><td>이번 시간 이익</td><td style="color:${r.profit < 0 ? 'var(--red)' : 'var(--teal)'}">${won(r.profit)}</td></tr>
+      <tr><td>사회적 가치</td><td>${r.value}점</td></tr>`;
+    $('satBar').style.width = r.sat + '%'; $('satNum').textContent = r.sat + '점';
+    const tips = [];
+    if (r.away > 3) tips.push('손님을 많이 돌려보냈어요. 수량을 늘려 볼까요?');
+    if (r.wasted > 3) tips.push('버린 음료가 많아요. 손해이자 쓰레기예요. 고객 조사를 보고 수량을 맞춰 봐요.');
+    if (!b.keep && r.wasted <= 3 && r.away <= 3) tips.push('딱 맞게 준비했어요!');
+    if (b.keep && r.leftover > 15) tips.push('재고가 많이 남았어요. 다음 시간에는 더 적게 준비하거나 홍보를 바꿔 봐요.');
+    if (r.priceIdx === 2 && r.sat < 70) tips.push('가격이 높아서 손님 만족이 낮아요.');
+    if (r.priceIdx === 0 && r.profit < 0) tips.push('가격이 낮아 많이 팔아도 이익이 적어요. 균형을 찾아봐요.');
+    if (r.profit < 0) tips.push('손해를 봤어요. 괜찮아요 — 창업가는 실패에서 배워요. 무엇을 바꿀지 적어 봐요.');
+    $('tipBox').innerHTML = '💬 ' + (tips.join('<br>💬 ') || '좋은 흐름이에요. 다음 시간에는 무엇을 더 시도해 볼까요?');
+    $('lesson').value = '';
+    $('btnNext').textContent = r.round < D.rounds.length - 1 ? '다음 시간 준비 →' : '축제 마치기 →';
+  }
+  $('btnNext').addEventListener('click', () => {
+    G.log[G.log.length - 1].lesson = $('lesson').value.trim();
+    G.round++;
+    const broke = G.stock <= 0 && G.money < B().cost;
+    if (G.round >= D.rounds.length || broke) return end(broke);
+    plan();
+  });
+
+  /* ── 끝 ── */
+  function totals() {
+    const profit = G.log.reduce((n, r) => n + r.profit, 0);
+    const sat = Math.round(G.log.reduce((n, r) => n + r.sat, 0) / Math.max(1, G.log.length));
+    const value = G.log.reduce((n, r) => n + r.value, 0);
+    return { profit, sat, value, score: Math.max(0, Math.round(profit / 500) + sat + value) };
+  }
+  function badges() {
+    const got = new Set(), L = G.log;
+    for (let i = 1; i < L.length; i++) if (L[i - 1].profit < 0 && L[i].profit > 0) got.add('rise');
+    if (L.some(r => r.sat >= 85)) got.add('listen');
+    if (G.usedIdea) got.add('pivot');
+    if (totals().value >= 90) got.add('value');
+    if (L.some(r => r.away <= 2 && (B().keep ? r.leftover <= 2 : r.wasted <= 2))) got.add('fit');
+    if (new Set(L.map(r => r.priceIdx + '/' + r.promo)).size >= 3) got.add('brave');
+    return got;
+  }
+  function end(broke) {
+    show('scEnd');
+    const t = totals(), got = badges();
+    $('endIcon').textContent = broke ? '🌱' : '🎉';
+    $('endTitle').innerHTML = broke ? '돈이 떨어져 부스를 일찍 닫았어요.<br><span class="muted small">실패에서 배운 것이 가장 큰 자산이에요. 다시 도전해 볼까요?</span>' : `${esc(G.team || B().name)} — 축제가 끝났어요!`;
+    $('endHud').innerHTML = `<div><small>총 이익</small><b>${won(t.profit)}</b></div><div><small>평균 손님 만족</small><b>${t.sat}점</b></div><div><small>사회적 가치</small><b>${t.value}점</b></div><div><small>창업가 점수</small><b>${t.score}</b></div>`;
+    $('badges').innerHTML = Object.entries(D.badges).map(([k, b]) => `<div class="bd ${got.has(k) ? 'got' : ''}"><b>${b.icon} ${esc(b.name)}</b>${esc(b.t)}</div>`).join('');
+    $('lessons').innerHTML = G.log.map(r => `${D.rounds[r.round].icon} ${D.rounds[r.round].name}: ${esc(r.event)} · 이익 ${won(r.profit)} · 만족 ${r.sat}${r.lesson ? ' — “' + esc(r.lesson) + '”' : ''}`).join('<br>');
+    $('valueQ').value = ''; $('failQ').value = '';
+    if (window.CareerClass?.student) CareerClass.saveGame({ game: 'booth-startup', score: t.score, correct: got.size, total: Object.keys(D.badges).length });
+  }
+  function summary() {
+    const t = totals(), got = badges();
+    return [
+      `[부스] ${B().icon} ${G.team || B().name} — 푼 문제: ${CU.plain(B().problem)}`,
+      `[결과] 이익 ${won(t.profit)} · 평균 만족 ${t.sat}점 · 사회적 가치 ${t.value}점 · 창업가 점수 ${t.score}`,
+      `[배지] ${[...got].map(k => D.badges[k].name).join(', ') || '없음'}`,
+      ...G.log.map(r => `[${D.rounds[r.round].name}] ${r.event} / 가격 ${D.priceName[r.priceIdx]} / 이익 ${won(r.profit)}${r.lesson ? ' / 배운 점: ' + r.lesson : ''}`),
+      `[만든 가치] ${$('valueQ').value.trim()}`,
+      `[실패에서 배운 점] ${$('failQ').value.trim()}`,
+    ].join('\n');
+  }
+  $('btnCopy').addEventListener('click', () => CU.copy(summary()));
+  $('btnAgain').addEventListener('click', () => { G = fresh(); drawBooths(); $('teamName').value = ''; show('scStart'); });
+  $('send').addEventListener('click', async () => {
+    if (!$('valueQ').value.trim() || !$('failQ').value.trim()) return CU.toast('돌아보기 두 칸을 채워 주세요.');
+    if (CareerClass.safetyCheck($('valueQ').value + ' ' + $('failQ').value + ' ' + G.team)) return CareerClass.showNotice('danger');
+    const t = totals();
+    $('send').disabled = true; $('send').textContent = '내는 중...';
+    const r = await CareerClass.submit({
+      kind: 'booth-reflection', title: `축제 부스 — ${G.team || B().name}`, content: summary(),
+      result: { score: t.score }, detail: { booth: G.booth, team: G.team, log: G.log, badges: [...badges()], value: $('valueQ').value.trim(), fail: $('failQ').value.trim() },
+    });
+    $('send').disabled = false; $('send').textContent = '선생님께 내기';
+    if (r.ok) CU.toast('선생님께 냈어요.');
+  });
+
+  drawBooths();
+  CU.classroom({ app: 'booth-startup', modeEl: $('mode'), sendEl: $('send'), replyEl: $('reply') });
+})();
+</script>
+<p class="eaim-copy">© 2026 박성애 · EAIM · 교육 목적 무료 사용, 무단 복제·상업적 이용 금지 · <a href="https://eaim.kr/#copyright" target="_blank" rel="noopener" style="color:inherit">이용 안내</a></p>
+</body>
+</html>

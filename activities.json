@@ -1,0 +1,194 @@
+[
+  {
+    "id": "career/entre-explorer",
+    "title": "창업가 정신 탐험대",
+    "platform": "career",
+    "subjects": [
+      "진로와 직업"
+    ],
+    "fusion": [
+      "창의적 체험활동"
+    ],
+    "grade": [
+      "중1",
+      "중2",
+      "중3"
+    ],
+    "target": "student",
+    "activityType": "writing",
+    "scope": "lesson",
+    "sessions": 1,
+    "minutes": 45,
+    "standards": [
+      "[9진로02-06]"
+    ],
+    "tags": [
+      "창업가 정신",
+      "창업의 특성",
+      "창업가 사례",
+      "문제 해결",
+      "가치 창출",
+      "피칭"
+    ],
+    "url": "entre-explorer.html",
+    "classroom": true,
+    "ai": false,
+    "summary": "새로 지은 창업가 이야기 6편에서 창업가 정신(도전·열정·창의와 혁신·실패를 두려워하지 않는 자세·문제 해결·가치 창출)을 찾고, 창업의 특성 O X를 푼 뒤, 주변의 불편으로 1분 피칭 카드를 만드는 활동 (공개, 내기는 수업에서)",
+    "makerNote": "",
+    "cce": {
+      "area": "진로 활동",
+      "activity": "진로 탐색 활동",
+      "example": "직업이해 활동: 직업관 확립, 일과 직업의 역할 이해, 직업 세계의 변화 탐구 등",
+      "focus": [
+        "일과 직업에 대한 폭넓은 가치 탐구"
+      ]
+    },
+    "guide": "guide.html#entre-explorer"
+  },
+  {
+    "id": "career/booth-startup",
+    "title": "축제 부스 창업 게임",
+    "platform": "career",
+    "subjects": [
+      "진로와 직업"
+    ],
+    "fusion": [
+      "창의적 체험활동"
+    ],
+    "grade": [
+      "중1",
+      "중2",
+      "중3"
+    ],
+    "target": "student",
+    "activityType": "game",
+    "scope": "lesson",
+    "sessions": 1,
+    "minutes": 45,
+    "standards": [
+      "[9진로02-06]"
+    ],
+    "tags": [
+      "창업",
+      "게임",
+      "실패와 피벗",
+      "고객 조사",
+      "사회적 가치",
+      "창업가 정신"
+    ],
+    "url": "booth-startup.html",
+    "classroom": true,
+    "ai": false,
+    "summary": "학교 축제 부스를 1부·2부·3부 세 번 운영하며 고객 조사를 보고 수량·가격·홍보를 정하고, 사건 카드와 결과(이익·손님 만족·사회적 가치)를 보고 바꿔 다시 도전한 뒤 돌아보기를 쓰는 게임 (공개, 점수·내기는 수업에서)",
+    "makerNote": "",
+    "cce": {
+      "area": "진로 활동",
+      "activity": "진로 탐색 활동",
+      "example": "직업이해 활동: 직업관 확립, 일과 직업의 역할 이해, 직업 세계의 변화 탐구 등",
+      "focus": [
+        "일과 직업에 대한 폭넓은 가치 탐구"
+      ]
+    },
+    "guide": "guide.html#booth-startup"
+  },
+  {
+    "id": "career/job-change-cards",
+    "title": "직업 세계 변화 카드 게임",
+    "platform": "career",
+    "subjects": [
+      "진로와 직업"
+    ],
+    "fusion": [
+      "창의적 체험활동"
+    ],
+    "grade": [
+      "중1",
+      "중2",
+      "중3"
+    ],
+    "target": "student",
+    "activityType": "game",
+    "scope": "lesson",
+    "sessions": 1,
+    "minutes": 45,
+    "standards": [
+      "[9진로02-01]",
+      "[9진로02-02]"
+    ],
+    "tags": [
+      "직업 세계 변화",
+      "고령화",
+      "저출산",
+      "과학기술",
+      "기후 변화",
+      "다문화",
+      "세계화",
+      "새 직업"
+    ],
+    "url": "job-change-cards.html",
+    "classroom": true,
+    "ai": false,
+    "summary": "고령화·저출산·과학기술·기후 변화·다문화·세계화 변화 카드를 뒤집어 직업 카드를 늘어날·줄어들·바뀔 가능성으로 나누고, 변화 카드와 좋아하는 것을 섞어 새 직업을 발명하는 게임 (공개, 점수·내기는 수업에서)",
+    "makerNote": "",
+    "cce": {
+      "area": "진로 활동",
+      "activity": "진로 탐색 활동",
+      "example": "직업이해 활동: 직업관 확립, 일과 직업의 역할 이해, 직업 세계의 변화 탐구 등",
+      "focus": [
+        "일과 직업에 대한 폭넓은 가치 탐구"
+      ]
+    },
+    "guide": "guide.html#job-change-cards"
+  },
+  {
+    "id": "career/multi-growth",
+    "title": "다문화 성장 프로젝트",
+    "platform": "career",
+    "subjects": [
+      "진로와 직업"
+    ],
+    "fusion": [
+      "창의적 체험활동"
+    ],
+    "grade": [
+      "중1",
+      "중2",
+      "중3"
+    ],
+    "target": "student",
+    "activityType": "project",
+    "scope": "project",
+    "sessions": 4,
+    "minutes": 45,
+    "standards": [
+      "[9진로01-02]",
+      "[9진로01-01]",
+      "[9진로02-06]",
+      "[9진로03-02]"
+    ],
+    "tags": [
+      "다문화",
+      "강점",
+      "긍정적 자아 개념",
+      "직업 탐색",
+      "창업가 정신",
+      "진로 경로",
+      "성장나무"
+    ],
+    "url": "multi-growth.html",
+    "classroom": true,
+    "ai": false,
+    "summary": "네 차시 동안 나의 강점 보물지도(뿌리) → 강점과 이어지는 직업(줄기) → 성장 창업 아이디어(가지) → 우선·대안 진로 경로(열매)로 성장나무를 키우는 다문화 학생 중심 프로젝트. 쉬운 말 보기·읽어 주기, 나라 이름·가족 이야기는 묻지 않음 (공개, 차시마다 내기는 수업에서)",
+    "makerNote": "",
+    "cce": {
+      "area": "진로 활동",
+      "activity": "진로 탐색 활동 · 진로 설계 및 실천 활동",
+      "example": "자아탐색 활동: 자기이해, 생애 탐색, 가치관 확립 등 / 진로 준비 활동: 진로 목표 설정, 진로 실천 계획 수립 등",
+      "focus": [
+        "긍정적인 자아 개념 강화",
+        "진로 탐색 및 진학으로의 연계"
+      ]
+    },
+    "guide": "guide.html#multi-growth"
+  }
+]

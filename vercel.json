@@ -1,0 +1,5 @@
+{
+  "headers": [
+    { "source": "/activities.json", "headers": [ { "key": "Access-Control-Allow-Origin", "value": "https://eaim.kr" } ] }
+  ]
+}

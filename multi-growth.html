@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>다문화 성장 프로젝트 · EAIM 진로</title>
+<!-- 다문화 성장 프로젝트 v1.0 (2026-10-02) — [9진로01-02]·[9진로02-06]·[9진로03-02], 4차시, AI 없음, 공개(내기는 수업 QR)
+     나라 이름·가족 이야기·사는 곳은 묻지 않는다. 진행 상태는 이 기기에만(eaim_career_multi_growth) + 파일로 저장·불러오기 -->
+<link rel="stylesheet" href="career.css">
+<style>
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}
+  .tabs button{background:#fff;color:var(--ink);border:2px solid var(--line);font-size:.86rem;padding:8px 12px}
+  .tabs button[aria-current]{border-color:var(--main);background:var(--main-soft)}
+  .tabs button .ok{color:var(--teal)}
+  .layout{display:grid;gap:14px;grid-template-columns:minmax(0,1fr) 300px;align-items:start}
+  @media (max-width:820px){.layout{grid-template-columns:minmax(0,1fr)}.treebox{order:-1}}
+  .treebox{position:sticky;top:10px}
+  .treebox svg{width:100%;height:auto;display:block}
+  .sgroup h3{display:flex;align-items:center;gap:6px}
+  .sgrid{display:grid;gap:6px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+  .jobs{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+  .jobc{border:2px solid var(--line);border-radius:14px;padding:10px 12px;background:#fff;text-align:left;color:var(--ink);font-weight:400;display:block;width:100%}
+  .jobc.on{border-color:var(--main);background:var(--main-soft)}
+  .jobc .nm{font-weight:800}
+  .jobc .fit{font-size:.75rem;color:var(--teal);font-weight:700}
+  .count{font-size:.85rem;color:var(--sub)}
+  .poster{border:3px solid var(--teal);border-radius:20px;padding:18px;background:#fff}
+  .poster h2{margin-top:0}
+  .poster dl{margin:0}
+  .poster dt{font-weight:800;margin-top:10px}
+  .poster dd{margin:2px 0 0}
+  .file-row{display:flex;gap:6px;flex-wrap:wrap}
+  @media print{ .layout{display:block} .treebox{position:static;max-width:360px;margin:0 auto} .tabs,.edit-only{display:none !important} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="home" href="index.html">← EAIM 진로</a>
+    <h1>🌏 다문화 성장 프로젝트</h1>
+    <button class="easy-btn" type="button" aria-pressed="false">쉬운 말</button>
+  </header>
+  <p class="row" style="margin:0"><span class="badge teal">[9진로01-02]</span><span class="badge">[9진로02-06]</span><span class="badge blue">[9진로03-02]</span><span class="badge gold">4차시 프로젝트</span>
+    <a class="badge blue" href="guide.html#student-multi-growth" style="text-decoration:none">📘 사용법</a>
+    <span id="mode" class="mode hidden"></span></p>
+
+  <div class="notice edit-only" id="privacy">
+    <span class="n">🔒 나라 이름, 가족 이야기, 사는 곳, 이름은 쓰지 않아요. 내 강점과 꿈만 써요.</span>
+    <span class="e">🔒 나라 이름, 가족, 집 주소, 이름은 쓰지 않아요.</span>
+    <button class="say" data-say="privacy">🔊</button>
+  </div>
+
+  <nav class="tabs" id="tabs" aria-label="차시"></nav>
+
+  <div class="layout">
+    <main style="min-width:0">
+      <!-- 1차시 -->
+      <section id="ss1">
+        <div class="card" id="i1">
+          <h2>🌱 1차시 · 나의 강점 보물지도 <button class="say" data-say="i1">🔊</button></h2>
+          <p class="n">나에게는 이미 많은 보물이 있어요. <b>두 언어, 두 문화를 아는 것도 큰 강점</b>이고, 마음과 재능도 강점이에요. 나에게 맞는 것을 <b>3개 이상(최대 8개)</b> 골라요.</p>
+          <p class="e">나의 좋은 점을 골라요. 3개 넘게 골라요. 두 가지 말, 두 문화도 좋은 점이에요.</p>
+          <p class="count" id="cnt1"></p>
+          <div id="strengths"></div>
+          <label class="field" for="me"><span class="n">나를 한 문장으로 소개해요: "나는 ___을(를) 잘하는 사람이에요."</span><span class="e">"나는 ___을 잘해요." 한 문장</span></label>
+          <input type="text" id="me" maxlength="80" placeholder="예: 나는 친구들 사이를 이어 주는 것을 잘하는 사람이에요.">
+        </div>
+      </section>
+
+      <!-- 2차시 -->
+      <section id="ss2" hidden>
+        <div class="card" id="i2">
+          <h2>🧭 2차시 · 강점과 이어지는 직업 <button class="say" data-say="i2">🔊</button></h2>
+          <p class="n">내 강점과 이어지는 직업에 <b>✨</b>가 붙어요. 하지만 <b>언어 직업만 있는 것이 아니에요 — 모든 직업이 열려 있어요.</b> 관심 가는 직업을 <b>3개</b> 골라요.</p>
+          <p class="e">✨는 내 좋은 점과 맞는 직업이에요. 어떤 직업도 할 수 있어요. 3개 골라요.</p>
+          <div class="row" style="margin-bottom:8px"><button type="button" class="ghost" id="fitOnly">✨ 이어지는 직업만</button><button type="button" class="ghost" id="allJobs">모두 보기</button></div>
+          <div class="jobs" id="jobs"></div>
+          <label class="field" for="jobWhy"><span class="n">가장 끌리는 직업과 그 까닭 (내 강점과 이어서)</span><span class="e">가장 좋은 직업은? 왜요?</span></label>
+          <textarea id="jobWhy" maxlength="300" placeholder="예: 의료 통역사 — 두 언어를 알고 아픈 사람을 돕고 싶어서"></textarea>
+          <label class="field" for="jobAsk"><span class="n">그 직업인에게 묻고 싶은 질문 하나</span><span class="e">그 사람에게 묻고 싶은 것</span></label>
+          <input type="text" id="jobAsk" maxlength="100" placeholder="예: 가장 보람 있었던 순간은 언제인가요?">
+        </div>
+      </section>
+
+      <!-- 3차시 -->
+      <section id="ss3" hidden>
+        <div class="card" id="i3">
+          <h2>💡 3차시 · 나만의 성장 창업 아이디어 <button class="say" data-say="i3">🔊</button></h2>
+          <p class="n">창업가 정신은 <b>내 강점으로 누군가의 불편을 풀고 가치를 만드는 것</b>이에요. 우리 학교·동네에서 풀고 싶은 불편을 골라 아이디어를 만들어요.</p>
+          <p class="e">내 좋은 점으로 다른 사람을 도와요. 불편한 것을 하나 골라요.</p>
+          <div class="sgrid" id="probs"></div>
+          <label class="field" for="pOwn"><span class="n">또는 직접 쓰기</span><span class="e">직접 써요</span></label>
+          <input type="text" id="pOwn" maxlength="80" placeholder="내가 본 불편">
+          <label class="field" for="iFor"><span class="n">누구를 위한 아이디어인가요?</span><span class="e">누구를 도와요?</span></label>
+          <input type="text" id="iFor" maxlength="40" placeholder="예: 새로 온 친구">
+          <label class="field" for="iHow"><span class="n">나의 강점으로 어떻게 풀까요?</span><span class="e">어떻게 도와요?</span></label>
+          <textarea id="iHow" maxlength="300" placeholder="예: 두 언어로 된 '학교 첫 주 그림 안내 카드'를 만들어 나눠 줘요."></textarea>
+          <label class="field" for="iName"><span class="n">아이디어 이름</span><span class="e">이름</span></label>
+          <input type="text" id="iName" maxlength="24" placeholder="예: 첫 주 친구 카드">
+          <label class="field" for="iTest"><span class="n">이번 달에 해 볼 첫 번째 작은 실험</span><span class="e">이번 달에 작게 해 볼 것</span></label>
+          <input type="text" id="iTest" maxlength="80" placeholder="예: 카드 3장을 만들어 친구 2명에게 보여 주고 의견 듣기">
+          <label class="field" for="iTeam"><span class="n">함께하면 좋을 사람 (이름 말고 역할로)</span><span class="e">누구랑 같이 해요? (이름 말고)</span></label>
+          <input type="text" id="iTeam" maxlength="60" placeholder="예: 그림 잘 그리는 친구, 담임 선생님">
+        </div>
+      </section>
+
+      <!-- 4차시 -->
+      <section id="ss4" hidden>
+        <div class="card" id="i4">
+          <h2>🍎 4차시 · 나의 진로 경로와 성장나무 <button class="say" data-say="i4">🔊</button></h2>
+          <p class="n">진로는 한 길만 있지 않아요. <b>우선 경로</b>와 <b>대안 경로</b>를 함께 그리고, 지금부터 할 일을 정해요.</p>
+          <p class="e">가고 싶은 길 1개와 다른 길 1개를 생각해요. 지금 할 일을 정해요.</p>
+          <label class="field">지금 중학교에서 할 일 (여러 개)</label>
+          <div class="sgrid" id="nowActs"></div>
+          <label class="field" for="nowText"><span class="n">구체적으로 한 가지</span><span class="e">자세히 하나</span></label>
+          <input type="text" id="nowText" maxlength="100" placeholder="예: 매주 한 번 두 언어로 일기 쓰기">
+          <label class="field" for="highText"><span class="n">고등학교에서 해 보고 싶은 것</span><span class="e">고등학교에서 하고 싶은 것</span></label>
+          <input type="text" id="highText" maxlength="100" placeholder="예: 국제 교류 동아리, 관심 과목 선택">
+          <label class="field" for="pathA">🥇 <span class="n">우선 경로 (가장 가고 싶은 길)</span><span class="e">가장 가고 싶은 길</span></label>
+          <input type="text" id="pathA" maxlength="100" placeholder="예: 보건 계열 공부 → 의료 통역사">
+          <label class="field" for="pathB">🥈 <span class="n">대안 경로 (다른 길도 열어 두기)</span><span class="e">다른 길</span></label>
+          <input type="text" id="pathB" maxlength="100" placeholder="예: 관광 계열 공부 → 관광 통역 안내사">
+          <label class="field" for="cheer"><span class="n">1년 뒤의 나에게 응원 한마디</span><span class="e">1년 뒤 나에게 한마디</span></label>
+          <input type="text" id="cheer" maxlength="100" placeholder="예: 천천히 가도 괜찮아, 계속 자라고 있어!">
+        </div>
+        <div class="card">
+          <div class="poster" id="poster"></div>
+          <div class="row no-print" style="margin-top:10px"><button type="button" class="ghost" id="btnPrint">🖨 성장나무 포스터 인쇄</button><button type="button" class="ghost" id="btnCopy">📋 복사</button></div>
+        </div>
+      </section>
+
+      <div class="card no-print edit-only">
+        <div class="row">
+          <button type="button" class="ghost" id="prev">← 이전 차시</button>
+          <button type="button" class="teal hidden" id="send">이 차시 선생님께 내기</button>
+          <button type="button" id="next">다음 차시 →</button>
+        </div>
+        <div id="reply" class="reply hidden"></div>
+        <details style="margin-top:12px"><summary class="muted small">💾 내 기록 보관 (다음 차시에 이어 하기)</summary>
+          <p class="muted small">기록은 이 기기에만 남아요. 다른 기기에서 이어 하려면 파일로 저장해서 불러와요. 함께 쓰는 기기라면 끝나고 지워 주세요.</p>
+          <div class="file-row"><button type="button" class="ghost" id="fSave">파일로 저장</button>
+            <label class="btn ghost" style="cursor:pointer">파일 불러오기<input type="file" id="fLoad" accept=".json,application/json" hidden></label>
+            <button type="button" class="ghost" id="fClear">이 기기에서 지우기</button></div>
+        </details>
+      </div>
+    </main>
+
+    <aside class="treebox">
+      <div class="card" style="margin-top:0">
+        <h2 style="text-align:center">🌳 나의 성장나무</h2>
+        <div id="tree"></div>
+        <p class="muted small center" id="treeNote"></p>
+      </div>
+    </aside>
+  </div>
+  <div class="std" id="stdBox"></div>
+</div>
+
+<script src="curriculum-career.js"></script>
+<script src="career-apps.js"></script>
+<script src="multi-growth-data.js"></script>
+<script src="career-class.js"></script>
+<script src="career-ui.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.MG_DATA, esc = CU.esc, tx = CU.tx, plain = CU.plain;
+  const $ = (id) => document.getElementById(id);
+  const C = window.EAIM_CAREER_CURRICULUM;
+  const SHORT = { 'two-lang': '두 언어', interpret: '말 잇기', 'learn-lang': '언어 배우기', 'two-culture': '두 문화', bridge: '어울림', adapt: '적응력', courage: '용기', grit: '끈기', kind: '배려', curious: '호기심', cook: '요리', draw: '그림', music: '음악', sport: '운동', make: '만들기', digital: '디지털', speak: '말하기', number: '계산' };
+  const ITEMS = Object.fromEntries(D.groups.flatMap(g => g.items.map(i => [i.id, i])));
+  $('stdBox').innerHTML = ['[9진로01-02]', '[9진로01-01]', '[9진로02-06]', '[9진로03-02]'].map(c => { const s = C.find(c); return `<b>${s.code}</b> ${esc(s.text)}`; }).join('<br>') +
+    `<br><span class="small">창의적 체험활동(별책 40): 다문화 가정 학생 등 개별적 특성을 충분히 고려하여 모든 학생이 참여할 수 있도록 한다.</span>`;
+
+  const STORE = CU.store('multi_growth');
+  const DEF = { tab: 1, strengths: [], me: '', jobs: [], jobWhy: '', jobAsk: '', fitOnly: true, prob: -1, pOwn: '', iFor: '', iHow: '', iName: '', iTest: '', iTeam: '', now: [], nowText: '', highText: '', pathA: '', pathB: '', cheer: '' };
+  let S = STORE.load(DEF);
+  const save = () => { STORE.save(S); drawTree(); drawTabs(); };
+
+  const done = {
+    1: () => S.strengths.length >= 3 && S.me.trim().length > 0,
+    2: () => S.jobs.length === 3 && S.jobWhy.trim().length > 0,
+    3: () => (S.prob >= 0 || S.pOwn.trim()) && S.iHow.trim() && S.iName.trim(),
+    4: () => S.pathA.trim() && S.pathB.trim() && S.now.length > 0,
+  };
+
+  /* ── 차시 탭 ── */
+  function drawTabs() {
+    $('tabs').innerHTML = D.sessions.map(s => `<button type="button" data-tab="${s.n}" ${S.tab === s.n ? 'aria-current="step"' : ''}>${s.icon} ${s.n}차시 ${esc(s.name)} ${done[s.n]() ? '<span class="ok">✔</span>' : ''}</button>`).join('');
+    $('prev').disabled = S.tab === 1; $('next').classList.toggle('hidden', S.tab === 4);
+  }
+  function go(n) { S.tab = n; STORE.save(S); [1, 2, 3, 4].forEach(i => { $('ss' + i).hidden = i !== n; }); drawTabs(); draw[n](); window.scrollTo({ top: 0 }); }
+  $('tabs').addEventListener('click', (e) => { const b = e.target.closest('[data-tab]'); if (b) go(+b.dataset.tab); });
+  $('prev').addEventListener('click', () => go(Math.max(1, S.tab - 1)));
+  $('next').addEventListener('click', () => { if (!done[S.tab]()) CU.toast('이 차시를 다 채우지 않았어도 넘어갈 수 있어요. 나중에 돌아와요.'); go(Math.min(4, S.tab + 1)); });
+
+  /* ── 1차시 ── */
+  function draw1() {
+    $('strengths').innerHTML = D.groups.map(g => `<div class="sgroup"><h3>${g.icon} ${tx(g.name)}</h3><div class="sgrid">
+      ${g.items.map(i => `<button type="button" class="chip ${S.strengths.includes(i.id) ? 'on' : ''}" data-st="${i.id}">${tx(i)}</button>`).join('')}</div></div>`).join('');
+    $('cnt1').textContent = `고른 강점 ${S.strengths.length}개 (3~8개)`;
+    $('me').value = S.me;
+  }
+  $('strengths').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-st]'); if (!b) return; const id = b.dataset.st;
+    if (S.strengths.includes(id)) S.strengths = S.strengths.filter(x => x !== id);
+    else { if (S.strengths.length >= 8) return CU.toast('최대 8개까지 골라요.'); S.strengths.push(id); }
+    save(); draw1();
+  });
+  $('me').addEventListener('input', (e) => { S.me = e.target.value; save(); });
+
+  /* ── 2차시 ── */
+  function myTags() { const t = {}; S.strengths.forEach(id => (ITEMS[id]?.tag || []).forEach(x => { t[x] = (t[x] || 0) + 1; })); return t; }
+  function fit(job) { const t = myTags(); return job.tag.reduce((n, x) => n + (t[x] ? 1 : 0), 0); }
+  function draw2() {
+    let list = D.jobs.map(j => ({ ...j, f: fit(j) })).sort((a, b) => b.f - a.f);
+    if (S.fitOnly && S.strengths.length) list = list.filter(j => j.f > 0 || S.jobs.includes(j.id));
+    $('jobs').innerHTML = list.map(j => `<button type="button" class="jobc ${S.jobs.includes(j.id) ? 'on' : ''}" data-job="${j.id}">
+      <span class="nm">${j.icon} ${esc(j.name)}</span> ${j.f > 0 ? `<span class="fit">✨ 강점 ${j.f}개와 이어져요</span>` : ''}
+      <div class="small muted">${esc(j.t)}</div></button>`).join('') || '<p class="muted">1차시에서 강점을 먼저 골라요.</p>';
+    $('jobWhy').value = S.jobWhy; $('jobAsk').value = S.jobAsk;
+    $('fitOnly').classList.toggle('teal', S.fitOnly); $('allJobs').classList.toggle('teal', !S.fitOnly);
+  }
+  $('jobs').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-job]'); if (!b) return; const id = b.dataset.job;
+    if (S.jobs.includes(id)) S.jobs = S.jobs.filter(x => x !== id);
+    else { if (S.jobs.length >= 3) return CU.toast('3개까지 골라요. 하나를 빼고 골라 주세요.'); S.jobs.push(id); }
+    save(); draw2();
+  });
+  $('fitOnly').addEventListener('click', () => { S.fitOnly = true; save(); draw2(); });
+  $('allJobs').addEventListener('click', () => { S.fitOnly = false; save(); draw2(); });
+  $('jobWhy').addEventListener('input', (e) => { S.jobWhy = e.target.value; save(); });
+  $('jobAsk').addEventListener('input', (e) => { S.jobAsk = e.target.value; save(); });
+
+  /* ── 3차시 ── */
+  const F3 = ['pOwn', 'iFor', 'iHow', 'iName', 'iTest', 'iTeam'];
+  function draw3() {
+    $('probs').innerHTML = D.problems.map((p, i) => `<button type="button" class="chip ${S.prob === i ? 'on' : ''}" data-pb="${i}">${tx(p)}</button>`).join('');
+    F3.forEach(k => { $(k).value = S[k]; });
+  }
+  $('probs').addEventListener('click', (e) => { const b = e.target.closest('[data-pb]'); if (!b) return; S.prob = S.prob === +b.dataset.pb ? -1 : +b.dataset.pb; save(); draw3(); });
+  F3.forEach(k => $(k).addEventListener('input', (e) => { S[k] = e.target.value; save(); }));
+  const probText = () => S.pOwn.trim() || (S.prob >= 0 ? D.problems[S.prob].t : '');
+
+  /* ── 4차시 ── */
+  const F4 = ['nowText', 'highText', 'pathA', 'pathB', 'cheer'];
+  function draw4() {
+    $('nowActs').innerHTML = D.nowActs.map((a, i) => `<button type="button" class="chip ${S.now.includes(i) ? 'on' : ''}" data-now="${i}">${tx(a)}</button>`).join('');
+    F4.forEach(k => { $(k).value = S[k]; });
+    drawPoster();
+  }
+  $('nowActs').addEventListener('click', (e) => { const b = e.target.closest('[data-now]'); if (!b) return; const i = +b.dataset.now; S.now = S.now.includes(i) ? S.now.filter(x => x !== i) : [...S.now, i]; save(); draw4(); });
+  F4.forEach(k => $(k).addEventListener('input', (e) => { S[k] = e.target.value; save(); drawPoster(); }));
+  const jobNames = () => S.jobs.map(id => D.jobs.find(j => j.id === id)?.name).filter(Boolean);
+  function drawPoster() {
+    $('poster').innerHTML = `<h2>🌳 나의 성장 프로젝트</h2><dl>
+      <dt>🌱 뿌리 · 나의 강점</dt><dd>${S.strengths.map(id => esc(SHORT[id])).join(', ') || '-'}</dd><dd>${esc(S.me)}</dd>
+      <dt>🪵 줄기 · 관심 직업</dt><dd>${jobNames().map(esc).join(', ') || '-'}</dd><dd class="small">${esc(S.jobWhy)}</dd>
+      <dt>🌿 가지 · 성장 창업 아이디어</dt><dd><b>${esc(S.iName || '-')}</b> — ${esc(probText())}</dd><dd class="small">${esc(S.iHow)}</dd>
+      <dt>🍎 열매 · 진로 경로</dt><dd>🥇 ${esc(S.pathA || '-')}</dd><dd>🥈 ${esc(S.pathB || '-')}</dd>
+      <dt>📌 지금부터</dt><dd>${S.now.map(i => esc(D.nowActs[i].t)).join(', ')}${S.nowText ? ' — ' + esc(S.nowText) : ''}</dd>
+      <dt>💌 1년 뒤의 나에게</dt><dd>${esc(S.cheer || '-')}</dd></dl>`;
+  }
+  const draw = { 1: draw1, 2: draw2, 3: draw3, 4: draw4 };
+
+  /* ── 성장나무 (SVG) ── */
+  function drawTree() {
+    const st = [1, 2, 3, 4].filter(n => done[n]());
+    const has = (n) => st.includes(n);
+    const W = 300, H = 330, G = 250;
+    let svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="성장나무 — ${st.length}단계">
+      <rect x="0" y="${G}" width="${W}" height="${H - G}" fill="#efe2cf"/>
+      <path d="M0 ${G} Q150 ${G - 8} 300 ${G}" fill="#d7c2a2"/>`;
+    // 뿌리
+    const roots = S.strengths.slice(0, 8);
+    roots.forEach((id, i) => {
+      const n = roots.length, x = 150 + (i - (n - 1) / 2) * (260 / Math.max(n, 1));
+      svg += `<path d="M150 ${G} Q${(150 + x) / 2} ${G + 20} ${x} ${G + 48}" stroke="#8a5a2b" stroke-width="${has(1) ? 4 : 2}" fill="none" opacity="${has(1) ? 1 : .5}"/>
+        <text x="${x}" y="${G + 64 + (i % 2) * 12}" font-size="10" text-anchor="middle" fill="#5b3a1a">${esc(SHORT[id])}</text>`;
+    });
+    if (!has(1) && !roots.length) svg += `<ellipse cx="150" cy="${G - 4}" rx="9" ry="6" fill="#8a5a2b"/><text x="150" y="${G + 40}" font-size="11" text-anchor="middle" fill="#8a7a66">씨앗 — 강점을 골라요</text>`;
+    // 새싹 또는 줄기
+    if (has(2)) {
+      svg += `<path d="M138 ${G} L144 ${G - 120} L156 ${G - 120} L162 ${G} Z" fill="#9b6a3c"/>`;
+      jobNames().forEach((nm, i) => { const y = G - 18 - i * 26, left = i % 2 === 1;
+        svg += `<line x1="${left ? 140 : 160}" y1="${y - 4}" x2="${left ? 128 : 172}" y2="${y - 4}" stroke="#9b6a3c" stroke-width="2"/>
+          <text x="${left ? 125 : 175}" y="${y}" font-size="10" text-anchor="${left ? 'end' : 'start'}" fill="#5b3a1a" font-weight="700">${esc(nm.length > 9 ? nm.slice(0, 9) + '…' : nm)}</text>`; });
+    } else if (has(1)) {
+      svg += `<path d="M150 ${G} C150 ${G - 30} 150 ${G - 40} 150 ${G - 50}" stroke="#4c9a4a" stroke-width="4" fill="none"/>
+        <ellipse cx="138" cy="${G - 50}" rx="14" ry="7" fill="#6cc06a" transform="rotate(-25 138 ${G - 50})"/>
+        <ellipse cx="162" cy="${G - 54}" rx="14" ry="7" fill="#6cc06a" transform="rotate(25 162 ${G - 54})"/>`;
+    }
+    // 가지와 잎
+    if (has(3)) {
+      svg += `<path d="M150 ${G - 110} L95 ${G - 160} M150 ${G - 115} L205 ${G - 165} M150 ${G - 120} L150 ${G - 175}" stroke="#9b6a3c" stroke-width="8" stroke-linecap="round"/>
+        <circle cx="150" cy="${G - 175}" r="62" fill="#5bb36a" opacity=".92"/><circle cx="95" cy="${G - 150}" r="42" fill="#6cc06a" opacity=".92"/><circle cx="205" cy="${G - 155}" r="44" fill="#4fa65e" opacity=".92"/>
+        <text x="150" y="${G - 178}" font-size="12" text-anchor="middle" fill="#fff" font-weight="800">💡 ${esc((S.iName || '').slice(0, 10))}</text>`;
+    } else if (has(2)) {
+      svg += `<circle cx="150" cy="${G - 140}" r="36" fill="#7dc97a" opacity=".8"/>`;
+    }
+    // 열매
+    if (has(4)) {
+      [[110, G - 135, '🥇'], [195, G - 140, '🥈'], [150, G - 215, '⭐'], [80, G - 170, ''], [220, G - 185, '']].forEach(([x, y, l]) => {
+        svg += `<circle cx="${x}" cy="${y}" r="13" fill="#e2483a"/><path d="M${x} ${y - 13} q4 -6 8 -4" stroke="#3d7a3a" stroke-width="2" fill="none"/>${l ? `<text x="${x}" y="${y + 4}" font-size="11" text-anchor="middle">${l}</text>` : ''}`;
+      });
+    }
+    svg += '</svg>';
+    $('tree').innerHTML = svg;
+    const parts = D.sessions.filter(s => has(s.n)).map(s => s.part);
+    $('treeNote').textContent = parts.length ? `자란 곳: ${parts.join(' · ')} (${parts.length}/4)` : '차시를 마칠 때마다 나무가 자라요.';
+  }
+
+  /* ── 차시별 내기 ── */
+  function sessionText(n) {
+    if (n === 1) return `[1차시 강점] ${S.strengths.map(id => SHORT[id]).join(', ')}\n[나를 한 문장으로] ${S.me.trim()}`;
+    if (n === 2) return `[2차시 관심 직업] ${jobNames().join(', ')}\n[끌리는 까닭] ${S.jobWhy.trim()}\n[직업인에게 묻고 싶은 것] ${S.jobAsk.trim()}`;
+    if (n === 3) return `[3차시 창업 아이디어] ${S.iName.trim()}\n[불편] ${probText()}\n[누구를 위해] ${S.iFor.trim()}\n[강점으로 어떻게] ${S.iHow.trim()}\n[첫 실험] ${S.iTest.trim()}\n[함께할 사람] ${S.iTeam.trim()}`;
+    return `[4차시 진로 경로] 우선: ${S.pathA.trim()} / 대안: ${S.pathB.trim()}\n[지금부터] ${S.now.map(i => D.nowActs[i].t).join(', ')} — ${S.nowText.trim()}\n[고등학교에서] ${S.highText.trim()}\n[1년 뒤의 나에게] ${S.cheer.trim()}`;
+  }
+  const allText = () => [1, 2, 3, 4].map(sessionText).join('\n\n');
+  $('send').addEventListener('click', async () => {
+    const n = S.tab;
+    if (!done[n]()) return CU.toast('이 차시의 칸을 먼저 채워 주세요.');
+    const txt = sessionText(n);
+    if (CareerClass.safetyCheck(txt)) return CareerClass.showNotice('danger');
+    $('send').disabled = true; $('send').textContent = '내는 중...';
+    const r = await CareerClass.submit({
+      kind: `growth-${n}`, title: `다문화 성장 ${n}차시 — ${D.sessions[n - 1].name}`, content: txt,
+      result: { score: [1, 2, 3, 4].filter(k => done[k]()).length, total: 4 },
+      detail: { session: n, strengths: S.strengths, me: S.me.trim(), jobs: S.jobs, jobWhy: S.jobWhy.trim(), idea: { name: S.iName.trim(), problem: probText(), for: S.iFor.trim(), how: S.iHow.trim(), test: S.iTest.trim() }, path: { a: S.pathA.trim(), b: S.pathB.trim() } },
+    });
+    $('send').disabled = false; $('send').textContent = '이 차시 선생님께 내기';
+    if (r.ok) CU.toast(`${n}차시를 선생님께 냈어요. 🌳`);
+  });
+
+  /* ── 보관 ── */
+  $('fSave').addEventListener('click', () => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([JSON.stringify({ app: 'career/multi-growth', v: 1, data: S })], { type: 'application/json' }));
+    a.download = '나의_성장_프로젝트.json'; document.body.appendChild(a); a.click(); a.remove();
+  });
+  $('fLoad').addEventListener('change', async (e) => {
+    const f = e.target.files[0]; if (!f) return;
+    try { const j = JSON.parse(await f.text()); if (j.app !== 'career/multi-growth') throw 0; S = Object.assign({}, DEF, j.data); save(); go(S.tab || 1); CU.toast('불러왔어요.'); }
+    catch { CU.toast('이 앱에서 저장한 파일이 아니에요.'); }
+    e.target.value = '';
+  });
+  $('fClear').addEventListener('click', () => { if (!confirm('이 기기에 남은 성장 프로젝트 기록을 지울까요? (선생님께 낸 것은 지워지지 않아요)')) return; STORE.clear(); S = Object.assign({}, DEF); save(); go(1); });
+  $('btnPrint').addEventListener('click', () => window.print());
+  $('btnCopy').addEventListener('click', () => CU.copy(allText()));
+
+  drawTree(); go(S.tab || 1);
+  CU.classroom({ app: 'multi-growth', modeEl: $('mode'), sendEl: $('send'), replyEl: $('reply') });
+})();
+</script>
+<p class="eaim-copy">© 2026 박성애 · EAIM · 교육 목적 무료 사용, 무단 복제·상업적 이용 금지 · <a href="https://eaim.kr/#copyright" target="_blank" rel="noopener" style="color:inherit">이용 안내</a></p>
+</body>
+</html>

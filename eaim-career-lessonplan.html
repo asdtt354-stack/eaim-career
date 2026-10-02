@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EAIM 진로 — 지도안 만들기</title>
+<!-- EAIM 진로 지도안 도우미 v1.0 (2026-10-02) — 도덕 지도안(국어 v1.1 양식)과 같은 양식·색상 테마·내보내기.
+     교사용, AI·로그인·기록 없음. 활동(차시)을 고르면 본시 교수·학습 과정안을 짜 준다.
+     자료: curriculum-career.js(별책 18 「진로와 직업」 + 별책 40 진로 활동 원문) + lessonplan-data.js(앱 단계) + career-apps.js.
+     진로는 선택 교과라 성취기준 자리를 그대로 두고, 창체 진로 활동 연계·평가 방법·배려할 점 칸을 더했다. -->
+<script src="career-apps.js"></script>
+<script src="curriculum-career.js"></script>
+<script src="lessonplan-data.js"></script>
+<style>
+:root{--bg:#F3F4F1;--card:#fff;--ink:#1D2320;--ink2:#4A534E;--ink3:#8A938E;--line:#DCE0DC;--teal:#0E7C6B;--teal2:#E2F2EE}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:var(--bg);color:var(--ink);word-break:keep-all}
+header{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5;gap:8px;flex-wrap:wrap}
+header a{font-size:.8rem;color:var(--ink2);text-decoration:none;border:1px solid var(--line);border-radius:99px;padding:5px 12px}
+header b{font-size:1rem}
+.wrap{display:grid;grid-template-columns:340px 1fr;gap:16px;padding:16px;max-width:1400px;margin:0 auto}
+.side{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;align-self:start;position:sticky;top:64px;max-height:calc(100vh - 80px);overflow:auto}
+.side h3{font-size:.86rem;margin:14px 0 6px}
+.side h3:first-child{margin-top:0}
+.side label{display:block;font-size:.74rem;font-weight:700;color:var(--ink2);margin-top:8px}
+.side input,.side select,.side textarea{width:100%;font-family:inherit;font-size:.86rem;padding:7px 9px;border:1.5px solid var(--line);border-radius:8px;margin-top:3px;background:#fff}
+.side .row{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.pick{font-size:.8rem;line-height:1.5;display:flex;gap:6px;align-items:flex-start;padding:3px 0;font-weight:400;color:var(--ink)}
+.pick input{width:auto;margin-top:3px}
+.pgroup{font-size:.72rem;font-weight:900;color:var(--teal);margin-top:8px}
+.note{font-size:.72rem;color:var(--ink3);line-height:1.6;margin-top:6px}
+.src{background:var(--teal2);border-radius:10px;padding:10px;font-size:.78rem;line-height:1.6;margin-top:8px}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.btn{font-family:inherit;font-size:.84rem;font-weight:700;border:none;border-radius:10px;padding:9px 14px;background:var(--teal);color:#fff;cursor:pointer}
+.btn.ghost{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+#msg{font-size:.78rem;color:var(--ink2);align-self:center}
+.wrap>main{min-width:0}
+.paper{background:#fff;border:1px solid var(--line);border-radius:6px;padding:26px 24px;overflow-x:auto}
+.doc{min-width:720px}
+.doc .top{font-size:.8rem;color:#555;text-align:right;margin-bottom:4px}
+.doc h1{font-size:1.2rem;margin:0 0 12px}
+.doc table{width:100%;border-collapse:collapse;font-size:.84rem;line-height:1.6;margin-bottom:12px}
+.doc th,.doc td{border:1px solid #444;padding:6px 8px;vertical-align:top}
+.doc th{background:#EEF1EE;font-weight:700;text-align:center;white-space:nowrap}
+.doc td[contenteditable]:focus{outline:2px solid var(--teal);background:#FAFFFD}
+.doc ul{margin:0;padding-left:16px}
+.hint{font-size:.72rem;color:var(--ink3);margin-top:6px}
+@media (max-width:900px){ .wrap{grid-template-columns:1fr} .side{position:static;max-height:none} }
+*{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+@media print{ header,.side,.bar,.hint{display:none!important} body{background:#fff} .wrap{display:block;padding:0} .paper{border:none;padding:0} .doc{min-width:0} }
+</style>
+</head>
+<body>
+<header><a href="index.html">🏠 첫 화면</a><b>📝 EAIM 진로 지도안 만들기</b><span style="display:flex;gap:6px"><a href="guide.html#t7">📘 가이드</a><a href="teacher.html">👩‍🏫 선생님 페이지</a></span></header>
+<div class="wrap">
+  <aside class="side">
+    <h3>1. 활동(차시)</h3>
+    <select id="std"></select>
+    <div class="src" id="srcBox"></div>
+    <h3>2. 기본 정보</h3>
+    <div class="row"><label>일시<input id="f-date" placeholder="2026. 10. 7.(수) 3교시"></label><label>장소<input id="f-place" placeholder="2학년 3반 교실"></label></div>
+    <div class="row"><label>대상<input id="f-target" placeholder="2학년 3반 25명"></label><label>지도교사<input id="f-teacher"></label></div>
+    <div class="row"><label>차시<input id="f-n" value="1"></label><label>전체 차시<input id="f-m" value="1"></label></div>
+    <div class="row"><label>수업 시간(분)<input id="f-min" type="number" value="45" min="30" max="100"></label><label>과목<input id="f-subj" value="진로와 직업"></label></div>
+    <label>머리글 (소속·연구회 이름 등)<input id="f-head" placeholder="예: 2026학년도 ○○중학교"></label>
+    <label>색상<select id="f-theme"><option value="green">초록 (EAIM)</option><option value="blue">파랑</option><option value="pink">분홍</option><option value="mono">흑백 (인쇄 절약)</option></select></label>
+    <h3>3. 핵심 아이디어</h3><div id="kiBox"></div>
+    <h3>4. 내용 요소</h3><div id="elBox"></div>
+    <h3>5. 평가 방법</h3><div id="evBox"></div>
+    <p class="note">기본으로 골라 둔 핵심 아이디어·내용 요소와 탐구 질문·마음 열기는 참고용 초안이니 고쳐 쓰세요. 성취기준·핵심 아이디어·내용 요소·평가 방법·창체 진로 활동 문구는 교육부 고시 제2022-33호 [별책 18]·[별책 40] 그대로입니다.</p>
+  </aside>
+  <main>
+    <div class="bar">
+      <button class="btn" id="b-print">🖨️ 인쇄·PDF</button>
+      <button class="btn ghost" id="b-doc">⬇️ Word 파일(.doc)</button>
+      <button class="btn ghost" id="b-copy">📋 표째 복사</button>
+      <button class="btn ghost" id="b-reset">↺ 다시 짜기</button>
+      <span id="msg"></span>
+    </div>
+    <div class="paper"><div class="doc" id="doc"></div></div>
+    <p class="hint">표 안의 글은 눌러서 바로 고칠 수 있어요. 고친 뒤에 인쇄·내려받기·복사하세요. 이 화면은 저장하지 않아요. 왼쪽 설정을 바꾸면 표가 새로 짜여 고친 내용이 사라지니, 설정을 먼저 정하고 고쳐 주세요.</p>
+  </main>
+</div>
+
+<script>
+const C = window.EAIM_CAREER_CURRICULUM, APPS = window.CAREER_APPS, L = window.CAREER_LESSONS;
+const esc = t => String(t==null?'':t).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const BASE = 'https://eaim-career.vercel.app/';   // [확인 필요] 배포 주소가 정해지면 맞춘다
+const jong = w => { const t = String(w).trim(); const c = t.charCodeAt(t.length - 1) - 0xAC00; return c >= 0 && c <= 11171 ? c % 28 : -1; };
+const eul = w => jong(w) > 0 ? '을' : (jong(w) === 0 ? '를' : '을(를)');
+const AREA = id => C.areas.find(a => a.id === id);
+const EV_DEFAULT = ['형성 평가', '포트폴리오 평가', '자기평가', '동료평가'];
+
+/* 활동 선택 목록 — 영역별 */
+const sel = document.getElementById('std');
+C.areas.forEach(A => {
+  const og = document.createElement('optgroup'); og.label = A.name;
+  L.filter(l => l.area === A.id).forEach(l => { const a = APPS[l.app]; const o = document.createElement('option'); o.value = l.id;
+    o.textContent = `${l.code} ${a.name}${l.session ? ` ${l.session}차시` : ''}`; og.appendChild(o); });
+  if (og.children.length) sel.appendChild(og); });
+
+/* 성취기준 문장 → 학습 목표("~할 수 있다.") */
+function toGoal(t){
+  const R=[[/함양한다\.$/,'함양할 수 있다.'],[/갖는다\.$/,'가질 수 있다.'],[/생각한다\.$/,'생각할 수 있다.'],[/이해한다\.$/,'이해할 수 있다.'],[/인식한다\.$/,'인식할 수 있다.'],[/결정한다\.$/,'결정할 수 있다.'],[/설정한다\.$/,'설정할 수 있다.'],[/실천한다\.$/,'실천할 수 있다.'],[/탐색한다\.$/,'탐색할 수 있다.'],[/활용한다\.$/,'활용할 수 있다.'],[/한다\.$/,'할 수 있다.']];
+  for (const [re,to] of R) if (re.test(t)) return t.replace(re,to);
+  return t;
+}
+
+let state = {};
+function loadStd(id){
+  const l = L.find(x => x.id === id), A = AREA(l.area), s = C.find(l.code), a = APPS[l.app];
+  state = { id, l, A, s, a, ki:new Set(l.ki), el:{ k:new Set(l.k), p:new Set(l.p), v:new Set(l.v) }, ev:new Set(EV_DEFAULT) };
+  document.getElementById('srcBox').innerHTML = `<b>${esc(a.icon)} ${esc(a.name)}${l.session ? ` · ${l.session}차시 / ${l.sessions}차시` : ''}</b><br>${esc(a.desc)}<br>단계: ${l.steps.map((x,i)=>esc((i+1)+'. '+x.name)).join(' → ')}<br>결과물: ${esc(l.output)}<br>창체 연계: 진로 활동 · ${esc(l.cce.activity)}`;
+  document.getElementById('kiBox').innerHTML = A.ideas.map((t,i)=>`<label class="pick"><input type="checkbox" data-ki="${i}"${state.ki.has(i)?' checked':''}> ${esc(t)}</label>`).join('');
+  const grp = (n, key, label) => `<div class="pgroup">${label}</div>` + A[key].map((t,i)=>`<label class="pick"><input type="checkbox" data-el="${n}" data-i="${i}"${state.el[n].has(i)?' checked':''}> ${esc(t)}</label>`).join('');
+  document.getElementById('elBox').innerHTML = grp('k','knowledge','지식·이해') + grp('p','skills','과정·기능') + grp('v','values','가치·태도');
+  document.getElementById('evBox').innerHTML = C.evaluation.map(t=>`<label class="pick"><input type="checkbox" data-ev="${esc(t)}"${state.ev.has(t)?' checked':''}> ${esc(t)}</label>`).join('');
+  document.querySelectorAll('[data-ki]').forEach(x=>x.onchange=()=>{ x.checked?state.ki.add(+x.dataset.ki):state.ki.delete(+x.dataset.ki); build(); });
+  document.querySelectorAll('[data-el]').forEach(x=>x.onchange=()=>{ const g=state.el[x.dataset.el]; x.checked?g.add(+x.dataset.i):g.delete(+x.dataset.i); build(); });
+  document.querySelectorAll('[data-ev]').forEach(x=>x.onchange=()=>{ x.checked?state.ev.add(x.dataset.ev):state.ev.delete(x.dataset.ev); build(); });
+  document.getElementById('f-n').value = l.session || 1; document.getElementById('f-m').value = l.sessions || 1;
+  build();
+}
+
+const v = id => document.getElementById(id).value.trim();
+const list = arr => arr.length ? `<ul>${arr.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>` : '';
+const KEYS = { k:'knowledge', p:'skills', v:'values' };
+const pickList = (n) => [...state.el[n]].sort((a,b)=>a-b).map(i=>state.A[KEYS[n]][i]);
+
+function build(){
+  const { l, A, s, a } = state;
+  const total = Math.max(30, +v('f-min') || 45), intro = 5, end = 5, mid = total - intro - end;
+  const m1 = Math.round(mid*0.3), m2 = Math.round(mid*0.35), m3 = mid - m1 - m2;
+  const unitName = `${A.name} — EAIM 진로 "${a.name}"${l.session ? ` ${l.session}차시` : ''}`;
+  const q = l.q, topic = q.replace(/\?$/,'');
+  const link = BASE + a.file;
+  const kiText = [...state.ki].sort().map(i=>A.ideas[i]);
+  const goal = toGoal(s.text);
+  const pv = pickList('p'), vv = pickList('v');
+  const idx = L.indexOf(l), prev = L[idx-1], next = L[idx+1];
+  const nm = x => x ? `${APPS[x.app].name}${x.session ? ` ${x.session}차시` : ''}` : '';
+  const game = a.activityType === 'game';
+  const method = [ '프로젝트 학습·주제 탐구 학습(탐구 질문 중심)', game ? '게임 기반 문제 해결 학습(결과를 보고 바꿔 다시 도전)' : '토의·토론 학습(짝·모둠에서 까닭 나누기)', `협력 학습(${l.output} 완성·공유)`, 'EAIM 공개 앱 활용(로그인 없음, 수업 QR로 들어오면 선생님께 내기)' ];
+  const materials = [ `EAIM 진로 "${a.name}"${l.session ? ` ${l.session}차시` : ''} (${l.steps.map(x=>x.name).join(' → ')})`, link,
+    '수업 QR(선생님 페이지에서 수업 방 만들기 — 학생 결과물이 선생님 페이지에 모이고 한마디 답장 가능)', '학생 기기(태블릿·크롬북), 전자 칠판' ];
+  const intent = `이 수업은 성취기준 ${l.code}를 바탕으로 학생들이 "${q}"라는 탐구 질문에 스스로 답을 찾아 가도록 설계하였다. `
+    + `도입에서는 "${l.hook}"라는 물음으로 학생의 생활에서 출발해 마음을 연다. `
+    + `전개에서는 EAIM 진로 "${a.name}"의 세 단계(${l.steps.map(x=>x.name).join(', ')})를 따라 탐구하고, ${l.output}${eul(l.output)} 완성해 모둠과 나눈다. `
+    + `정리에서는 탐구 질문에 한 문장으로 답하며 배움을 성찰한다. EAIM의 흐름(마음 열기 → 탐구 → 창작·완성 → 나누기 → 기록)에 따라, 서로의 생각과 감정을 나누며 이해를 넓히는 수업이 되도록 하였다.`
+    + (vv.length ? ` 활동 속에서 '${vv.join("', '")}'의 가치·태도가 자연스럽게 길러지도록 하였다.` : '')
+    + ` 창의적 체험활동 진로 활동(${l.cce.activity})과도 연계할 수 있다.`;
+  const st = l.steps;
+  const rows = [
+    ['도입', intro, '<span class="ph">마음 열기</span><br>-학습 목표 제시<br>-전시학습 확인',
+      list([ `마음 열기: ${l.hook}`, `탐구 질문 제시: ${q}`, `학습 목표 제시: ${goal}`, prev ? `전시학습 확인: 지난 시간 "${nm(prev)}"에서 배운 점 한 가지씩 말하기` : '전시학습 확인: 관련된 이전 배움 떠올리기' ]),
+      list(['발문에 대한 반응 관찰', '탐구 질문을 칠판에 게시해 수업 내내 되돌아보기']) ],
+    ['전개', m1, `<span class="ph">탐구</span><br>(활동 1) ${esc(st[0].name)}`,
+      list([ `앱 1단계 "${st[0].title}": ${st[0].guide}`, '짝과 고른 까닭을 한 가지씩 나누기' ]),
+      list(['개념 이해 확인 발문(까닭을 들어 설명해 보기)', '맞춤형: 어려워하는 학생은 앱의 "쉬운 말"·🔊 읽어 주기로 함께 읽기']) ],
+    ['', m2, `<span class="ph">탐구·적용</span><br>(활동 2) ${esc(st[1].name)}`,
+      list([ `앱 2단계 "${st[1].title}": ${st[1].guide}`, '모둠에서 서로 다른 선택의 까닭 말하기' ]),
+      list(['형성 평가: 앱의 즉시 풀이로 이해 확인', '피드백: 까닭이 부족한 선택은 교사 발문으로 다시 짚기', '맞춤형: 빨리 끝낸 학생은 다른 선택의 까닭 찾아 보기']) ],
+    ['', m3, `<span class="ph">창작·완성·나누기</span><br>(활동 3) ${esc(st[2].name)}`,
+      list([ `앱 3단계 "${st[2].title}": ${st[2].guide}`, `${l.output} 완성해 인쇄하거나 선생님께 내기`, '모둠·학급에서 결과물을 나누고 좋은 점 한 가지 남기기' ]),
+      list([ `평가 관점: ${pv.length ? pv.join(', ') : '성취기준 도달'}`, '피드백: 선생님 페이지에서 결과물에 한마디 답장, 교사 순회 지도', '맞춤형: 쓰기가 어려운 학생은 보기 고르기 중심으로 완성']) ],
+    ['정리', end, '<span class="ph">기록</span><br>-배움 점검<br>-차시 예고',
+      list([ `탐구 질문 "${q}"에 한 문장으로 답하기(성찰)`, `오늘 만든 ${l.output}에서 가장 마음에 드는 부분 나누기`, next ? `차시 예고: "${nm(next)}"` : '차시 예고' ]),
+      list(['성찰 문장으로 학습 목표 도달 확인', '자기 평가: 오늘 배움을 내 진로와 잇는 한 가지']) ],
+  ];
+  const head = v('f-head');
+  document.getElementById('doc').innerHTML = `
+    ${head?`<div class="top" contenteditable="true">${esc(head)}</div>`:''}
+    <h1 contenteditable="true">Ⅲ. 본시 교수·학습 과정안</h1>
+    <table>
+      <colgroup><col style="width:13%"><col style="width:37%"><col style="width:13%"><col style="width:37%"></colgroup>
+      <tr><th>일시</th><td contenteditable="true">${esc(v('f-date'))}</td><th>장소</th><td contenteditable="true">${esc(v('f-place'))}</td></tr>
+      <tr><th>대상</th><td contenteditable="true">${esc(v('f-target'))}</td><th>지도교사</th><td contenteditable="true">${esc(v('f-teacher'))}</td></tr>
+      <tr><th>단원</th><td contenteditable="true">${esc(unitName)}</td><th>과목</th><td contenteditable="true">${esc(v('f-subj'))}</td></tr>
+      <tr><th>학습 주제</th><td contenteditable="true">${esc(topic)}</td><th>차시</th><td contenteditable="true">${esc(v('f-n'))} / ${esc(v('f-m'))}</td></tr>
+    </table>
+    <table>
+      <colgroup><col style="width:13%"><col style="width:29%"><col style="width:29%"><col style="width:29%"></colgroup>
+      <tr><th>핵심<br>아이디어</th><td colspan="3" contenteditable="true">${list(kiText)}</td></tr>
+      <tr><th>범주</th><th>지식·이해</th><th>과정·기능</th><th>가치·태도</th></tr>
+      <tr><th>내용 요소</th><td contenteditable="true">${list(pickList('k'))}</td><td contenteditable="true">${list(pv)}</td><td contenteditable="true">${list(vv)}</td></tr>
+      <tr><th>성취기준</th><td colspan="3" contenteditable="true">${esc(l.code)} ${esc(s.text)}</td></tr>
+      <tr><th>학습 목표</th><td colspan="3" contenteditable="true">${esc(goal)}</td></tr>
+      <tr><th>탐구 질문</th><td colspan="3" contenteditable="true">${esc(q)}</td></tr>
+      <tr><th>창체 연계</th><td colspan="3" contenteditable="true">진로 활동 · ${esc(l.cce.activity)} — ${esc(l.cce.example)}</td></tr>
+      <tr><th>교수·학습<br>방법</th><td colspan="3" contenteditable="true">${esc(method.join(', '))}</td></tr>
+      <tr><th>수업 자료</th><td colspan="3" contenteditable="true">${list(materials)}</td></tr>
+      <tr><th>수업 설계<br>의도</th><td colspan="3" contenteditable="true">${esc(intent)}</td></tr>
+    </table>
+    <table>
+      <colgroup><col style="width:9%"><col style="width:17%"><col style="width:44%"><col style="width:30%"></colgroup>
+      <tr><th>단계<br>(분)</th><th>교수·학습 과정</th><th>교수·학습 활동</th><th>평가/피드백/<br>맞춤형 전략</th></tr>
+      ${rows.map(r=>`<tr>${r[0]?`<th rowspan="${r[0]==='전개'?3:1}">${r[0]}</th>`:''}<td contenteditable="true"><b>(${r[1]}분)</b><br>${r[2]}</td><td contenteditable="true">${r[3]}</td><td contenteditable="true">${r[4]}</td></tr>`).join('')}
+    </table>
+    <table>
+      <colgroup><col style="width:13%"><col style="width:87%"></colgroup>
+      <tr><th>평가 방법</th><td contenteditable="true">${esc([...state.ev].join(', '))}</td></tr>
+      <tr><th>배려할 점</th><td contenteditable="true">${esc(l.care)}</td></tr>
+    </table>`;
+  paint();
+  document.getElementById('msg').textContent = '';
+}
+
+/* 색상 테마 — 칸마다 style 로 직접 넣는다(클래스는 Word·한글에 붙여 넣을 때 사라지므로) */
+const THEMES = {
+  green: { head:'#DDEFE8', ink:'#0E4F45', accent:'#0E7C6B', cats:['#E3F2EC','#FFF1D6','#F6E3EE'], stages:{'도입':'#FFF4D6','전개':'#E3F2EC','정리':'#E6ECFA'}, ph:'#0E7C6B' },
+  blue:  { head:'#E3ECFB', ink:'#1F3A6B', accent:'#2E5AA8', cats:['#E3ECFB','#FFF1D6','#EDE7F8'], stages:{'도입':'#FFF4D6','전개':'#E3ECFB','정리':'#EDE7F8'}, ph:'#2E5AA8' },
+  pink:  { head:'#FBE8F2', ink:'#6B2A55', accent:'#B0508A', cats:['#FBE8F2','#FFF1D6','#E8F4EC'], stages:{'도입':'#FFF4D6','전개':'#FBE8F2','정리':'#E8F1FB'}, ph:'#B0508A' },
+  mono:  { head:'#EEEEEE', ink:'#000000', accent:'#555555', cats:['#F4F4F4','#F4F4F4','#F4F4F4'], stages:{'도입':'#F6F6F6','전개':'#EBEBEB','정리':'#F6F6F6'}, ph:'#000000' },
+};
+function paint(){
+  const T = THEMES[document.getElementById('f-theme').value] || THEMES.green, doc = document.getElementById('doc');
+  const h1 = doc.querySelector('h1'); h1.style.color = T.ink; h1.style.borderBottom = '3px solid '+T.accent; h1.style.paddingBottom = '4px';
+  const KEY = ['성취기준','학습 목표','탐구 질문'], CATS = ['지식·이해','과정·기능','가치·태도'];
+  doc.querySelectorAll('th').forEach(th => { const t = th.textContent.trim();
+    th.style.color = T.ink; th.style.background = T.head;
+    if (KEY.includes(t)) { th.style.background = T.accent; th.style.color = '#fff'; }
+    const ci = CATS.indexOf(t); if (ci >= 0) th.style.background = T.cats[ci];
+    if (T.stages[t]) { th.style.background = T.stages[t]; th.style.fontSize = '1.02em'; }
+  });
+  const catRow = [...doc.querySelectorAll('tr')].find(tr => tr.firstElementChild && tr.firstElementChild.textContent.trim()==='내용 요소');
+  if (catRow) [...catRow.querySelectorAll('td')].forEach((td,i) => td.style.background = T.cats[i]);
+  let stage = '';
+  doc.querySelectorAll('table:nth-of-type(3) tr').forEach(tr => { const th = tr.querySelector('th[rowspan]'); if (th) stage = th.textContent.trim();
+    const td = tr.querySelector('td'); if (td && T.stages[stage]) td.style.background = T.stages[stage]; });
+  doc.querySelectorAll('.ph').forEach(x => { x.style.color = T.ph; x.style.fontWeight = '900'; });
+}
+
+/* 내보내기 — 저장하지 않음 */
+const msg = t => document.getElementById('msg').textContent = t;
+function docHtml(){ const d = document.getElementById('doc').cloneNode(true); d.querySelectorAll('[contenteditable]').forEach(x=>x.removeAttribute('contenteditable')); return d.innerHTML; }
+const DOC_CSS = 'body{font-family:"맑은 고딕","Malgun Gothic",sans-serif;font-size:10pt} table{border-collapse:collapse;width:100%;margin-bottom:8pt} th,td{border:1px solid #000;padding:4pt 5pt;vertical-align:top} h1{font-size:14pt} .top{text-align:right;font-size:9pt} ul{margin:0;padding-left:14pt}';
+document.getElementById('b-print').onclick = () => window.print();
+document.getElementById('b-doc').onclick = () => {
+  const html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>본시 교수·학습 과정안</title><style>${DOC_CSS}</style></head><body>${docHtml()}</body></html>`;
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿', html], { type:'application/msword' }));
+  a.download = '지도안_진로_' + state.id + '.doc'; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+  msg('⬇️ 내려받았어요. 워드나 한글에서 열어 고칠 수 있어요.'); };
+document.getElementById('b-copy').onclick = async () => {
+  const html = `<style>${DOC_CSS}</style>` + docHtml(), text = document.getElementById('doc').innerText;
+  try { await navigator.clipboard.write([ new ClipboardItem({ 'text/html': new Blob([html],{type:'text/html'}), 'text/plain': new Blob([text],{type:'text/plain'}) }) ]); msg('📋 복사했어요. 한글·워드 문서에 붙여 넣으세요.'); }
+  catch(e){ const r=document.createRange(); r.selectNodeContents(document.getElementById('doc')); const sl=getSelection(); sl.removeAllRanges(); sl.addRange(r);
+    try{ document.execCommand('copy'); msg('📋 복사했어요. 한글·워드 문서에 붙여 넣으세요.'); }catch(_){ msg('복사가 막혔어요. Word 파일로 내려받아 주세요.'); } sl.removeAllRanges(); } };
+document.getElementById('b-reset').onclick = () => loadStd(sel.value);
+sel.onchange = () => { loadStd(sel.value); try{ history.replaceState(null,'','#'+sel.value); }catch(e){} };
+['f-date','f-place','f-target','f-teacher','f-n','f-m','f-min','f-subj','f-head'].forEach(id => document.getElementById(id).oninput = build);
+document.getElementById('f-theme').onchange = paint;
+
+const h = decodeURIComponent(location.hash.slice(1));
+const start = L.find(x => x.id === h) ? h : (L.find(x => x.app === h) ? L.find(x => x.app === h).id : L[0].id);
+sel.value = start; loadStd(start);
+</script>
+<style>@media print{.eaim-copy{display:none!important}}</style>
+<p class="eaim-copy" style="font-size:.68rem;color:#888;text-align:center;margin:18px 0 10px;line-height:1.6;word-break:keep-all">© 2026 박성애 · EAIM · 교육 목적 무료 사용, 무단 복제·상업적 이용 금지 · <a href="https://eaim.kr/#copyright" target="_blank" rel="noopener" style="color:inherit">이용 안내</a></p>
+</body>
+</html>

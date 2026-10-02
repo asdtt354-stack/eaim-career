@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>직업 세계 변화 카드 게임 · EAIM 진로</title>
+<!-- 직업 세계 변화 카드 게임 v1.0 (2026-10-02) — [9진로02-01]·[9진로02-02], AI 없음, 공개(점수·내기는 수업 QR) -->
+<link rel="stylesheet" href="career.css">
+<style>
+  .deck{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
+  .deck button{border-radius:16px;padding:16px 8px;color:#fff;font-weight:800;min-height:110px;flex-direction:column}
+  .deck button .ic{font-size:2rem}
+  .deck button.used{opacity:.35}
+  .flip{perspective:900px}
+  .flip .in{border-radius:20px;padding:22px;color:#fff;text-align:center;animation:flip .6s}
+  @keyframes flip{from{transform:rotateY(90deg)}to{transform:rotateY(0)}}
+  @media (prefers-reduced-motion:reduce){.flip .in{animation:none}}
+  .job{border:3px solid var(--line);border-radius:18px;background:#fff;padding:18px;text-align:center;margin:12px 0}
+  .job .nm{font-size:1.4rem;font-weight:800}
+  .bins{display:grid;gap:8px;grid-template-columns:repeat(3,1fr)}
+  .bins button{flex-direction:column;background:#fff;color:var(--ink);border:2px solid var(--line);padding:12px 4px;font-size:.88rem}
+  .bins button .ic{font-size:1.6rem}
+  .bins button.ok{border-color:var(--teal);background:var(--teal-soft)}
+  .bins button.no{border-color:var(--red);background:#fde8e7}
+  .scorebar{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-weight:700}
+  .streak{color:var(--main)}
+  .likes,.traits{display:flex;gap:6px;flex-wrap:wrap}
+  .likes button,.traits button,.chg button{background:#fff;color:var(--ink);border:2px solid var(--line);font-weight:600}
+  .likes button.on,.traits button.on,.chg button.on{border-color:var(--main);background:var(--main-soft)}
+  .chg{display:flex;gap:6px;flex-wrap:wrap}
+  .newjob{border-radius:20px;padding:20px;color:#fff;background:linear-gradient(135deg,var(--main),#9b5de5)}
+  .newjob .nm{font-size:1.5rem;font-weight:800}
+  .sum{display:grid;gap:6px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));font-size:.88rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="home" href="index.html">← EAIM 진로</a>
+    <h1>🃏 직업 세계 변화 카드 게임</h1>
+    <button class="easy-btn" type="button" aria-pressed="false">쉬운 말</button>
+  </header>
+  <p class="row" style="margin:0"><span class="badge">[9진로02-01]</span><span class="badge">[9진로02-02]</span><span class="badge gold">게임</span>
+    <a class="badge blue" href="guide.html#student-job-change-cards" style="text-decoration:none">📘 사용법</a>
+    <span id="mode" class="mode hidden"></span></p>
+
+  <!-- 덱 고르기 -->
+  <section id="scDeck">
+    <div class="card" id="intro">
+      <h2>사회가 바뀌면 직업도 바뀌어요 <button class="say" data-say="intro">🔊</button></h2>
+      <p class="n">변화 카드를 뒤집고, 직업 카드가 그 변화 속에서 <b>늘어날지, 줄어들지, 일하는 모습이 바뀔지</b> 골라요. 미래는 정해져 있지 않아요 — 까닭을 생각하는 것이 가장 중요해요.</p>
+      <p class="e">변화 카드를 뒤집어요. 직업이 많아질까요, 적어질까요, 하는 일이 바뀔까요? 골라요.</p>
+    </div>
+    <div class="card">
+      <h2>변화 카드를 골라 뒤집어요</h2>
+      <p class="muted small">카드 하나에 직업 4장. 모든 카드를 해도 되고, 3장만 해도 돼요.</p>
+      <div class="deck" id="deck"></div>
+      <div class="scorebar" style="margin-top:12px"><span id="sc1"></span><button type="button" id="toInvent" class="hidden">🧪 새 직업 발명소로 →</button></div>
+    </div>
+  </section>
+
+  <!-- 한 판 -->
+  <section id="scPlay" hidden>
+    <div class="scorebar"><span id="sc2"></span><span class="streak" id="streak"></span></div>
+    <div class="flip"><div class="in" id="chgCard"></div></div>
+    <div class="job" id="jobCard"></div>
+    <div class="bins" id="bins"></div>
+    <div id="why" class="tip hidden"></div>
+    <div class="row" style="margin-top:10px"><button type="button" id="btnNextJob" class="hidden">다음 카드 →</button></div>
+  </section>
+
+  <!-- 발명소 -->
+  <section id="scInvent" hidden>
+    <div class="card" id="introI">
+      <h2>🧪 새 직업 발명소 <button class="say" data-say="introI">🔊</button></h2>
+      <p class="n">변화는 새로운 직업을 만들어요. <b>변화 카드 + 내가 좋아하는 것</b>을 섞어 아직 없는 직업을 발명해 봐요.</p>
+      <p class="e">변화 카드와 좋아하는 것을 섞어서 새 직업을 만들어요.</p>
+      <h3>① 변화 카드</h3><div class="chg" id="chgPick"></div>
+      <h3>② 내가 좋아하는 것</h3><div class="likes" id="likePick"></div>
+      <h3>③ 이 직업에 필요한 진로 특성 (2개)</h3><div class="traits" id="traitPick"></div>
+      <label class="field" for="jobName">새 직업 이름</label>
+      <input type="text" id="jobName" maxlength="30" placeholder="예: 어르신 음악 산책 기획자">
+      <label class="field" for="jobDo"><span class="n">이 사람이 하는 일</span><span class="e">무슨 일을 해요?</span></label>
+      <textarea id="jobDo" maxlength="300" placeholder="예: 혼자 지내는 어르신과 동네를 걸으며 추억의 노래를 함께 듣고 부르는 산책 모임을 만들어요."></textarea>
+    </div>
+    <div class="card">
+      <div class="newjob" id="newJob"></div>
+      <div class="sum" id="sumList" style="margin-top:12px"></div>
+      <div class="row no-print" style="margin-top:12px">
+        <button type="button" class="ghost" data-back>← 카드 더 하기</button>
+        <button type="button" class="ghost" id="btnCopy">📋 복사</button>
+        <button type="button" class="ghost" id="btnPrint">🖨 인쇄</button>
+        <button type="button" class="teal hidden" id="send">선생님께 내기</button>
+      </div>
+      <div id="reply" class="reply hidden"></div>
+    </div>
+  </section>
+
+  <div class="std" id="stdBox"></div>
+</div>
+
+<script src="curriculum-career.js"></script>
+<script src="career-apps.js"></script>
+<script src="job-change-cards-data.js"></script>
+<script src="career-class.js"></script>
+<script src="career-ui.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.JC_DATA, esc = CU.esc, tx = CU.tx;
+  const $ = (id) => document.getElementById(id);
+  const C = window.EAIM_CAREER_CURRICULUM;
+  $('stdBox').innerHTML = ['[9진로02-01]', '[9진로02-02]'].map(c => { const s = C.find(c); return `<b>${s.code}</b> ${esc(s.text)}`; }).join('<br>') +
+    `<br><span class="small">교육과정 고려사항: 다문화, 고령화, 세계화 등 국내외의 사회, 제도, 구조적인 변화에 따라 직업 세계가 계속 변화함을 이해</span>`;
+
+  const ST = CU.sstore('job_change');
+  let S = ST.load({ done: {}, answers: {}, score: 0, best: 0, chg: '', like: '', traits: [], name: '', doText: '' });
+  const save = () => ST.save(S);
+  let cur = null, ji = 0, streak = 0;
+
+  const correct = () => Object.values(S.answers).filter(a => a.ok).length;
+  const answered = () => Object.keys(S.answers).length;
+  function scoreText() { return `⭐ ${S.score}점 · 맞힌 카드 ${correct()} / ${answered()}`; }
+
+  /* ── 덱 ── */
+  function drawDeck() {
+    show('scDeck');
+    $('deck').innerHTML = D.changes.map(c => `<button type="button" class="${S.done[c.id] ? 'used' : ''}" style="background:${c.color}" data-c="${c.id}">
+      <span class="ic">${c.icon}</span>${esc(c.name)}${S.done[c.id] ? '<small>✔ 했어요</small>' : ''}</button>`).join('');
+    $('sc1').textContent = scoreText();
+    $('toInvent').classList.toggle('hidden', Object.keys(S.done).length < 3);
+  }
+  $('deck').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-c]'); if (!b) return;
+    cur = D.changes.find(c => c.id === b.dataset.c); ji = 0; streak = 0; play();
+  });
+  function show(id) { ['scDeck', 'scPlay', 'scInvent'].forEach(s => { $(s).hidden = s !== id; }); window.scrollTo({ top: 0 }); }
+
+  /* ── 한 판 ── */
+  function play() {
+    show('scPlay');
+    const card = $('chgCard');
+    card.style.background = cur.color;
+    card.innerHTML = `<div class="big">${cur.icon}</div><b style="font-size:1.25rem">${esc(cur.name)}</b>
+      <p style="margin:6px 0 0">${tx({ t: cur.t, e: cur.e })}</p><button class="say" data-say="chgCard" style="margin-top:6px">🔊</button>`;
+    card.style.animation = 'none'; void card.offsetWidth; card.style.animation = '';
+    drawJob();
+  }
+  function drawJob() {
+    const j = cur.jobs[ji];
+    $('sc2').textContent = `${scoreText()} · ${cur.name} ${ji + 1}/${cur.jobs.length}`;
+    $('streak').textContent = streak >= 2 ? `🔥 ${streak}연속!` : '';
+    $('jobCard').innerHTML = `<div class="muted small">직업 카드</div><div class="nm">${esc(j.name)}</div>`;
+    $('bins').innerHTML = Object.entries(D.bins).map(([k, b]) => `<button type="button" data-bin="${k}"><span class="ic">${b.icon}</span>${tx({ t: b.name, e: b.e })}</button>`).join('');
+    $('why').classList.add('hidden'); $('btnNextJob').classList.add('hidden');
+  }
+  $('bins').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-bin]'); if (!b || !$('btnNextJob').classList.contains('hidden')) return;
+    const j = cur.jobs[ji], ok = b.dataset.bin === j.bin;
+    const key = cur.id + ':' + ji;
+    if (!S.answers[key]) { // 처음 답할 때만 점수
+      if (ok) { streak++; S.score += 10 + (streak >= 2 ? 2 * (streak - 1) : 0); } else streak = 0;
+      S.answers[key] = { job: j.name, change: cur.name, pick: b.dataset.bin, ok };
+    }
+    document.querySelectorAll('#bins button').forEach(x => {
+      x.disabled = true;
+      if (x.dataset.bin === j.bin) x.classList.add('ok'); else if (x === b) x.classList.add('no');
+    });
+    $('why').innerHTML = (ok ? '⭕ 맞아요! ' : `🤔 교육과정 자료로 보면 <b>${D.bins[j.bin].icon} ${esc(D.bins[j.bin].name)}</b>에 가까워요. `) + esc(j.why) +
+      (ok ? '' : '<br><span class="small">다른 생각도 할 수 있어요. 내 까닭을 친구와 이야기해 봐요.</span>');
+    $('why').classList.remove('hidden');
+    $('btnNextJob').textContent = ji < cur.jobs.length - 1 ? '다음 카드 →' : '이 변화 카드 끝! →';
+    $('btnNextJob').classList.remove('hidden');
+    $('streak').textContent = streak >= 2 ? `🔥 ${streak}연속!` : '';
+    $('sc2').textContent = `${scoreText()} · ${cur.name} ${ji + 1}/${cur.jobs.length}`;
+    save();
+  });
+  $('btnNextJob').addEventListener('click', () => {
+    ji++;
+    if (ji < cur.jobs.length) return drawJob();
+    S.done[cur.id] = true; save(); drawDeck();
+    CU.toast(`${cur.icon} ${cur.name} 카드를 마쳤어요!`);
+  });
+
+  /* ── 발명소 ── */
+  $('toInvent').addEventListener('click', invent);
+  document.addEventListener('click', (e) => { if (e.target.closest('[data-back]')) drawDeck(); });
+  function invent() {
+    show('scInvent');
+    const played = D.changes.filter(c => S.done[c.id]);
+    $('chgPick').innerHTML = played.map(c => `<button type="button" class="${S.chg === c.id ? 'on' : ''}" data-chg="${c.id}">${c.icon} ${esc(c.name)}</button>`).join('');
+    $('likePick').innerHTML = D.likes.map(l => `<button type="button" class="${S.like === l.name ? 'on' : ''}" data-like="${esc(l.name)}">${l.icon} ${esc(l.name)}</button>`).join('');
+    $('traitPick').innerHTML = D.traits.map(t => `<button type="button" class="${S.traits.includes(t) ? 'on' : ''}" data-tr="${esc(t)}">${esc(t)}</button>`).join('');
+    $('jobName').value = S.name; $('jobDo').value = S.doText;
+    drawNew();
+  }
+  function drawNew() {
+    const c = D.changes.find(x => x.id === S.chg), l = D.likes.find(x => x.name === S.like);
+    $('newJob').innerHTML = `<div class="small">🧪 새로 발명한 직업</div>
+      <div class="nm">${esc(S.name || '새 직업 이름')}</div>
+      <div class="small" style="margin:4px 0 8px">${c ? c.icon + ' ' + esc(c.name) : '변화 카드'} + ${l ? l.icon + ' ' + esc(l.name) : '좋아하는 것'}</div>
+      <p style="margin:0">${esc(S.doText || '이 사람이 하는 일')}</p>
+      <p style="margin:8px 0 0" class="small">필요한 진로 특성: ${S.traits.map(esc).join(', ') || '-'}</p>`;
+    $('sumList').innerHTML = `<div>⭐ 점수 <b>${S.score}</b></div><div>🃏 맞힌 카드 <b>${correct()} / ${answered()}</b></div><div>🎴 뒤집은 변화 카드 <b>${Object.keys(S.done).length}장</b></div>`;
+  }
+  $('chgPick').addEventListener('click', (e) => { const b = e.target.closest('[data-chg]'); if (!b) return; S.chg = b.dataset.chg; save(); invent(); });
+  $('likePick').addEventListener('click', (e) => { const b = e.target.closest('[data-like]'); if (!b) return; S.like = b.dataset.like; save(); invent(); });
+  $('traitPick').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-tr]'); if (!b) return; const t = b.dataset.tr;
+    if (S.traits.includes(t)) S.traits = S.traits.filter(x => x !== t); else { S.traits.push(t); if (S.traits.length > 2) S.traits.shift(); }
+    save(); invent();
+  });
+  $('jobName').addEventListener('input', (e) => { S.name = e.target.value; save(); drawNew(); });
+  $('jobDo').addEventListener('input', (e) => { S.doText = e.target.value; save(); drawNew(); });
+
+  function summary() {
+    const c = D.changes.find(x => x.id === S.chg);
+    const wrong = Object.values(S.answers).filter(a => !a.ok).map(a => `${a.change}·${a.job}`);
+    return [
+      `[카드 게임] ${S.score}점 · 맞힌 카드 ${correct()}/${answered()} · 변화 카드 ${Object.keys(S.done).length}장`,
+      wrong.length ? `[다시 생각해 볼 카드] ${wrong.join(', ')}` : '',
+      `[새 직업] ${S.name.trim()} (${c ? c.name : ''} + ${S.like})`,
+      `[하는 일] ${S.doText.trim()}`,
+      `[필요한 진로 특성] ${S.traits.join(', ')}`,
+    ].filter(Boolean).join('\n');
+  }
+  $('btnCopy').addEventListener('click', () => CU.copy(summary()));
+  $('btnPrint').addEventListener('click', () => window.print());
+  $('send').addEventListener('click', async () => {
+    if (!S.chg || !S.like || !S.name.trim() || !S.doText.trim()) return CU.toast('변화 카드·좋아하는 것·이름·하는 일을 채워 주세요.');
+    if (CareerClass.safetyCheck(S.name + ' ' + S.doText)) return CareerClass.showNotice('danger');
+    $('send').disabled = true; $('send').textContent = '내는 중...';
+    const wrongLog = Object.values(S.answers).filter(a => !a.ok).map(a => ({ change: a.change, job: a.job, pick: a.pick }));
+    CareerClass.saveGame({ game: 'job-change-cards', score: S.score, correct: correct(), total: answered(), wrongLog });
+    const r = await CareerClass.submit({
+      kind: 'new-job', title: `새 직업 — ${S.name.trim()}`, content: summary(),
+      result: { score: correct(), total: answered() },
+      detail: { change: S.chg, like: S.like, traits: S.traits, name: S.name.trim(), do: S.doText.trim() },
+    });
+    $('send').disabled = false; $('send').textContent = '선생님께 내기';
+    if (r.ok) CU.toast('선생님께 냈어요.');
+  });
+
+  drawDeck();
+  CU.classroom({ app: 'job-change-cards', modeEl: $('mode'), sendEl: $('send'), replyEl: $('reply') });
+})();
+</script>
+<p class="eaim-copy">© 2026 박성애 · EAIM · 교육 목적 무료 사용, 무단 복제·상업적 이용 금지 · <a href="https://eaim.kr/#copyright" target="_blank" rel="noopener" style="color:inherit">이용 안내</a></p>
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EAIM 진로 — 사용 가이드</title>
+<!-- 사용 가이드 guide.html v1.0 (2026-10-02) — 공통규칙 9-1 틀(도덕 가이드 v1.0 과 같은 모양·같은 공통 문장).
+     선생님용 1~10 · 학생용 1~4, 주소 뒤 #student 면 학생용, #t1~#t10 · #s1~#s4 · #앱이름 · #student-앱이름 으로 바로 열기.
+     앱 목록·수·공개/수업·AI·수업 규모·성취기준·창체는 activities.json, 순서는 lessonplan-data.js(지도안과 같은 자료)에서 읽는다.
+     외부 글꼴을 불러오지 않는다. -->
+<style>
+:root{--bg:#f6f8fb;--card:#fff;--ink:#1d2b4a;--ink2:#2f3d5c;--ink3:#5d6b85;--line:#d5dce8;--accent:#1d2b4a;--gold:#c8912f;--soft:#f3f5fa;--warn:#fff4ec;--ok:#eef6ef}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:var(--bg);color:var(--ink);word-break:keep-all;line-height:1.8}
+header{position:sticky;top:0;z-index:5;background:rgba(246,248,251,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.hwrap{max-width:900px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.hwrap a{font-size:.8rem;color:var(--ink2);text-decoration:none;border:1px solid var(--line);border-radius:99px;padding:5px 12px;background:#fff;white-space:nowrap}
+.hwrap b{font-weight:800;color:var(--ink2)}
+.tabs{max-width:900px;margin:0 auto;padding:0 16px 10px;display:flex;gap:8px}
+.tab{flex:1;font-family:inherit;font-size:.92rem;font-weight:700;padding:10px;border-radius:12px;border:1.5px solid var(--line);background:#fff;color:var(--ink3);cursor:pointer}
+.tab.on{background:var(--accent);border-color:var(--accent);color:#fff}
+main{max-width:900px;margin:0 auto;padding:18px 16px 40px}
+.pane{display:none}.pane.on{display:block}
+.toc{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:18px}
+.toc b{color:var(--ink2)}
+.toc ol{margin:6px 0 0 20px;font-size:.9rem}
+.toc a{color:var(--accent);text-decoration:none}
+section{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 20px 16px;margin-bottom:16px;scroll-margin-top:120px}
+h2{font-weight:800;color:var(--ink2);font-size:1.25rem;margin-bottom:10px;border-bottom:2px solid var(--gold);padding-bottom:6px}
+h3{font-size:1rem;color:var(--accent);margin:14px 0 6px}
+p,li{font-size:.92rem;color:var(--ink2)}
+p+p{margin-top:8px}
+ol,ul{margin:4px 0 8px 22px}
+li{margin:3px 0}
+.btnname{display:inline-block;font-weight:700;color:var(--ink);background:var(--soft);border:1px solid var(--line);border-radius:7px;padding:0 6px;font-size:.88em;line-height:1.7}
+.box{border-radius:12px;padding:10px 14px;margin:10px 0;font-size:.88rem;line-height:1.75}
+.box.i{background:var(--soft);border:1px solid var(--line)}
+.box.w{background:var(--warn);border:1px solid #F3D2B5}
+.box.o{background:var(--ok);border:1px solid #CFE3CB}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}
+.stat{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center}
+.stat .n{font-weight:800;font-size:1.5rem;color:var(--accent)}
+.stat .l{font-size:.74rem;color:var(--ink3)}
+.app{border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:10px 0;background:#fff}
+.app h3{margin:0 0 6px;color:var(--ink);font-size:1.02rem}
+.app h3 a{color:inherit;text-decoration:none}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+.tag{font-size:.72rem;font-weight:700;border-radius:99px;padding:1px 9px;border:1px solid var(--line);color:var(--ink3);background:#fff}
+.tag.pub{background:#EEF6EC;border-color:#CFE3CB;color:#2F6B2A}
+.tag.cls{background:#FFF1E6;border-color:#F3D2B5;color:#9A4A12}
+.tag.ai{background:#EEF0FB;border-color:#D3D8F0;color:#3C4A9A}
+.row{display:grid;grid-template-columns:92px 1fr;gap:4px 10px;font-size:.88rem;margin-top:4px}
+.row dt{color:var(--ink3);font-weight:700}
+.row dd{color:var(--ink2)}
+.std{font-size:.78rem;color:var(--ink3)}
+.eaim-copy a{color:inherit}
+@media (max-width:600px){ .stats{grid-template-columns:repeat(2,1fr)} .row{grid-template-columns:1fr} .row dt{margin-top:6px} section{padding:16px 14px} }
+@media print{ header,.toc{display:none} body{background:#fff} section{border:none;page-break-after:always;padding:0} .pane{display:block!important} .eaim-copy{display:none} }
+</style>
+</head>
+<body>
+<header>
+  <div class="hwrap"><a href="index.html">🏠 진로 첫 화면</a><b>📘 사용 가이드</b><a href="eaim-career-lessonplan.html">📝 지도안</a></div>
+  <div class="tabs"><button class="tab on" data-tab="teacher">👩‍🏫 선생님용</button><button class="tab" data-tab="student">🧑‍🎓 학생용</button></div>
+</header>
+<main>
+<!-- ══════════ 선생님용 ══════════ -->
+<div class="pane on" id="pane-teacher">
+  <nav class="toc"><b>목차</b><ol>
+    <li><a href="#t1">한눈에 보기</a></li><li><a href="#t2">처음 한 번만 하는 설정</a></li><li><a href="#t3">수업 방 만들기</a></li><li><a href="#t4">수업 중</a></li><li><a href="#t5">수업 뒤</a></li>
+    <li><a href="#t6">앱별 사용법</a></li><li><a href="#t7">선생님 도구</a></li><li><a href="#t8">안전과 개인정보</a></li><li><a href="#t9">이럴 땐 이렇게 · 자주 묻는 질문</a></li><li><a href="#t10">수업 예시</a></li>
+  </ol></nav>
+
+  <section id="t1">
+    <h2>1. 한눈에 보기</h2>
+    <p>EAIM 진로 수업은 <b>나를 알고, 변하는 직업 세계를 탐색하고, 나만의 길을 설계</b>하는 흐름이에요. 앱마다 창업가 이야기·축제 부스·변화 카드·성장나무 같은 <b>장면과 놀이</b>로 마음을 열고, 고르고 따지며 <b>탐구</b>하고, 피칭 카드·새 직업 카드·성장나무 포스터 같은 결과물을 <b>완성</b>해서, 친구와 <b>나누고</b>, 선생님께 내어 <b>기록</b>해요. 앱은 2022 개정 「진로와 직업」(중학교 선택 교과, 별책 18)의 성취기준 14개를 바탕으로 만들고 있어요. 지금은 <b>창업가 정신 묶음과 게임</b>이 먼저 나왔고, 나머지 성취기준 앱은 첫 화면에 "준비 중"으로 보여요.</p>
+    <div class="stats" id="stats"></div>
+    <p><b>모든 앱이 공개 앱이면서 수업에도 쓰여요.</b> 첫 화면에서 열면 로그인 없이 누구나 연습할 수 있고 기록이 남지 않아요. 선생님이 만든 <b>수업 QR·링크</b>로 들어오면 반·번호를 적고, 마지막 단계에서 <span class="btnname">선생님께 내기</span>로 결과물을 선생님 페이지에 보내요. 게임 앱은 점수도 따로 모여요(세특과 무관).</p>
+    <p><b>AI가 들어간 곳</b>: 없어요. 학생 화면·선생님 화면 모두 AI를 쓰지 않아요. 그래서 AI 키도 필요 없어요. 학생이 낸 결과물에는 선생님이 직접 <b>한마디 답장</b>을 보내요.</p>
+    <p><b>창의적 체험활동과 함께</b>: 앱마다 창체 진로 활동(진로 탐색 활동 · 진로 설계 및 실천 활동, 별책 40)과 이어지는 곳을 6번과 지도안에 적었어요. 진로 시간뿐 아니라 창체 진로 활동 시간에도 쓸 수 있어요.</p>
+  </section>
+
+  <section id="t2">
+    <h2>2. 처음 한 번만 하는 설정</h2>
+    <h3>구글 로그인</h3>
+    <ol>
+      <li>첫 화면의 <span class="btnname">선생님 페이지</span>를 열고 <span class="btnname">구글 로그인</span>을 눌러요. 계정 고르는 창이 나와요.</li>
+      <li>브라우저를 닫으면 자동으로 로그아웃돼요(공용 PC 보호). 팝업이 막혀 있으면 로그인 화면으로 넘어갔다가 돌아와요.</li>
+      <li>처음 쓰는 사이트 주소라면 Firebase 콘솔 → Authentication → 승인된 도메인에 이 주소가 있어야 로그인이 돼요. 없으면 선생님 페이지에 그렇게 안내가 떠요.</li>
+    </ol>
+    <h3>AI 키</h3>
+    <p>이 과목은 AI 키가 없어요.</p>
+    <h3>휴대폰·태블릿 홈 화면에 두기</h3>
+    <p>크롬(안드로이드)은 ⋮ 메뉴 → <b>홈 화면에 추가</b>, 사파리(아이폰·아이패드)는 공유 버튼 → <b>홈 화면에 추가</b>. 수업 QR 주소를 홈 화면에 두면 다음 시간에 바로 들어갈 수 있어요(선생님이 수업을 다시 열었을 때).</p>
+  </section>
+
+  <section id="t3">
+    <h2>3. 수업 방 만들기</h2>
+    <p>진로는 <b>활동마다 수업 방을 하나씩</b> 만들어요. 반마다 따로 만들어도 되고, 한 방을 여러 반이 함께 써도 돼요(학생이 반·번호를 적으니까요). <b>다문화 성장 프로젝트</b>는 네 차시 동안 같은 수업 방을 열고 닫으며 써요.</p>
+    <ol>
+      <li><span class="btnname">선생님 페이지</span> → <b>새 수업 방 만들기</b>에서 <b>활동</b>을 고르고 <b>수업 방 이름</b>을 적어요. 예: 2학년 3반 창업가 정신.</li>
+      <li><span class="btnname">수업 방 만들기</span>를 누르면 <b>내 수업 방</b>에 카드가 생기고 수업 코드가 나와요.</li>
+      <li><span class="btnname">QR 크게 보기</span>로 칠판 화면에 띄우면 학생이 휴대폰·태블릿으로 찍어요. <span class="btnname">링크 복사</span>로 학급 게시판·메신저에 붙여 넣을 수도 있어요.</li>
+      <li>수업이 끝나면 <span class="btnname">수업 닫기</span>를 눌러요. 닫힌 방에는 학생이 들어오거나 낼 수 없어요. 다음 시간에 <span class="btnname">수업 열기</span>를 누르면 같은 QR을 다시 써요.</li>
+    </ol>
+    <p>학생은 학년·반·번호, 성(한 글자, 적지 않아도 됨)만 적고 들어와요. 이름은 첫 글자만 보여요("김**").</p>
+    <p><b>연습만 할 때</b>는 수업 방이 필요 없어요. 첫 화면 주소나 앱 주소(예: <code>booth-startup.html</code>)를 알려 주면 바로 열려요. 이때는 선생님께 내기가 나오지 않아요.</p>
+  </section>
+
+  <section id="t4">
+    <h2>4. 수업 중</h2>
+    <ul>
+      <li><b>학생 현황</b> — 수업 방 카드의 <span class="btnname">결과물 보기</span>에서 낸 학생의 번호·이름표·제목·시각을 봐요. 게임 앱은 위쪽에 <b>게임 점수</b> 표가 함께 나와요. 다시 누르면 새로 낸 것까지 불러와요.</li>
+      <li><b>실시간 활동</b> — 이 과목은 실시간 화면이 없어요. 학생은 앱 안에서 단계를 스스로 따라가고, 마지막에 낸 것이 결과물 보기에 모여요.</li>
+      <li><b>게임 수업</b> — 축제 부스 게임은 사건 카드가 무작위라 모둠마다 결과가 달라요. 이익 순위보다 "무엇을 바꿨더니 어떻게 됐는지"를 나누게 해 주세요.</li>
+    </ul>
+    <h3>막혔을 때</h3>
+    <ul>
+      <li>"아직 수업이 열리지 않았어요" → 수업 방 카드에서 <span class="btnname">수업 열기</span>를 눌러요.</li>
+      <li>"다른 활동의 수업 방이에요" → 학생이 다른 앱에서 QR을 찍었어요. 화면의 안내 단추로 맞는 앱으로 옮겨 가요.</li>
+      <li>"다른 과목의 수업 방이에요" · "수업 방을 찾지 못했어요" → EAIM 진로 선생님 페이지에서 만든 QR인지 확인해요.</li>
+      <li>"잠깐 멈출게요" 창이 떴어요 → 학생 글에 걱정되는 말이 있어서 보내지 않고 안내한 거예요. 학생을 살펴봐 주세요. 다른 뜻이었다면 말을 바꿔 다시 낼 수 있어요.</li>
+    </ul>
+  </section>
+
+  <section id="t5">
+    <h2>5. 수업 뒤</h2>
+    <ul>
+      <li><b>결과물 보기</b> — 수업 방 카드의 <span class="btnname">결과물 보기</span>. 학생마다 제목·내용과 낸 시각이 나와요. 같은 학생이 고쳐서 다시 내면 새 줄이 생겨요. 다문화 성장 프로젝트는 차시마다 한 줄씩 쌓여요.</li>
+      <li><b>답장</b> — 결과물 줄의 칸에 <b>학생에게 보낼 한마디</b>를 쓰고 <span class="btnname">답장 보내기</span>. 학생 화면 아래에 "선생님 한마디"로 보여요. 진로는 "네 강점이 이렇게 보였어" 같은 짧은 한마디가 큰 힘이 돼요.</li>
+      <li><b>CSV 내려받기</b> — <span class="btnname">CSV 내려받기</span>로 반·번호·제목·내용·답장·시각을 표 파일로 받아요. 세특·진로 활동 기록의 원료로 쓰세요. 게임 점수는 세특 자료로 쓰지 않아요.</li>
+      <li><b>세특 초안</b> — 이 과목은 세특 초안 기능이 없어요(AI를 쓰지 않아요).</li>
+    </ul>
+  </section>
+
+  <section id="t6">
+    <h2>6. 앱별 사용법</h2>
+    <p>앱마다 같은 칸으로 적었어요: 무엇을 하나 · 수업 규모 · 순서 · 공개/수업 · AI · 성취기준 · 창체 진로 활동. 목록은 활동 목록(<code>activities.json</code>)에서, 순서는 지도안과 같은 자료(<code>lessonplan-data.js</code>)에서 읽어서, 앱이 늘거나 단계가 바뀌면 여기에도 저절로 나와요.</p>
+    <div id="appList"><p>불러오는 중…</p></div>
+  </section>
+
+  <section id="t7">
+    <h2>7. 선생님 도구</h2>
+    <h3>📝 지도안 만들기</h3>
+    <p>첫 화면이나 선생님 페이지 위쪽의 <span class="btnname">📝 지도안</span>에서 열어요.</p>
+    <ol>
+      <li>왼쪽에서 <b>활동(차시)</b>을 고르고 일시·장소·대상·지도교사·차시를 적어요. 다문화 성장 프로젝트는 1~4차시를 따로 골라요.</li>
+      <li>오른쪽에 <b>본시 교수·학습 과정안</b>이 채워져요(핵심 아이디어·내용 요소·성취기준·학습 목표·탐구 질문·창체 연계·교수·학습 방법·수업 자료·수업 설계 의도·도입/전개/정리와 평가·피드백·맞춤형 전략·평가 방법·배려할 점). 전개의 활동 1·2·3은 그 앱의 세 단계예요.</li>
+      <li>핵심 아이디어·내용 요소·평가 방법은 체크로 바꾸고, 표 안의 글은 눌러서 바로 고쳐요. <b>색상</b>(초록·파랑·분홍·흑백)도 골라요.</li>
+      <li><span class="btnname">🖨️ 인쇄·PDF</span>, <span class="btnname">⬇️ Word 파일(.doc)</span>, <span class="btnname">📋 표째 복사</span>(한글·워드에 붙여 넣기)로 가져가요.</li>
+    </ol>
+    <div class="box i">ℹ️ AI가 대신 써 주는 기능이 아니에요. 성취기준·핵심 아이디어·내용 요소·평가 방법·창체 진로 활동은 교육과정 원문 그대로이고, 탐구 질문과 마음 열기·활동은 초안이에요. 선생님이 우리 반에 맞게 고쳐서 완성해요. 저장되지 않으니 설정을 먼저 정하고 고쳐 주세요.</div>
+    <p class="std">선생님 도구는 앱 수에 세지 않아요.</p>
+  </section>
+
+  <section id="t8">
+    <h2>8. 안전과 개인정보</h2>
+    <ul>
+      <li>학생은 <b>반·번호</b>로 들어와요. 이름은 적지 않아도 되고, 성 한 글자를 적으면 첫 글자만 보여요. 이름 원문은 저장하지 않아요.</li>
+      <li>글쓰기 칸 근처에 "이름·전화번호 같은 개인정보는 쓰지 않아요" 안내가 있어요. 수업 시작 때 한 번 함께 읽어 주세요.</li>
+      <li>연습(수업 QR 없이 연 앱)은 선생님께 아무것도 보내지 않아요. 진행 상황은 그 탭에만 잠시 남아요. <b>다문화 성장 프로젝트</b>만 네 차시를 이어 하도록 그 기기에 남기고, <b>파일로 저장·불러오기</b>와 <b>이 기기에서 지우기</b> 단추가 있어요. 함께 쓰는 기기라면 끝나고 지우게 해 주세요.</li>
+      <li>카메라·마이크를 쓰는 앱은 없어요. 🔊 읽어 주기는 기기에 들어 있는 브라우저 목소리만 써요.</li>
+      <li>학생 글에 걱정되는 말(자신을 해치는 말 등)이 있으면 보내지 않고 "잠깐 멈출게요" 안내 창이 떠요. 학생을 살펴봐 주세요.</li>
+      <li><b>다문화 성장 프로젝트</b>는 나라 이름·가족 이야기·사는 곳을 묻지 않아요. 다문화 배경을 드러낼지는 학생이 정해요. 세특에도 가족·출신 나라는 적지 않고 학생이 보여 준 강점과 역량만 적어요.</li>
+      <li>창업가 이야기와 게임 속 인물·숫자는 모두 지어낸 것이에요.</li>
+    </ul>
+  </section>
+
+  <section id="t9">
+    <h2>9. 이럴 땐 이렇게 · 자주 묻는 질문</h2>
+    <h3>교과서 단원과 어떻게 맞춰요?</h3>
+    <p>앱은 교과서 차례가 아니라 <b>교육과정 영역·성취기준 순서</b>로 짰어요(EAIM 공통 원칙). 쓰시는 교과서 단원의 성취기준 코드(예: [9진로02-06])를 보고 첫 화면에서 같은 코드 줄의 앱을 열면 돼요.</p>
+    <h3>창업 수업이 "돈 버는 법"으로 흐르지 않을까요?</h3>
+    <p>교육과정은 "취업의 대안으로 창업을 이해하기보다 창업가 정신을 이해하고 함양"하라고 해요. 그래서 축제 부스 게임은 이익과 함께 <b>손님 만족·사회적 가치</b>를 보여 주고, 배지도 "다시 일어서기·고객 공감·가치 만들기"처럼 창업가 정신으로 줘요.</p>
+    <h3>직업 카드 답이 꼭 맞나요?</h3>
+    <p>미래 직업은 정해져 있지 않아서 앱은 "가능성"으로 말해요. 학생이 다르게 골라도 까닭을 말할 수 있으면 좋은 답이에요. 점수보다 까닭 나누기를 봐 주세요.</p>
+    <h3>다문화 학생이 아니어도 성장 프로젝트를 해도 되나요?</h3>
+    <p>네. 강점 카드는 언어·문화뿐 아니라 마음·재능도 있어서 누구나 할 수 있어요. 다문화 학생과 다른 학생이 짝이 되어 서로의 강점을 말해 주는 방법도 좋아요.</p>
+    <h3>학생이 낸 게 안 보여요</h3>
+    <p>학생이 수업 QR이 아니라 첫 화면에서 앱을 열었을 수 있어요(연습 모드). 앱 위쪽에 학년·반·번호가 보이지 않으면 QR로 다시 들어오게 해 주세요. 수업 방이 닫혀 있어도 낼 수 없어요.</p>
+  </section>
+
+  <section id="t10">
+    <h2>10. 수업 예시</h2>
+    <h3>한 차시 — 창업가 정신 탐험대 [9진로02-06] (45분)</h3>
+    <ol>
+      <li>도입(5분): "우리 주변에서 '이건 정말 불편하다' 싶었던 것이 있나요?"로 마음을 열고, 탐구 질문 "창업가 정신은 왜 나의 진로에 필요할까?"를 칠판에 적어요.</li>
+      <li>전개 1(11분): 1단계 <b>창업가 이야기</b> — 이야기 6편에서 창업가 정신을 찾고 짝과 까닭을 나눠요.</li>
+      <li>전개 2(12분): 2단계 <b>창업의 특성</b> — O X 6문항, 내가 기르고 싶은 창업가 정신 쓰기.</li>
+      <li>전개 3(12분): 3단계 <b>나의 피칭 카드</b> — 주변 불편으로 아이디어를 내고 1분 피칭, <span class="btnname">선생님께 내기</span>.</li>
+      <li>정리(5분): 탐구 질문에 한 문장으로 답하고, 다음 시간 축제 부스 게임을 예고해요.</li>
+    </ol>
+    <h3>여러 차시 — 창업가 정신 묶음 (3차시) + 다문화 성장 프로젝트 (4차시)</h3>
+    <ol>
+      <li>1차시: <b>직업 세계 변화 카드 게임</b> — 사회 변화가 새 기회를 만든다는 것을 알아요.</li>
+      <li>2차시: <b>창업가 정신 탐험대</b> — 창업가 정신을 찾고 피칭 카드를 만들어요.</li>
+      <li>3차시: <b>축제 부스 창업 게임</b> — 실패하고 바꾸며 창업가 정신을 겪어 봐요.</li>
+      <li>4~7차시: <b>다문화 성장 프로젝트</b> — 강점 → 직업 → 창업 아이디어 → 진로 경로로 성장나무를 키워요. 창체 진로 활동 시간과 이어 해도 좋아요.</li>
+    </ol>
+    <p>기술·가정 "나의 진로 무지개"(흥미 유형·생애 역할), 도덕 "직업 양심 사무소"(직업윤리)와 함께 쓰면 진로를 여러 교과에서 이어 볼 수 있어요.</p>
+  </section>
+</div>
+
+<!-- ══════════ 학생용 ══════════ -->
+<div class="pane" id="pane-student">
+  <nav class="toc"><b>목차</b><ol>
+    <li><a href="#s1">들어가기</a></li><li><a href="#s2">활동하기</a></li><li><a href="#s3">선생님께 내기</a></li><li><a href="#s4">우리의 약속</a></li>
+  </ol></nav>
+  <section id="s1">
+    <h2>1. 들어가기</h2>
+    <h3>선생님이 QR을 보여 주셨을 때</h3>
+    <ol>
+      <li>휴대폰·태블릿 카메라로 QR을 찍어요. 또는 선생님이 올려 주신 링크를 눌러요.</li>
+      <li><b>학년·반</b>과 <b>번호</b>를 적어요. 성은 한글 한 글자만, 비워 둬도 돼요.</li>
+      <li><span class="btnname">들어가기</span>를 눌러요. "아직 수업이 열리지 않았어요"가 보이면 잠깐 기다려요.</li>
+    </ol>
+    <h3>혼자 연습할 때</h3>
+    <p>EAIM 진로 첫 화면에서 앱 카드를 눌러요. 로그인은 없어요. 이때는 선생님께 내기가 나오지 않아요.</p>
+    <h3>말이 어려울 때</h3>
+    <p>앱 위쪽 <span class="btnname">쉬운 말</span>을 누르면 더 쉬운 문장으로 바뀌어요. <span class="btnname">🔊</span>을 누르면 읽어 줘요.</p>
+  </section>
+  <section id="s2">
+    <h2>2. 활동하기</h2>
+    <div id="studentApps"></div>
+  </section>
+  <section id="s3">
+    <h2>3. 선생님께 내기</h2>
+    <ul>
+      <li>QR로 들어왔다면 마지막에 <span class="btnname">선생님께 내기</span>가 보여요. 누르면 "선생님께 냈어요"가 떠요. 고쳐서 다시 내도 돼요.</li>
+      <li>선생님이 답장을 보내시면 화면 아래에 <b>💌 선생님 한마디</b>가 나와요.</li>
+      <li>"수업이 닫혀 있어서 내지 못했어요"가 뜨면 선생님께 말씀드려요.</li>
+    </ul>
+  </section>
+  <section id="s4">
+    <h2>4. 우리의 약속</h2>
+    <ul>
+      <li>🙅 내 이름, 친구 이름, 전화번호, 사는 곳은 쓰지 않아요. 반과 번호면 충분해요.</li>
+      <li>🤝 친구의 꿈과 생각이 나와 달라도 존중해요. 어떤 꿈도 작지 않아요.</li>
+      <li>🔐 나라 이름이나 가족 이야기처럼 드러내고 싶지 않은 일은 쓰지 않아도 돼요.</li>
+      <li>🙋 힘들거나 속상한 일이 있으면 선생님께 말해요. 청소년 상담 1388에 연락할 수도 있어요.</li>
+    </ul>
+  </section>
+</div>
+
+<p class="eaim-copy" style="font-size:.68rem;color:#888;text-align:center;margin:18px 0 10px;line-height:1.6;word-break:keep-all">© 2026 박성애 · EAIM · 교육 목적 무료 사용, 무단 복제·상업적 이용 금지 · <a href="https://eaim.kr/#copyright" target="_blank" rel="noopener" style="color:inherit">이용 안내</a></p>
+</main>
+
+<script src="career-apps.js"></script>
+<script src="curriculum-career.js"></script>
+<script src="lessonplan-data.js"></script>
+<script>
+/* 앱 목록·수·공개/수업·AI·수업 규모·성취기준·창체는 activities.json 에서, 순서(단계)는 지도안과 같은 lessonplan-data.js 에서 읽는다. */
+const APPS = window.CAREER_APPS || {}, CUR = window.EAIM_CAREER_CURRICULUM, LES = window.CAREER_LESSONS || [];
+const esc = t => String(t==null?'':t).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const scopeText = a => (a.scope==='lesson' ? (a.sessions||1)+'차시 수업' : a.scope==='project' ? '프로젝트'+(a.sessions?' '+a.sessions+'차시':'') : '짧은 활동') + (a.minutes ? ' · 차시당 약 '+a.minutes+'분' : '');
+const key = a => String(a.id).replace(/^career\//,'');
+const STUDENT_TIPS = {
+  'entre-explorer': ['1단계: 창업가 이야기를 읽고 가장 잘 보이는 창업가 정신을 골라요. 바로 풀이가 나와요.', '2단계: O X를 풀고, 내가 키우고 싶은 창업가 정신과 까닭을 써요.', '3단계: 불편을 하나 골라 아이디어·이름·슬로건·로고를 정하면 1분 피칭 카드가 완성돼요.'],
+  'booth-startup': ['부스를 하나 골라요. 각 부스가 어떤 문제를 푸는지 읽어요.', '1부·2부·3부마다 고객 조사를 보고 수량·가격·홍보를 정해 <b>부스 열기!</b>를 눌러요.', '결과를 보고 배운 점을 한 줄 써요. 다음 시간에 바꿔서 다시 도전해요.', '끝나면 배지를 보고, 돈 말고 만든 가치와 배운 점을 써요.'],
+  'job-change-cards': ['변화 카드를 골라 뒤집어요.', '직업 카드마다 📈 늘어날 · 📉 줄어들 · 🔄 바뀔 가능성 중 하나를 골라요. 풀이를 읽어요.', '변화 카드 3장을 마치면 🧪 새 직업 발명소가 열려요. 새 직업을 만들어요.'],
+  'multi-growth': ['1차시: 나의 강점을 3개 넘게 골라요. 나를 한 문장으로 써요.', '2차시: ✨ 강점과 이어지는 직업을 보고 3개 골라요. 모든 직업이 열려 있어요.', '3차시: 불편을 골라 내 강점으로 푸는 아이디어를 만들어요.', '4차시: 우선 경로와 대안 경로를 쓰면 성장나무에 열매가 열려요. 포스터로 인쇄해요.', '차시가 끝날 때마다 <b>이 차시 선생님께 내기</b>를 눌러요. 다른 기기에서 이어 하려면 <b>파일로 저장</b>해요.'],
+};
+
+fetch('activities.json').then(r=>r.json()).then(list => {
+  const apps = list.filter(a => a.target !== 'teacher');
+  const games = apps.filter(a => a.activityType==='game'), ai = apps.filter(a => a.ai);
+  document.getElementById('stats').innerHTML = [[apps.length,'만든 앱'],[games.length,'게임'],[14,'성취기준'],[ai.length,'AI가 들어간 앱']].map(([n,l])=>`<div class="stat"><div class="n">${n}</div><div class="l">${l}</div></div>`).join('');
+  document.getElementById('appList').innerHTML = apps.map(a => { const k = key(a), A = APPS[k] || {}, ls = LES.filter(l => l.app === k);
+    const steps = ls.length > 1
+      ? ls.map(l => `<li>${l.session}차시 ${esc(l.steps.map(s=>s.name).join(' → '))} — 결과물: ${esc(l.output)}</li>`).join('')
+      : (ls[0] ? ls[0].steps.map((s,i)=>`<li>Step ${i+1} ${esc(s.name)} — ${esc(s.guide)}</li>`).join('') + `<li>결과물: ${esc(ls[0].output)} (인쇄·복사·선생님께 내기)</li>` : '');
+    return `<div class="app" id="${esc(k)}"><h3><a href="${esc(a.url)}">${A.icon ? A.icon+' ' : ''}${esc(a.title)}</a></h3>
+      <div class="tags"><span class="tag pub">공개 · 로그인 없이 연습</span>${a.classroom?'<span class="tag cls">수업 QR이면 선생님께 내기</span>':''}<span class="tag ${a.ai?'ai':''}">${a.ai?'AI 있음':'AI 없음'}</span><span class="tag">${esc(scopeText(a))}</span>${a.activityType==='game'?'<span class="tag">🎮 게임 · 점수는 세특과 무관</span>':''}</div>
+      <dl class="row"><dt>무엇을 하나</dt><dd>${esc(a.summary||A.desc||'')}</dd>
+      <dt>순서</dt><dd><ol style="margin:0 0 0 18px">${steps}</ol></dd>
+      <dt>성취기준</dt><dd class="std">${(a.standards||[]).map(c => { const s = CUR.find(c); return esc(c)+(s?' '+esc(s.text):''); }).join('<br>')}</dd>
+      <dt>창체 진로 활동</dt><dd class="std">${esc(a.cce ? a.cce.activity+' — '+a.cce.example : '')}</dd>
+      <dt>지도안</dt><dd><a href="eaim-career-lessonplan.html#${esc(ls[0] ? ls[0].id : k)}">📝 이 앱으로 지도안 만들기</a></dd></dl></div>`; }).join('');
+  document.getElementById('studentApps').innerHTML = apps.map(a => { const k = key(a), A = APPS[k] || {};
+    return `<div class="app" id="student-${esc(k)}"><h3><a href="${esc(a.url)}">${A.icon||''} ${esc(a.title)}</a></h3><ol style="margin:0 0 0 18px">${(STUDENT_TIPS[k]||[]).map(t=>`<li>${t}</li>`).join('')}</ol></div>`; }).join('');
+  scrollToHash();
+}).catch(() => { document.getElementById('appList').innerHTML = '<p>활동 목록을 불러오지 못했어요. 첫 화면에서 앱을 봐 주세요.</p>'; });
+
+/* 탭과 주소(#student, #student-앱, #t1~#t10, #s1~#s4, #앱) */
+function showTab(t){ document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on', b.dataset.tab===t)); document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('on', p.id==='pane-'+t)); }
+document.querySelectorAll('.tab').forEach(b => b.onclick = () => { showTab(b.dataset.tab); history.replaceState(null,'', b.dataset.tab==='student'?'#student':'#'); window.scrollTo(0,0); });
+function scrollToHash(){ const h = decodeURIComponent(location.hash.slice(1)); if (h && h !== 'student') { const el=document.getElementById(h); if(el) el.scrollIntoView({behavior:'auto'}); } }
+function fromHash(){ const h = location.hash.slice(1);
+  if (h==='student' || /^s\d+$/.test(h) || h.startsWith('student-')) showTab('student'); else showTab('teacher');
+  setTimeout(scrollToHash, 50); }
+window.addEventListener('hashchange', fromHash); fromHash();
+</script>
+</body>
+</html>

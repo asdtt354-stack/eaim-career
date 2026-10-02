@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EAIM 진로 · 선생님 페이지</title>
+<!-- EAIM 진로 교사 페이지 v1.0 (2026-10-02) — 도덕 교사 페이지 v1.0 을 옮김. 로그인·수업 방·QR·결과물·답장·CSV + 게임 점수(gameResults). AI 없음, API 키 없음 -->
+<style>
+  :root{ --night:#1d2b4a; --brass:#c8912f; --brass-soft:#f3e3c2; --paper:#f6f8fb; --line:#d5dce8; --soft:#5d6b85; --red:#b3343b; --ok:#2f7d5b; }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--paper)}
+  body{color:var(--night);font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;line-height:1.6;word-break:keep-all;overflow-wrap:break-word}
+  button{font-family:inherit;cursor:pointer}
+  button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{outline:3px solid var(--brass);outline-offset:2px}
+  .top{background:var(--night);color:#fff;padding:22px 18px}
+  .top-in{max-width:1000px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  .top h1{margin:0;font-size:1.5rem}
+  .top a{color:#c9d4ea;font-size:.88rem}
+  #who{font-size:.88rem;color:#c9d4ea}
+  main{max-width:1000px;margin:0 auto;padding:24px 18px 90px}
+  .panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:18px}
+  .panel h2{margin:0 0 6px;font-size:1.1rem}
+  .sub{margin:0 0 12px;color:var(--soft);font-size:.88rem}
+  label{display:block;font-weight:700;font-size:.85rem;margin:0 0 6px}
+  input[type=text],select,textarea{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;font-size:1rem;font-family:inherit;color:var(--night);background:#fbfcfe}
+  textarea{min-height:64px;resize:vertical}
+  .two{display:flex;gap:12px;flex-wrap:wrap}.two>*{flex:1;min-width:200px}
+  .btn{border:0;border-radius:11px;padding:10px 16px;font-weight:700;font-size:.95rem;background:var(--night);color:#fff}
+  .btn.brass{background:var(--brass);color:var(--night)}
+  .btn.ghost{background:#fff;color:var(--night);border:1.5px solid var(--line)}
+  .btn.small{padding:6px 12px;font-size:.84rem;border-radius:9px}
+  .btn:disabled{opacity:.45;cursor:default}
+  .msg{font-size:.88rem;margin:8px 0 0;min-height:1.2em}
+  .msg.bad{color:var(--red)} .msg.ok{color:var(--ok)}
+  .room{background:#fff;border:1px solid var(--line);border-left:6px solid var(--brass);border-radius:16px;padding:16px;margin-bottom:12px}
+  .room.closed{border-left-color:var(--line)}
+  .room-head{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start}
+  .room h3{margin:0;font-size:1.05rem}
+  .room .meta{color:var(--soft);font-size:.85rem}
+  .code{font-family:inherit;font-weight:800;letter-spacing:.12em;font-size:1.1rem;background:var(--paper);border-radius:8px;padding:2px 10px}
+  .acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+  .qr{margin-top:12px;text-align:center}
+  .qr img{width:240px;max-width:100%;background:#fff}
+  .qr .link{font-size:.82rem;color:var(--soft);word-break:break-all}
+  .table-wrap{overflow-x:auto;margin-top:12px}
+  table{border-collapse:collapse;width:100%;font-size:.88rem;min-width:720px}
+  th,td{border-bottom:1px solid var(--line);padding:8px;vertical-align:top;text-align:left}
+  th{background:var(--paper);font-size:.8rem;color:var(--soft)}
+  td pre{white-space:pre-wrap;font-family:inherit;margin:0;max-width:420px}
+  .caution{background:var(--brass-soft);border-radius:10px;padding:10px 12px;font-size:.85rem;margin:10px 0 0}
+  #bigqr{position:fixed;inset:0;background:rgba(20,28,45,.85);display:none;align-items:center;justify-content:center;z-index:50;padding:18px}
+  #bigqr.show{display:flex}
+  #bigqr .in{background:#fff;border-radius:20px;padding:24px;text-align:center;max-width:560px;width:100%}
+  #bigqr img{width:min(460px,80vw)}
+  #bigqr h3{margin:0 0 6px;font-size:1.4rem}
+  [hidden]{display:none !important}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <div><h1>EAIM 진로 · 선생님 페이지</h1><a href="index.html">학생 첫 화면으로</a> · <a href="guide.html">📘 사용 가이드</a> · <a href="eaim-career-lessonplan.html">📝 지도안</a></div>
+  <div><span id="who"></span> <button class="btn small ghost" id="logout" hidden>로그아웃</button></div>
+</div></header>
+
+<main>
+  <section class="panel" id="loginPanel">
+    <h2>구글 계정으로 들어가기</h2>
+    <p class="sub">브라우저를 닫으면 자동으로 로그아웃돼요. 학교 공용 컴퓨터에서도 안심하고 쓰세요.</p>
+    <button class="btn" id="login">구글 로그인</button>
+    <p class="msg" id="loginMsg" role="alert"></p>
+  </section>
+
+  <div id="app" hidden>
+    <section class="panel">
+      <h2>새 수업 방 만들기</h2>
+      <p class="sub">활동마다 수업 방을 하나씩 만들어요. 학생은 QR이나 링크로 들어와 반·번호만 적어요.</p>
+      <div class="two">
+        <div><label for="appSel">활동</label><select id="appSel"></select></div>
+        <div><label for="title">수업 방 이름</label><input type="text" id="title" maxlength="40" placeholder="예: 2학년 3반 창업가 정신"></div>
+      </div>
+      <div style="margin-top:12px"><button class="btn brass" id="create">수업 방 만들기</button></div>
+      <p class="msg" id="createMsg" role="alert"></p>
+    </section>
+
+    <section class="panel">
+      <h2>내 수업 방</h2>
+      <p class="sub">EAIM 진로 수업 방만 보여요. 다문화 성장 프로젝트는 네 차시 동안 같은 수업 방을 열고 닫으며 써요. 수업이 끝나면 닫아 두세요 — 닫힌 방에는 학생이 들어오거나 낼 수 없어요.</p>
+      <div id="rooms"></div>
+    </section>
+  </div>
+</main>
+
+<div id="bigqr" role="dialog" aria-modal="true"><div class="in"><h3 id="bqTitle"></h3><p id="bqCode" class="code" style="display:inline-block"></p><br><img id="bqImg" alt="수업 QR"><br><button class="btn" id="bqClose" style="margin-top:12px">닫기</button></div></div>
+
+<script src="career-apps.js"></script>
+<script type="module">
+import { auth, db, teacherLogin, teacherLogout, onTeacherAuthChange, createRoom, toggleRoomOpen, qrImageUrl, studentLink }
+  from './shared/eaim-classroom-core.js';
+import { collection, query, where, getDocs, orderBy, doc, updateDoc, serverTimestamp }
+  from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+const APPS = window.CAREER_APPS;
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const when = (t) => t?.seconds ? new Date(t.seconds * 1000).toLocaleString('ko-KR', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '';
+
+/* 활동 고르기 — 만들어진 앱만 */
+$('appSel').innerHTML = Object.entries(APPS).filter(([, a]) => a.ready)
+  .map(([id, a]) => `<option value="${id}">${a.icon} ${esc(a.name)} ${esc(a.std)}${a.game ? ' · 게임' : ''}</option>`).join('');
+
+$('login').addEventListener('click', async () => {
+  $('loginMsg').textContent = ''; $('loginMsg').className = 'msg';
+  try { await teacherLogin(); }
+  catch (e) {
+    console.error(e);
+    $('loginMsg').className = 'msg bad';
+    $('loginMsg').textContent = e?.code === 'auth/unauthorized-domain'
+      ? '이 주소가 아직 Firebase에 등록되지 않았어요. Firebase 콘솔 → Authentication → 승인된 도메인에 이 사이트 주소를 넣어 주세요.'
+      : (e?.code === 'auth/popup-closed-by-user' ? '로그인 창이 닫혔어요. 다시 눌러 주세요.' : '로그인하지 못했어요. 잠시 뒤 다시 눌러 주세요.');
+  }
+});
+$('logout').addEventListener('click', () => teacherLogout());
+
+onTeacherAuthChange((user) => {
+  const teacher = user && !user.isAnonymous;
+  $('loginPanel').hidden = !!teacher;
+  $('app').hidden = !teacher;
+  $('logout').hidden = !teacher;
+  $('who').textContent = teacher ? (user.email || '로그인됨') : '';
+  if (teacher) loadRooms();
+});
+
+/* ── 수업 방 만들기 ── */
+$('create').addEventListener('click', async () => {
+  const app = $('appSel').value, a = APPS[app];
+  const title = $('title').value.trim() || a.name;
+  $('create').disabled = true; $('createMsg').className = 'msg'; $('createMsg').textContent = '만드는 중...';
+  try {
+    window.EAIM_APP_TYPE = app;
+    const { code } = await createRoom({ title, mode: 'class', classes: [] });
+    $('createMsg').className = 'msg ok'; $('createMsg').textContent = `만들었어요. 수업 코드 ${code}`;
+    $('title').value = '';
+    await loadRooms();
+  } catch (e) {
+    console.error(e);
+    $('createMsg').className = 'msg bad'; $('createMsg').textContent = '만들지 못했어요. 인터넷을 확인하고 다시 눌러 주세요.';
+  }
+  $('create').disabled = false;
+});
+
+/* ── 수업 방 목록 (platform=='career') ── */
+let ROOMS = [];
+async function loadRooms() {
+  const uid = auth.currentUser.uid;
+  try {
+    const snap = await getDocs(query(collection(db, `teachers/${uid}/rooms`), where('platform', '==', 'career')));
+    ROOMS = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(r => APPS[r.app])
+      .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+  } catch (e) { console.error(e); $('rooms').innerHTML = '<p class="msg bad">수업 방을 불러오지 못했어요. 새로고침해 주세요.</p>'; return; }
+  drawRooms();
+}
+function linkOf(r) { try { return studentLink(r.code, r.app); } catch (e) { return ''; } }
+function drawRooms() {
+  if (!ROOMS.length) { $('rooms').innerHTML = '<p class="sub">아직 수업 방이 없어요. 위에서 활동을 골라 만들어 보세요.</p>'; return; }
+  $('rooms').innerHTML = ROOMS.map(r => {
+    const a = APPS[r.app];
+    return `<article class="room ${r.isOpen ? '' : 'closed'}" data-id="${r.id}">
+      <div class="room-head">
+        <div><h3>${esc(r.title || a.name)}</h3>
+          <span class="meta">${a.icon} ${esc(a.name)} · ${esc(a.std)} · ${when(r.createdAt)}</span></div>
+        <span class="code">${esc(r.code || '')}</span>
+      </div>
+      <div class="acts">
+        <button class="btn small ${r.isOpen ? 'ghost' : ''}" data-act="toggle">${r.isOpen ? '수업 닫기' : '수업 열기'}</button>
+        <button class="btn small ghost" data-act="qr">QR 크게 보기</button>
+        <button class="btn small ghost" data-act="copy">링크 복사</button>
+        <button class="btn small ghost" data-act="subs">결과물 보기</button>
+      </div>
+      <p class="meta" style="margin:8px 0 0">${r.isOpen ? '열려 있어요 — 학생이 들어오고 낼 수 있어요' : '닫혀 있어요'}</p>
+      <div class="subs" hidden></div>
+    </article>`;
+  }).join('');
+}
+
+$('rooms').addEventListener('click', async (e) => {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const card = b.closest('.room'), r = ROOMS.find(x => x.id === card.dataset.id); if (!r) return;
+  const act = b.dataset.act;
+  if (act === 'toggle') {
+    b.disabled = true;
+    try { await toggleRoomOpen(r.id, !r.isOpen); r.isOpen = !r.isOpen; drawRooms(); }
+    catch (err) { console.error(err); alert('바꾸지 못했어요. 다시 눌러 주세요.'); b.disabled = false; }
+  }
+  if (act === 'qr') {
+    const link = linkOf(r); if (!link) return alert('학생 링크를 만들지 못했어요.');
+    $('bqTitle').textContent = r.title || APPS[r.app].name;
+    $('bqCode').textContent = r.code;
+    $('bqImg').src = qrImageUrl(link, 460);
+    $('bigqr').classList.add('show'); $('bqClose').focus();
+  }
+  if (act === 'copy') {
+    const link = linkOf(r);
+    try { await navigator.clipboard.writeText(link); b.textContent = '복사했어요'; setTimeout(() => b.textContent = '링크 복사', 1600); }
+    catch { prompt('이 링크를 복사해 주세요', link); }
+  }
+  if (act === 'subs') {
+    const box = card.querySelector('.subs');
+    if (!box.hidden) { box.hidden = true; b.textContent = '결과물 보기'; return; }
+    box.hidden = false; b.textContent = '결과물 닫기';
+    await drawSubs(r, box);
+  }
+  if (act === 'reply') {
+    const id = b.dataset.sub, ta = card.querySelector(`textarea[data-sub="${id}"]`);
+    b.disabled = true;
+    try {
+      await updateDoc(doc(db, `teachers/${auth.currentUser.uid}/rooms/${r.id}/submissions/${id}`),
+        { feedback: ta.value.trim(), feedbackBy: 'teacher', feedbackAt: serverTimestamp() });
+      b.textContent = '보냈어요'; setTimeout(() => { b.textContent = '답장 보내기'; b.disabled = false; }, 1500);
+      const s = (r._subs || []).find(x => x.id === id); if (s) s.feedback = ta.value.trim();
+    } catch (err) { console.error(err); alert('답장을 보내지 못했어요.'); b.disabled = false; }
+  }
+  if (act === 'csv') downloadCSV(r);
+});
+$('bqClose').addEventListener('click', () => $('bigqr').classList.remove('show'));
+$('bigqr').addEventListener('click', (e) => { if (e.target.id === 'bigqr') $('bigqr').classList.remove('show'); });
+
+async function drawSubs(r, box) {
+  box.innerHTML = '<p class="sub" style="margin-top:10px">불러오는 중...</p>';
+  const uid = auth.currentUser.uid;
+  try {
+    const snap = await getDocs(query(collection(db, `teachers/${uid}/rooms/${r.id}/submissions`), orderBy('createdAt', 'asc')));
+    r._subs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  } catch (e) { console.error(e); box.innerHTML = '<p class="msg bad">결과물을 불러오지 못했어요.</p>'; return; }
+  const rows = r._subs;
+  let games = [];
+  if (APPS[r.app]?.game) {
+    try { const gs = await getDocs(query(collection(db, `teachers/${uid}/rooms/${r.id}/gameResults`), orderBy('createdAt', 'asc'))); games = gs.docs.map(d => d.data()); }
+    catch (e) { console.warn(e); }
+  }
+  const gameHtml = APPS[r.app]?.game ? `<h3 style="font-size:.95rem;margin:14px 0 4px">🎮 게임 점수 (${games.length}건) <span class="meta">— 세특과 무관, 수업 중 확인용</span></h3>
+    ${games.length ? `<div class="table-wrap"><table><thead><tr><th>반</th><th>번호</th><th>표시 이름</th><th>점수</th><th>맞힘·배지</th><th>시각</th></tr></thead><tbody>
+    ${games.map(g => `<tr><td>${esc(g.classNo)}</td><td>${esc(g.studentNo)}</td><td>${esc(g.displayName || '')}</td><td>${esc(g.score)}</td><td>${esc(g.correct)} / ${esc(g.total)}</td><td>${when(g.createdAt)}</td></tr>`).join('')}
+    </tbody></table></div>` : '<p class="sub">아직 게임 점수가 없어요.</p>'}<h3 style="font-size:.95rem;margin:14px 0 4px">📝 결과물</h3>` : '';
+  box.innerHTML = gameHtml + `
+    <p class="caution">세특에는 학생이 보여 준 생각과 역량만 적고, 글 속의 개인 사정(가족·출신 나라 등)은 적지 않아요. 게임 점수는 세특 자료로 쓰지 않아요. 같은 학생이 여러 번 냈으면 마지막 것이 최종이에요.</p>
+    <div class="acts"><button class="btn small" data-act="csv">CSV 내려받기 (${rows.length}건)</button></div>
+    ${rows.length ? `<div class="table-wrap"><table><thead><tr><th>반</th><th>번호</th><th>표시 이름</th><th>제목·내용</th><th>시각</th><th>답장</th></tr></thead><tbody>
+    ${rows.map(s => `<tr><td>${esc(s.classNo)}</td><td>${esc(s.studentNo)}</td><td>${esc(s.displayName || '')}</td>
+      <td><b>${esc(s.title)}</b><pre>${esc(s.content)}</pre></td><td>${when(s.createdAt)}</td>
+      <td style="min-width:200px"><textarea data-sub="${s.id}" maxlength="400" placeholder="학생에게 보낼 한마디">${esc(s.feedback || '')}</textarea>
+      <button class="btn small" style="margin-top:6px" data-act="reply" data-sub="${s.id}">답장 보내기</button></td></tr>`).join('')}
+    </tbody></table></div>` : '<p class="sub" style="margin-top:10px">아직 낸 학생이 없어요.</p>'}`;
+}
+
+function downloadCSV(r) {
+  const rows = r._subs || [];
+  const q = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+  const head = ['반', '번호', '표시 이름', '활동', '제목', '내용', '답장', '시각'];
+  const body = rows.map(s => [s.classNo, s.studentNo, s.displayName, APPS[s.app]?.name || s.app, s.title, s.content, s.feedback, when(s.createdAt)].map(q).join(','));
+  const csv = '\ufeff' + [head.map(q).join(','), ...body].join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+  a.download = `${(r.title || 'career').replace(/[\\/:*?"<>|]/g, '_')}_결과물.csv`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+</script>
+<style>@media print{.eaim-copy{display:none!important}}</style>
+<p class="eaim-copy" style="font-size:.68rem;color:#888;text-align:center;margin:18px 0 10px;line-height:1.6;word-break:keep-all">© 2026 박성애 · EAIM · 교육 목적 무료 사용, 무단 복제·상업적 이용 금지 · <a href="https://eaim.kr/#copyright" target="_blank" rel="noopener" style="color:inherit">이용 안내</a></p>
+</body>
+</html>
