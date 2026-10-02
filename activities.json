@@ -738,6 +738,52 @@
     "guide": "guide.html#multi-growth"
   },
   {
+    "id": "career/theme-song",
+    "title": "진로 주제가 작사실",
+    "platform": "career",
+    "subjects": [
+      "진로와 직업"
+    ],
+    "fusion": [
+      "음악",
+      "창의적 체험활동"
+    ],
+    "grade": [
+      "중1",
+      "중2",
+      "중3"
+    ],
+    "target": "student",
+    "activityType": "creation",
+    "scope": "lesson",
+    "sessions": 1,
+    "minutes": 45,
+    "standards": [
+      "[9진로01-02]"
+    ],
+    "tags": [
+      "긍정적 자아 개념",
+      "진로 주제가",
+      "작사",
+      "음악 융합",
+      "노래 작곡실"
+    ],
+    "url": "theme-song.html",
+    "classroom": true,
+    "ai": false,
+    "summary": "분위기와 다섯 가지 재료(강점·꿈·길의 풍경·나에게 하는 응원·다음 한 걸음, 진로 여권에서 가져오기 가능)로 가사 틀을 채우고 글자 수를 맞춰 다듬은 뒤, 완성한 진로 주제가를 연주실 노래 작곡실로 가져가 가락을 붙이는 음악 융합 활동 (작사는 AI 없음, 공개, 내기는 수업에서)",
+    "makerNote": "",
+    "cce": {
+      "area": "진로 활동",
+      "activity": "진로 탐색 활동",
+      "example": "자아탐색 활동: 자기이해, 생애 탐색, 가치관 확립 등",
+      "focus": [
+        "긍정적인 자아 개념 강화"
+      ]
+    },
+    "guide": "guide.html#theme-song"
+  },
+  {
     "id": "career/passport",
     "title": "나의 진로 여권",
     "platform": "career",

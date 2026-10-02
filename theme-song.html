@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="career.webmanifest">
+<meta name="theme-color" content="#e2703a">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="EAIM 진로">
+<title>진로 주제가 작사실 · EAIM 진로</title>
+<!-- 진로 주제가 작사실 v1.0 (2026-10-02) — [9진로01-02] + 음악 융합. 가사 쓰기는 AI 없음. 완성 가사를 연주실 노래 작곡실로 넘김
+     (주소 #lyrics= base64url JSON {t,l} — 노래 작곡실이 읽게 되기 전에는 "가사 복사 → 붙여 넣기"). 가락(🎹)은 키 없이, AI 가수(🎤)는 수업 방에서. -->
+<link rel="stylesheet" href="career.css">
+<style>
+  .steps button{font:inherit;font-size:.82rem;padding:4px 12px;border-radius:999px;background:#efe9df;color:var(--sub);font-weight:700}
+  .steps button[aria-current]{background:var(--main);color:#fff}
+  .steps button:disabled{opacity:.5}
+  .ex{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+  .ex button{background:#f5f1ea;color:var(--ink);font-weight:500;font-size:.82rem;padding:5px 10px}
+  .moods{display:flex;gap:8px;flex-wrap:wrap}
+  .moods button{background:#fff;color:var(--ink);border:2px solid var(--line);font-weight:700}
+  .moods button.on{border-color:var(--main);background:var(--main-soft)}
+  .lyr{display:flex;align-items:center;gap:6px;margin:5px 0}
+  .lyr input{flex:1}
+  .lyr .cnt{min-width:46px;text-align:center;font-size:.8rem;font-weight:800;border-radius:999px;padding:3px 6px;background:var(--teal-soft);color:var(--teal)}
+  .lyr .cnt.warn{background:var(--gold-soft);color:#9a7413}
+  .lyr .cnt.bad{background:#fde8e7;color:var(--red)}
+  .part{font-weight:800;font-size:.86rem;margin:12px 0 2px;color:var(--sub)}
+  .song{border-radius:22px;padding:22px;background:linear-gradient(160deg,#2b2a33,#3d3a4f);color:#fff;text-align:center}
+  .song h2{color:#ffd166;margin:0 0 4px;font-size:1.4rem}
+  .song .ly{white-space:pre-line;line-height:2;font-size:1.05rem;margin-top:10px}
+  .song .ly b{color:#ffd166}
+  .goods{display:grid;gap:6px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="home" href="index.html">← EAIM 진로</a>
+    <h1>🎵 진로 주제가 작사실</h1>
+    <button class="easy-btn" type="button" aria-pressed="false">쉬운 말</button>
+  </header>
+  <p class="row" style="margin:0"><span class="badge teal">[9진로01-02]</span><span class="badge gold">음악 융합</span>
+    <a class="badge blue" href="guide.html#student-theme-song" style="text-decoration:none">📘 사용법</a>
+    <a class="badge" href="worksheet/theme-song.html" style="text-decoration:none">📄 활동지</a>
+    <span id="mode" class="mode hidden"></span></p>
+
+  <nav class="steps" style="margin-top:12px" aria-label="단계">
+    <button type="button" data-go="1">1 가사 재료</button>
+    <button type="button" data-go="2">2 가사 쓰기</button>
+    <button type="button" data-go="3">3 노래로 만들기</button>
+  </nav>
+
+  <section id="step1">
+    <div class="card" id="i1">
+      <h2>나의 진로 주제가 재료를 모아요 <button class="say" data-say="i1">🔊</button></h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>노래 분위기를 하나 눌러요</li><li>다섯 칸을 짧은 낱말로 채워요 — 예시를 누르거나, <b>여권에서 가져오기</b>를 눌러도 돼요</li><li><b>가사 쓰기</b> 를 눌러요</li></ol><ol class="e"><li>분위기를 눌러요</li><li>다섯 칸을 짧게 써요</li><li>다음 단추를 눌러요</li></ol></div>
+      <p class="read">💡 알아 두기</p>
+      <p class="small" style="margin:2px 0 8px">진로 수업에서 찾은 나의 강점과 꿈을 노래로 만들어요. 가사는 내가 써요(AI 없음). 다 쓰면 연주실 <b>노래 작곡실</b>에서 가락을 붙여요.</p>
+      <div class="moods" id="moods"></div>
+      <div class="row" style="margin-top:10px"><button type="button" class="ghost" id="fromPass">🛂 여권에서 가져오기</button><span class="muted small" id="passNote"></span></div>
+      <div id="asks"></div>
+    </div>
+    <div class="row"><button type="button" id="to2" disabled>가사 쓰기 →</button></div>
+  </section>
+
+  <section id="step2" hidden>
+    <div class="card">
+      <h2>가사를 다듬어요</h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>틀에 내 낱말이 들어갔어요. 줄마다 내 말로 고쳐요</li><li>오른쪽 숫자(글자 수)가 <b>초록(6~10글자)</b>이 되게 맞춰요</li><li>2절은 써도, 안 써도 돼요. 제목을 쓰고 <b>노래로 만들기</b> 를 눌러요</li></ol><ol class="e"><li>줄마다 고쳐요</li><li>숫자가 초록이 되게 해요</li><li>제목을 쓰고 다음으로</li></ol></div>
+      <div class="row"><button type="button" class="ghost" id="refill">↺ 틀 다시 채우기</button><span class="muted small">고친 내용이 지워져요</span></div>
+      <label class="field" for="title">노래 제목</label><input type="text" id="title" maxlength="30" placeholder="예: 나의 길을 걸어가">
+      <div id="lines"></div>
+      <div class="tip" id="tip"></div>
+    </div>
+    <div class="row"><button type="button" class="ghost" data-go="1">← 이전</button><button type="button" id="to3" disabled>노래로 만들기 →</button></div>
+  </section>
+
+  <section id="step3" hidden>
+    <div class="card">
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>좋은 가사 기준으로 내 가사를 점검해요</li><li><b>🎤 노래 작곡실로 가져가기</b> 를 눌러요 (가사가 복사돼요 — 노래 작곡실 ① 가사 칸에 붙여 넣어요)</li><li>🎹 <b>내가 가락 만들기</b>는 누구나, 🎤 <b>AI 가수</b>는 선생님 수업 방에서 돼요</li></ol><ol class="e"><li>기준을 눌러요</li><li>노래 작곡실로 가요 (가사를 붙여 넣어요)</li><li>🎹 가락은 바로, 🎤 AI 가수는 수업에서</li></ol></div>
+      <div class="song" id="song"></div>
+      <h3>✅ 좋은 가사 점검</h3>
+      <div class="goods" id="goods"></div>
+      <div class="row no-print" style="margin-top:12px">
+        <a class="btn" id="toRoom" href="#" target="_blank" rel="noopener">🎤 노래 작곡실로 가져가기</a>
+        <button type="button" class="ghost" id="btnCopy">📋 복사</button>
+        <button type="button" class="ghost" id="btnStamp">🛂 여권에 도장</button>
+        <button type="button" class="ghost" id="btnPrint">🖨 가사 카드 인쇄</button>
+        <button type="button" class="teal hidden" id="send">선생님께 내기</button>
+      </div>
+      <p class="muted small">노래 작곡실이 새 창으로 열려요. 가사는 이미 복사되어 있으니 ① 가사 칸에 붙여 넣기(길게 누르기 → 붙여넣기, 또는 Ctrl+V) 하면 돼요.</p>
+      <div id="reply" class="reply hidden"></div>
+    </div>
+    <div class="row no-print"><button type="button" class="ghost" data-go="2">← 이전</button></div>
+  </section>
+  <div class="std" id="stdBox"></div>
+</div>
+
+<script src="curriculum-career.js"></script>
+<script src="career-apps.js"></script>
+<script src="theme-song-data.js"></script>
+<script src="career-class.js"></script>
+<script src="career-ui.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.TS_DATA, esc = CU.esc, tx = CU.tx;
+  const $ = (id) => document.getElementById(id);
+  const s0 = window.EAIM_CAREER_CURRICULUM.find('[9진로01-02]');
+  $('stdBox').innerHTML = `<b>${s0.code}</b> ${esc(s0.text)}<br><span class="small">음악 융합: 내 이야기로 가사를 쓰고 연주실 노래 작곡실에서 가락을 붙여요.</span>`;
+  const ST = CU.sstore('theme_song');
+  let S = ST.load({ step: 1, reached: 1, mood: 'bright', w: {}, title: '', verse: [], chorus: [], verse2: ['', '', '', ''], goods: [] });
+  const save = () => ST.save(S);
+  const syl = (t) => (String(t).match(/[가-힣a-zA-Z0-9]/g) || []).length;
+
+  /* 1 */
+  function draw1() {
+    $('moods').innerHTML = Object.entries(D.moods).map(([k, m]) => `<button type="button" class="${S.mood === k ? 'on' : ''}" data-mood="${k}">${m.icon} ${esc(m.name)}</button>`).join('');
+    $('asks').innerHTML = D.asks.map(a => `<label class="field" for="a-${a.id}">${tx(a.label)}</label><input type="text" id="a-${a.id}" data-a="${a.id}" maxlength="16" value="${esc(S.w[a.id] || '')}">
+      <div class="ex">${a.ex.map(x => `<button type="button" data-ex="${a.id}" data-v="${esc(x)}">${esc(x)}</button>`).join('')}</div>`).join('');
+    check1();
+  }
+  function check1() { $('to2').disabled = !D.asks.every(a => (S.w[a.id] || '').trim()); }
+  $('moods').addEventListener('click', (e) => { const b = e.target.closest('[data-mood]'); if (!b) return; S.mood = b.dataset.mood; S.verse = []; S.chorus = []; save(); draw1(); });
+  $('asks').addEventListener('input', (e) => { const t = e.target; if (!t.dataset.a) return; S.w[t.dataset.a] = t.value; S.verse = []; S.chorus = []; save(); check1(); });
+  $('asks').addEventListener('click', (e) => { const b = e.target.closest('[data-ex]'); if (!b) return; S.w[b.dataset.ex] = b.dataset.v; S.verse = []; S.chorus = []; save(); draw1(); });
+  $('fromPass').addEventListener('click', () => {
+    const P = CU.passport(), d = P.decl || {}; let n = 0;
+    D.asks.forEach(a => { if (a.from && (d[a.from] || '').trim()) { S.w[a.id] = d[a.from].trim().slice(0, 16); n++; } });
+    $('passNote').textContent = n ? `여권 진로 선언문에서 ${n}칸을 가져왔어요. 짧게 다듬어요.` : '여권 진로 선언문이 아직 비어 있어요.';
+    if (n) { S.verse = []; S.chorus = []; save(); draw1(); }
+  });
+  $('to2').addEventListener('click', () => go(2));
+
+  /* 2 */
+  const fill = (line) => line.replace(/\{(\w+)\}/g, (_, k) => (S.w[k] || '').trim());
+  function ensure() { const F = D.frames[S.mood]; if (!S.verse.length) S.verse = F.verse.map(fill); if (!S.chorus.length) S.chorus = F.chorus.map(fill); }
+  function lineRow(part, i, v) { const n = syl(v), cls = !v.trim() ? '' : (n >= 6 && n <= 10 ? '' : (n <= 13 && n >= 4 ? 'warn' : 'bad'));
+    return `<div class="lyr"><input type="text" data-p="${part}" data-i="${i}" maxlength="30" value="${esc(v)}" aria-label="${part} ${i + 1}줄"><span class="cnt ${cls}">${v.trim() ? n + '자' : '-'}</span></div>`; }
+  function draw2() {
+    ensure();
+    $('title').value = S.title || (S.w.dream ? '' : '');
+    $('lines').innerHTML = `<div class="part">🎵 1절</div>${S.verse.map((v, i) => lineRow('verse', i, v)).join('')}
+      <div class="part">⭐ 후렴 (되풀이해 불러요)</div>${S.chorus.map((v, i) => lineRow('chorus', i, v)).join('')}
+      <div class="part">🎵 2절 (선택)</div>${S.verse2.map((v, i) => lineRow('verse2', i, v)).join('')}`;
+    tip();
+  }
+  function all() { return [...S.verse, ...S.chorus, ...S.verse2].filter(l => l.trim()); }
+  function tip() {
+    const L = all(), long = L.filter(l => syl(l) > 13).length, n = L.map(syl), same = new Set(S.chorus.map(syl)).size === 1;
+    $('tip').innerHTML = `가사 ${L.length}줄 · ${long ? `<b>${long}줄이 너무 길어요</b> — 두 줄로 나누거나 줄여요. ` : ''}${same ? '후렴 줄 글자 수가 같아서 외우기 쉬워요! ' : '줄끼리 글자 수가 비슷하면 같은 가락을 되풀이해서 외우기 쉬워요. '}`;
+    $('to3').disabled = !(S.title.trim() && L.length >= 4 && !long);
+    document.querySelectorAll('#lines .lyr').forEach(r => { const v = r.querySelector('input').value, c = r.querySelector('.cnt'), k = syl(v);
+      c.textContent = v.trim() ? k + '자' : '-'; c.className = 'cnt ' + (!v.trim() ? '' : (k >= 6 && k <= 10 ? '' : (k <= 13 && k >= 4 ? 'warn' : 'bad'))); });
+  }
+  $('lines').addEventListener('input', (e) => { const t = e.target; if (!t.dataset.p) return; S[t.dataset.p][+t.dataset.i] = t.value; save(); tip(); });
+  $('title').addEventListener('input', (e) => { S.title = e.target.value; save(); tip(); });
+  $('refill').addEventListener('click', () => { if (!confirm('틀로 다시 채울까요? 고친 1절·후렴이 지워져요.')) return; S.verse = []; S.chorus = []; save(); draw2(); });
+  $('to3').addEventListener('click', () => go(3));
+
+  /* 3 */
+  function lyricText() {
+    const parts = [S.verse, S.chorus];
+    if (S.verse2.some(l => l.trim())) parts.push(S.verse2.filter(l => l.trim()), S.chorus);
+    return parts.map(p => p.filter(l => l.trim()).join('\n')).join('\n\n');
+  }
+  function b64url(str) { const bytes = new TextEncoder().encode(str); let s = ''; bytes.forEach(b => s += String.fromCharCode(b)); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
+  function roomLink() { return D.songRoom + '#lyrics=' + b64url(JSON.stringify({ v: 1, t: S.title.trim(), l: lyricText(), from: 'eaim-career' })); }
+  function draw3() {
+    const ch = new Set(S.chorus.map(l => l.trim()));
+    $('song').innerHTML = `<div class="small" style="opacity:.8">🎵 나의 진로 주제가 · ${esc(D.moods[S.mood].icon + ' ' + D.moods[S.mood].name)}</div><h2>${esc(S.title)}</h2>
+      <div class="ly">${lyricText().split('\n').map(l => ch.has(l.trim()) && l.trim() ? `<b>${esc(l)}</b>` : esc(l)).join('\n')}</div>`;
+    $('goods').innerHTML = D.goodLyric.map(g => `<button type="button" class="chip ${S.goods.includes(g) ? 'on' : ''}" data-g="${esc(g)}">${esc(g)}</button>`).join('');
+    $('toRoom').href = roomLink();
+  }
+  $('goods').addEventListener('click', (e) => { const b = e.target.closest('[data-g]'); if (!b) return; const g = b.dataset.g; S.goods = S.goods.includes(g) ? S.goods.filter(x => x !== g) : [...S.goods, g]; save(); draw3(); });
+  $('toRoom').addEventListener('click', async () => {
+    if (CareerClass.safetyCheck(lyricText())) { CareerClass.showNotice('danger'); return; }
+    try { await navigator.clipboard.writeText(lyricText()); CU.toast('가사를 복사했어요. 노래 작곡실 ① 가사 칸에 붙여 넣어요.'); } catch {}
+    CU.stamp('theme-song', summary());
+  });
+  function summary() { return `[진로 주제가] ${S.title.trim()} (${D.moods[S.mood].name})\n${lyricText()}\n[좋은 가사 점검] ${S.goods.join(', ')}`; }
+  $('btnCopy').addEventListener('click', () => CU.copy(summary()));
+  CU.stampButton('theme-song', summary);
+  $('btnPrint').addEventListener('click', () => window.print());
+  $('send').addEventListener('click', async () => {
+    if (CareerClass.safetyCheck(lyricText() + ' ' + S.title)) return CareerClass.showNotice('danger');
+    $('send').disabled = true; $('send').textContent = '내는 중...';
+    const r = await CareerClass.submit({ kind: 'theme-song', title: `진로 주제가 — ${S.title.trim()}`, content: summary(),
+      detail: { title: S.title.trim(), mood: S.mood, words: S.w, lyrics: lyricText(), goods: S.goods } });
+    $('send').disabled = false; $('send').textContent = '선생님께 내기';
+    if (r.ok) CU.toast('선생님께 냈어요.');
+  });
+
+  function go(n) {
+    S.step = n; S.reached = Math.max(S.reached || 1, n); save();
+    [1, 2, 3].forEach(i => { $('step' + i).hidden = i !== n; });
+    document.querySelectorAll('.steps button').forEach(b => { const k = +b.dataset.go; b.removeAttribute('aria-current'); if (k === n) b.setAttribute('aria-current', 'step'); b.disabled = k > S.reached; });
+    ({ 1: draw1, 2: draw2, 3: draw3 })[n](); window.scrollTo({ top: 0 });
+  }
+  document.addEventListener('click', (e) => { const b = e.target.closest('[data-go]'); if (!b || b.disabled) return; if (+b.dataset.go > S.reached) return; go(+b.dataset.go); });
+  go(Math.min(S.step || 1, S.reached || 1));
+  CU.classroom({ app: 'theme-song', modeEl: $('mode'), sendEl: $('send'), replyEl: $('reply') });
+})();
+</script>
+<p class="eaim-copy">© 2026 박성애 · EAIM · 교육 목적 무료 사용, 무단 복제·상업적 이용 금지 · <a href="https://eaim.kr/#copyright" target="_blank" rel="noopener" style="color:inherit">이용 안내</a></p>
+</body>
+</html>

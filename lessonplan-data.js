@@ -146,6 +146,19 @@ window.CAREER_LESSONS = [
     cce: { activity: '진로 탐색 활동', example: '정보탐색 활동: 학업 및 진학 정보 탐색, 직업 정보 및 자격(면허) 제도 탐색, 진로진학 및 취업 유관기관 탐방 등' },
     care: '학교 유형에 서열을 매기지 않는다. 정보는 2026년 기준이며 입학 제도와 학교 유형은 바뀔 수 있으므로 해마다 지역 교육청 고입 안내로 확인한다. 과목 이름은 2022 개정 교육과정 예시이고 학교마다 여는 과목이 다르다.' },
 
+  { id: 'theme-song', app: 'theme-song', code: '[9진로01-02]', area: '01', ki: [1], k: [2], p: [1], v: [1],
+    scope: 'lesson', sessions: 1, minutes: 45,
+    q: '나의 강점과 꿈을 노래로 표현하면 어떤 노래가 될까?',
+    hook: '힘들 때 나에게 힘을 주는 노래가 있나요? 그 노래의 어떤 말이 힘이 되나요?',
+    steps: [
+      { name: '가사 재료', title: '나의 진로 주제가 재료를 모아요', guide: '노래 분위기를 고르고 강점·꿈·길의 풍경·나에게 하는 응원·다음 한 걸음을 짧은 낱말로 모은다(진로 여권 선언문에서 가져올 수 있음)' },
+      { name: '가사 쓰기', title: '가사를 다듬어요', guide: '낱말이 들어간 가사 틀(1절·후렴)을 내 말로 고치고 줄마다 6~10글자로 맞춘다. 2절은 선택' },
+      { name: '노래로 만들기', title: '노래 작곡실로 가져가기', guide: '좋은 가사 기준으로 점검한 뒤 가사를 연주실 노래 작곡실로 가져가 🎹 내가 가락 만들기(또는 수업 방의 🎤 AI 가수)로 노래를 완성해 부른다' },
+    ],
+    output: '나의 진로 주제가',
+    cce: { activity: '진로 탐색 활동', example: '자아탐색 활동: 자기이해, 생애 탐색, 가치관 확립 등' },
+    care: '가사에 친구 이름·사는 곳 같은 개인정보를 쓰지 않는다. 기존 노래 가사를 옮겨 쓰지 않고 내 말로 쓴다(저작권). 노래 부르기를 어려워하는 학생은 가사 낭독이나 모둠 합창으로 참여하게 한다. 음악 시간과 융합하면 좋다.' },
+
   { id: 'path-board', app: 'path-board', code: '[9진로02-02]', area: '02', ki: [1, 2], k: [2], p: [1], v: [0, 1],
     scope: 'lesson', sessions: 1, minutes: 45,
     q: '꿈에 닿는 길은 몇 개일까?',
@@ -249,6 +262,6 @@ window.CAREER_LESSONS = [
 ];
 /* 차시 예고(이전·다음)와 목록 순서 — 교육과정 영역·성취기준 흐름 */
 (function () {
-  const ORDER = ['job-day', 'my-traits', 'multi-growth-1', 'multi-growth-2', 'dream-team', 'work-play', 'job-change-cards', 'path-board', 'info-detective', 'exp-link', 'high-school', 'entre-explorer', 'booth-startup', 'multi-growth-3', 'decision-scale', 'path-map', 'study-plan', 'after-grad', 'multi-growth-4'];
+  const ORDER = ['job-day', 'my-traits', 'multi-growth-1', 'multi-growth-2', 'theme-song', 'dream-team', 'work-play', 'job-change-cards', 'path-board', 'info-detective', 'exp-link', 'high-school', 'entre-explorer', 'booth-startup', 'multi-growth-3', 'decision-scale', 'path-map', 'study-plan', 'after-grad', 'multi-growth-4'];
   window.CAREER_LESSONS.sort((a, b) => ORDER.indexOf(a.id) - ORDER.indexOf(b.id));
 })();

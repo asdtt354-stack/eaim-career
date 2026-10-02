@@ -54,6 +54,8 @@ window.CAREER_APPS = {
                         desc: '정보 찾는 방법을 익히고, 믿을 만한 정보와 광고·과장을 가려낸 뒤 조사 노트를 써요' },
   'high-school':      { area: '02', order: 5, std: '[9진로02-05]', stds: ['[9진로02-05]'], icon: '🏫', name: '고등학교 탐험', file: 'high-school.html', worksheet: 'worksheet/high-school.html', open: true, ready: true, activityType: 'writing',
                         desc: '고등학교 유형을 살펴보고, 고교학점제 모의 시간표를 짜고, 나에게 맞는 학교를 찾아요 (2026년 기준)' },
+  'theme-song':       { area: '01', order: 6, std: '[9진로01-02]', stds: ['[9진로01-02]'], icon: '🎵', name: '진로 주제가 작사실', file: 'theme-song.html', worksheet: 'worksheet/theme-song.html', open: true, ready: true, activityType: 'creation',
+                        desc: '나의 강점과 꿈으로 진로 주제가 가사를 쓰고, 연주실 노래 작곡실에서 노래로 만들어요 (음악 융합)' },
 
   /* ── 모으는 도구 ── */
   'passport':         { area: '', tool: true, order: 99, std: '', stds: [], icon: '🛂', name: '나의 진로 여권', file: 'passport.html', open: true, ready: true, activityType: 'project',

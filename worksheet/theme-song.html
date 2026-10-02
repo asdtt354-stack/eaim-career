@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="../favicon.png">
+<title>활동지 · EAIM 진로</title>
+<!-- EAIM 진로 활동지 v1.0 (2026-10-02) · theme-song — 문장은 앱 자료(../theme-song-data.js)를 그대로 읽고, 틀·기능은 ws.js 공통(에임 도덕 활동지 엔진을 옮김). AI·로그인·기록 없음. -->
+<link rel="stylesheet" href="ws.css">
+</head>
+<body>
+<script src="../career-apps.js"></script>
+<script src="../curriculum-career.js"></script>
+<script src="../lessonplan-data.js"></script>
+<script src="../theme-song-data.js"></script>
+<script src="../career-class.js"></script>
+<script src="ws.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.TS_DATA, E = WS.esc;
+
+  WS.start('theme-song', { help: '친구 이름·사는 곳은 쓰지 않아요. 다른 노래 가사를 옮기지 않고 내 말로 써요.' });
+  WS.add(WS.h2('1. 가사 재료 모으기') + WS.radios('mood', Object.values(D.moods).map(m => `${m.icon} ${m.name}`), { cols: true })
+    + WS.lines(D.asks.map(a => ({ label: a.label.t, hint: '예: ' + a.ex.slice(0, 3).join(' / ') }))));
+  WS.add(WS.h2('2. 가사 쓰기') + WS.guide('한 줄에 6~10글자가 부르기 편해요. 줄끼리 글자 수가 같으면 외우기 쉬워요.')
+    + WS.lines([{ label: '노래 제목' }]) + WS.lines([1, 2, 3, 4].map(n => ({ label: `1절 ${n}줄` })), { unit: ' (__자)' })
+    + WS.lines([1, 2, 3, 4].map(n => ({ label: `후렴 ${n}줄` })), { unit: ' (__자)' }) + WS.write('2절 (선택)', 4));
+  WS.add(WS.h2('3. 좋은 가사 점검과 노래 만들기') + WS.checks('good', D.goodLyric)
+    + WS.note('연주실 노래 작곡실(eaim-play.vercel.app/song.html)에서 🎹 내가 가락 만들기로 노래를 만들어요. 🎤 AI 가수는 선생님 수업 방에서 해요.')
+    + WS.write('노래를 부르고(또는 들어 보고) 느낀 점', 2));
+
+  WS.done();
+})();
+</script>
+</body>
+</html>
