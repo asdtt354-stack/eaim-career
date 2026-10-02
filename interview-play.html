@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="career.webmanifest">
+<meta name="theme-color" content="#e2703a">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="EAIM 진로">
+<title>직업인 인터뷰 낭독극 · EAIM 진로</title>
+<!-- 직업인 인터뷰 낭독극 v1.0 (2026-10-02) — [9진로01-01] + [9진로02-03] 직업인 면담 + 음악·연극 융합. 대본 쓰기는 AI 없음.
+     완성 대본을 뮤지컬 메이커 음악낭독극으로 넘김 (주소 #reading= base64url JSON {v:1,from,d}) — 메이커가 읽게 되기 전에는 "대본 복사 → 붙여 넣기". -->
+<link rel="stylesheet" href="career.css">
+<style>
+  .steps button{font:inherit;font-size:.82rem;padding:4px 12px;border-radius:999px;background:#efe9df;color:var(--sub);font-weight:700}
+  .steps button[aria-current]{background:var(--main);color:#fff}
+  .steps button:disabled{opacity:.5}
+  .jobs{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+  .jobs button{background:#fff;color:var(--ink);border:2px solid var(--line);font-weight:700;text-align:left;padding:10px 12px;border-radius:14px}
+  .jobs button.on{border-color:var(--main);background:var(--main-soft)}
+  .jobs button .g{display:block;font-size:.74rem;color:var(--sub);font-weight:500}
+  .casts{display:flex;gap:8px;flex-wrap:wrap}
+  .casts button{background:#fff;color:var(--ink);border:2px solid var(--line);font-weight:700}
+  .casts button.on{border-color:var(--main);background:var(--main-soft)}
+  .roles{display:grid;gap:6px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));margin-top:8px}
+  .roles div{background:#faf7f2;border-radius:12px;padding:8px 10px;font-size:.84rem}
+  .roles b{color:var(--main)}
+  .scene{border:1px solid var(--line);border-radius:16px;padding:12px;margin:12px 0;background:#fff}
+  .scene h3{margin:0 0 2px;font-size:1rem}
+  .scene textarea{width:100%;min-height:150px;font:inherit;font-size:.92rem;line-height:1.7;box-sizing:border-box}
+  .scene textarea:focus{outline:3px solid var(--main-soft)}
+  .meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;font-size:.78rem}
+  .meta span{border-radius:999px;padding:2px 8px;background:var(--teal-soft);color:var(--teal);font-weight:700}
+  .meta span.warn{background:var(--gold-soft);color:#9a7413}
+  .meta span.bad{background:#fde8e7;color:var(--red)}
+  .qb{position:sticky;top:0;z-index:2;background:#fffdf9;border:1px solid var(--line);border-radius:14px;padding:8px 10px;margin:8px 0}
+  .qb .cats{display:flex;gap:4px;flex-wrap:wrap}
+  .qb .cats button{background:#f5f1ea;color:var(--ink);font-weight:700;font-size:.8rem;padding:4px 9px}
+  .qb .cats button.on{background:var(--main);color:#fff}
+  .qb .qs{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+  .qb .qs button{background:#fff;border:1px dashed var(--main);color:var(--ink);font-weight:500;font-size:.82rem;padding:5px 9px}
+  .ex{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+  .ex button{background:#f5f1ea;color:var(--ink);font-weight:500;font-size:.82rem;padding:5px 10px}
+  .play{border-radius:22px;padding:20px;background:linear-gradient(160deg,#2b2a33,#3d3a4f);color:#fff}
+  .play h2{color:#ffd166;margin:0 0 2px;font-size:1.3rem;text-align:center}
+  .play .sub{text-align:center;font-size:.8rem;opacity:.8}
+  .play pre{white-space:pre-wrap;font:inherit;font-size:.92rem;line-height:1.8;margin:8px 0 0}
+  .play .st{color:#ffd166;font-weight:800;margin-top:12px}
+  .goods{display:grid;gap:6px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+  @media (max-width:520px){ .qb{position:static} }
+  @media print{ .play{background:#fff;color:#000;border:1px solid #999} .play h2,.play .st{color:#000} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="home" href="index.html">← EAIM 진로</a>
+    <h1>🎤 직업인 인터뷰 낭독극</h1>
+    <button class="easy-btn" type="button" aria-pressed="false">쉬운 말</button>
+  </header>
+  <p class="row" style="margin:0"><span class="badge teal">[9진로01-01]</span><span class="badge teal">[9진로02-03]</span><span class="badge gold">음악·연극 융합</span>
+    <a class="badge blue" href="guide.html#student-interview-play" style="text-decoration:none">📘 사용법</a>
+    <a class="badge" href="worksheet/interview-play.html" style="text-decoration:none">📄 활동지</a>
+    <span id="mode" class="mode hidden"></span></p>
+
+  <nav class="steps" style="margin-top:12px" aria-label="단계">
+    <button type="button" data-go="1">1 직업인·배역</button>
+    <button type="button" data-go="2">2 대본 쓰기</button>
+    <button type="button" data-go="3">3 노래·공연 준비</button>
+  </nav>
+
+  <section id="step1">
+    <div class="card" id="i1">
+      <h2>누구를 인터뷰할까요? <button class="say" data-say="i1">🔊</button></h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>인터뷰할 직업인을 하나 눌러요 — <b>직업인의 하루</b>에서 만난 인물이거나, <b>✏️ 내가 조사한 직업</b>이에요</li><li>모둠 인원에 맞춰 배역 구성을 눌러요</li><li>작품 제목을 확인하고 <b>대본 쓰기</b> 를 눌러요</li></ol><ol class="e"><li>직업인을 눌러요</li><li>몇 명인지 눌러요</li><li>다음 단추를 눌러요</li></ol></div>
+      <p class="read">💡 알아 두기</p>
+      <p class="small" style="margin:2px 0 8px"><span class="n">직업인 면담(인터뷰)은 진로 정보를 얻는 좋은 방법이에요. 기자와 직업인이 되어 인터뷰를 <b>낭독극</b>으로 꾸미고, 마지막에 다 함께 노래해요. 다 쓰면 <b>뮤지컬 메이커</b>의 음악낭독극으로 가져가 공연을 준비해요. 대본은 우리가 써요(AI 없음).</span><span class="e">기자와 직업인이 되어 인터뷰 연극을 만들어요. 마지막에 노래해요.</span></p>
+      <div class="jobs" id="jobs"></div>
+      <div id="custom" hidden>
+        <p class="tip small">실제 사람 이름은 쓰지 않아요. 직업인 이름은 지어서 써요. 내용은 <a href="info-detective.html">진로 정보 탐정</a>·커리어넷 직업인 인터뷰 등에서 조사한 것을 바탕으로 해요.</p>
+        <label class="field" for="cJob">직업 이름</label><input type="text" id="cJob" maxlength="20" placeholder="예: 수의사">
+        <label class="field" for="cWho">직업인 이름 (지어낸 이름)</label><input type="text" id="cWho" maxlength="10" placeholder="예: 나래">
+        <label class="field" for="cPlace">일터</label><input type="text" id="cPlace" maxlength="30" placeholder="예: 동물 병원 진료실">
+        <label class="field" for="cIntro">어떤 일을 하나요? (한 문장)</label><input type="text" id="cIntro" maxlength="60" placeholder="예: 아픈 동물을 치료하고 보호자에게 돌보는 법을 알려 줘요.">
+      </div>
+      <h3>배역 구성</h3>
+      <div class="casts" id="casts"></div>
+      <div class="roles" id="roles"></div>
+      <label class="field" for="ptitle">작품 제목</label><input type="text" id="ptitle" maxlength="40">
+    </div>
+    <div class="row"><button type="button" id="to2" disabled>대본 쓰기 →</button></div>
+  </section>
+
+  <section id="step2" hidden>
+    <div class="card">
+      <h2>인터뷰 대본을 써요</h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>장면 다섯 개에 대본 틀이 들어 있어요. <b>( … 써요)</b> 칸을 모두 내 말로 바꿔요</li><li>대답은 직업인이 말하듯 <b>"저는 ~해요"</b>로 고쳐요. 더 묻고 싶으면 장면 칸을 누른 뒤 위 <b>질문 꾸러미</b>를 눌러요</li><li>줄마다 <b>배역: 대사</b>, 움직임은 <b>[무대] 지문</b>으로 써요. 다 되면 <b>노래·공연 준비</b> 를 눌러요</li></ol><ol class="e"><li>( ) 칸을 내 말로 바꿔요</li><li>질문을 더 넣어도 돼요</li><li>다음 단추를 눌러요</li></ol></div>
+      <div class="qb" id="qb"><div class="small muted" id="qbFor">질문 꾸러미 — 장면 칸을 누르면 그 장면에 들어가요</div><div class="cats" id="qcats"></div><div class="qs" id="qs"></div></div>
+      <div class="row"><button type="button" class="ghost" id="refill">↺ 틀 다시 채우기</button><span class="muted small">고친 내용이 지워져요</span></div>
+      <div id="scenes"></div>
+      <div class="tip" id="tip2"></div>
+    </div>
+    <div class="row"><button type="button" class="ghost" data-go="1">← 이전</button><button type="button" id="to3" disabled>노래·공연 준비 →</button></div>
+  </section>
+
+  <section id="step3" hidden>
+    <div class="card">
+      <h2>마지막 노래와 공연 준비</h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>마지막에 다 함께 부를 노래 가사를 정해요 — <b>🎵 진로 주제가 가져오기</b>나 <b>틀로 쓰기</b>를 눌러도 돼요</li><li>좋은 대본 기준으로 점검해요</li><li><b>🎭 뮤지컬 메이커로 보내기</b> 를 눌러요 (대본도 복사돼요)</li></ol><ol class="e"><li>노래 가사를 정해요</li><li>기준을 눌러요</li><li>뮤지컬 메이커로 보내요</li></ol></div>
+      <div class="row"><button type="button" class="ghost" id="fromSong">🎵 진로 주제가 가져오기</button><button type="button" class="ghost" id="songFrame">📝 틀로 쓰기</button><span class="muted small" id="songNote"></span></div>
+      <div class="ex" id="words"></div>
+      <label class="field" for="sTitle">노래 제목</label><input type="text" id="sTitle" maxlength="30" placeholder="예: 누군가의 하루">
+      <label class="field" for="sLyr">노래 가사 (4~8줄, 한 줄 6~10글자가 부르기 편해요)</label><textarea id="sLyr" rows="6" maxlength="600"></textarea>
+      <label class="field" for="prep">준비물</label><input type="text" id="prep" maxlength="60">
+    </div>
+    <div class="card">
+      <div class="play" id="play"></div>
+      <h3>✅ 좋은 대본 점검</h3>
+      <div class="goods" id="goods"></div>
+      <details style="margin-top:10px"><summary class="small"><b>선생님이 뮤지컬 메이커 학생 주소를 주셨나요?</b> (수업에서)</summary>
+        <p class="small muted">선생님이 주신 뮤지컬 메이커 학생 주소(…maker.html?role=student…)를 붙여 넣으면 그 수업으로 바로 가요. 비워 두면 기본 주소로 가고, 대본은 이 기기에 맡겨져 나중에 선생님 주소로 들어가도 불러올 수 있어요.</p>
+        <input type="url" id="mkUrl" placeholder="https://eaim-musical-maker.vercel.app/maker.html?role=student&teacher=…">
+        <p class="small" id="mkNote"></p>
+      </details>
+      <div class="row no-print" style="margin-top:12px">
+        <a class="btn" id="toMaker" href="#" target="_blank" rel="noopener">🎭 뮤지컬 메이커로 보내기</a>
+        <button type="button" class="ghost" id="btnCopy">📋 대본 복사</button>
+        <button type="button" class="ghost" id="btnStamp">🛂 여권에 도장</button>
+        <button type="button" class="ghost" id="btnPrint">🖨 대본 인쇄</button>
+        <button type="button" class="teal hidden" id="send">선생님께 내기</button>
+      </div>
+      <p class="muted small">뮤지컬 메이커가 새 창으로 열려요. 음악낭독극 화면에 <b>📥 진로 앱에서 온 대본</b>이 보이면 <b>불러오기</b>를 눌러요. 안 보이면 📋 복사한 대본을 붙여 넣어요.</p>
+      <div id="reply" class="reply hidden"></div>
+    </div>
+    <div class="row no-print"><button type="button" class="ghost" data-go="2">← 이전</button></div>
+  </section>
+  <div class="std" id="stdBox"></div>
+</div>
+
+<script src="curriculum-career.js"></script>
+<script src="career-apps.js"></script>
+<script src="job-day-data.js"></script>
+<script src="interview-play-data.js"></script>
+<script src="career-class.js"></script>
+<script src="career-ui.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.IP_DATA, J = window.JD_DATA, esc = CU.esc;
+  const $ = (id) => document.getElementById(id);
+  const s1 = window.EAIM_CAREER_CURRICULUM.find('[9진로01-01]'), s2 = window.EAIM_CAREER_CURRICULUM.find('[9진로02-03]');
+  $('stdBox').innerHTML = `<b>${s1.code}</b> ${esc(s1.text)}<br><b>${s2.code}</b> ${esc(s2.text)}<br><span class="small">음악·연극 융합: 직업인 면담을 낭독극으로 꾸미고, 뮤지컬 메이커 음악낭독극으로 공연을 준비해요.</span>`;
+  const ST = CU.sstore('interview_play'), MK = CU.store('maker_url');
+  let S = ST.load({ step: 1, reached: 1, job: '', cast: 3, title: '', c: { job: '', who: '', place: '', intro: '' }, scripts: [], sTitle: '', sLyr: '', prep: '역할 이름표, 수첩(기자 소품)', goods: [], focus: 0, qcat: 'open' });
+  const save = () => ST.save(S);
+  const people = J.people;
+  const clean = (t) => String(t || '').replace(/["“”]/g, '').trim();
+
+  /* 공통 */
+  function who() {
+    if (S.job === 'custom') return { job: S.c.job.trim(), who: S.c.who.trim(), place: S.c.place.trim() || D.places.custom.place, intro: S.c.intro.trim() || D.places.custom.intro, p: null };
+    const pl = D.places[S.job] || {}, p = people.find(x => x.id === S.job);
+    return { job: pl.job, who: pl.who, place: pl.place, intro: pl.intro, p };
+  }
+  const castIds = () => (D.casts.find(c => c.n === S.cast) || D.casts[0]).ids;
+  const roleNames = () => castIds().map(id => D.roles[id].role);
+
+  /* 1 */
+  function draw1() {
+    $('jobs').innerHTML = people.map(p => `<button type="button" data-job="${p.id}" class="${S.job === p.id ? 'on' : ''}">${p.icon} ${esc(D.places[p.id].job)} ${esc(D.places[p.id].who)}<span class="g">${esc(p.group)}</span></button>`).join('')
+      + `<button type="button" data-job="custom" class="${S.job === 'custom' ? 'on' : ''}">✏️ 내가 조사한 직업<span class="g">직접 써요</span></button>`;
+    $('custom').hidden = S.job !== 'custom';
+    ['job', 'who', 'place', 'intro'].forEach(k => { const el = $('c' + k[0].toUpperCase() + k.slice(1)); if (el.value !== S.c[k]) el.value = S.c[k]; });
+    $('casts').innerHTML = D.casts.map(c => `<button type="button" data-cast="${c.n}" class="${S.cast === c.n ? 'on' : ''}">${esc(c.t)}</button>`).join('');
+    $('roles').innerHTML = castIds().map(id => `<div><b>${esc(D.roles[id].role)}</b> — ${esc(D.roles[id].desc)}</div>`).join('');
+    $('ptitle').value = S.title;
+    check1();
+  }
+  const eul = (w) => { const c = w.charCodeAt(w.length - 1); return c >= 0xAC00 && c <= 0xD7A3 && (c - 0xAC00) % 28 ? '을' : '를'; };
+  function defaultTitle() { const w = who(); return w.job && w.who ? `${w.job} ${w.who}${eul(w.who)} 만나다` : ''; }
+  function check1() {
+    const w = who();
+    $('to2').disabled = !(S.job && w.job && w.who && S.title.trim());
+  }
+  $('jobs').addEventListener('click', (e) => { const b = e.target.closest('[data-job]'); if (!b) return; const prevDef = defaultTitle(); S.job = b.dataset.job; if (!S.title.trim() || S.title === prevDef) S.title = defaultTitle(); S.scripts = []; save(); draw1(); });
+  $('custom').addEventListener('input', (e) => { const id = e.target.id; if (!/^c[A-Z]/.test(id)) return; const prevDef = defaultTitle(); S.c[id[1].toLowerCase() + id.slice(2)] = e.target.value; if (!S.title.trim() || S.title === prevDef) { S.title = defaultTitle(); $('ptitle').value = S.title; } S.scripts = []; save(); check1(); });
+  $('casts').addEventListener('click', (e) => { const b = e.target.closest('[data-cast]'); if (!b) return; S.cast = +b.dataset.cast; S.scripts = []; save(); draw1(); });
+  $('ptitle').addEventListener('input', (e) => { S.title = e.target.value; save(); check1(); });
+  $('to2').addEventListener('click', () => go(2));
+
+  /* 2 */
+  function fillScenes() {
+    const w = who(), p = w.p, has2 = castIds().includes('rep2'), crowd = castIds().includes('crowd');
+    const sc = p ? p.scenes : [], by = (a) => { const x = sc.find(s => s.a === a); return x ? clean(x.t) : '(조사한 내용을 써요)'; };
+    const map = { job: w.job, who: w.who, place: w.place, intro: w.intro,
+      t1: sc[0] ? sc[0].time + '에는' : '(시간)에는', d1: sc[0] ? clean(sc[0].t) : '(하루 장면을 써요)',
+      t2: sc[1] ? sc[1].time + '에는' : '(시간)에는', d2: sc[1] ? clean(sc[1].t) : '(하루 장면을 써요)',
+      like: by('like'), able: by('able'), value: by('value') };
+    return D.scenes.map((s, i) => {
+      let L = s.lines.map(l => l.replace(/\{(\w+)\}/g, (_, k) => map[k] != null ? map[k] : ''));
+      if (!has2) L = L.map(l => l.replace(/^기자2:/, '기자:'));
+      if (crowd && i === D.scenes.length - 1) L.splice(L.length - 1, 0, '모두: 우리의 하루도 누군가의 노래가 될 거예요!');
+      return L.join('\n');
+    });
+  }
+  function ensure() { if (S.scripts.length !== D.scenes.length) S.scripts = fillScenes(); }
+  const spoken = (t) => t.split('\n').filter(l => l.trim() && !/^\s*\[/.test(l)).map(l => l.replace(/^[^:：]{1,12}[:：]/, ''));
+  const secOf = (t) => { const L = spoken(t); const n = L.join('').replace(/\s/g, '').length; return Math.round(n / 5 + L.length * 1.5); };
+  const holes = (t) => (t.match(/\([^()]*(써요|시간)\)/g) || []).length;
+  function badRoles(t) {
+    const ok = new Set(roleNames());
+    return [...new Set(t.split('\n').map(l => (l.match(/^\s*([^:：\[\]]{1,12})[:：]/) || [])[1]).filter(Boolean).map(r => r.trim()).filter(r => !ok.has(r)))];
+  }
+  function draw2() {
+    ensure();
+    $('qcats').innerHTML = D.qbank.map(c => `<button type="button" data-qc="${c.k}" class="${S.qcat === c.k ? 'on' : ''}">${c.icon} ${esc(c.name)}</button>`).join('');
+    drawQs();
+    $('scenes').innerHTML = D.scenes.map((s, i) => `<div class="scene" id="sc${i}"><h3>장면 ${i + 1}. ${esc(s.title)}</h3><p class="small muted" style="margin:0 0 6px">${esc(s.hint)}</p>
+      <textarea data-sc="${i}" aria-label="장면 ${i + 1} 대본" maxlength="2500">${esc(S.scripts[i])}</textarea><div class="meta" id="meta${i}"></div></div>`).join('');
+    meta2();
+  }
+  function drawQs() {
+    const c = D.qbank.find(x => x.k === S.qcat) || D.qbank[0];
+    $('qs').innerHTML = c.qs.map(q => `<button type="button" data-q="${esc(q)}">+ ${esc(q)}</button>`).join('');
+    $('qbFor').textContent = `질문 꾸러미 → 장면 ${S.focus + 1}에 들어가요 (다른 장면 칸을 누르면 바뀌어요)`;
+  }
+  function meta2() {
+    let allHoles = 0, allBad = [];
+    S.scripts.forEach((t, i) => {
+      const h = holes(t), b = badRoles(t), n = spoken(t).length; allHoles += h; allBad = allBad.concat(b);
+      const el = $('meta' + i); if (!el) return;
+      el.innerHTML = `<span>대사 ${n}줄</span><span>약 ${secOf(t)}초</span>${h ? `<span class="warn">( ) ${h}칸 남음</span>` : ''}${b.length ? `<span class="bad">배역에 없는 이름: ${esc(b.join(', '))}</span>` : ''}${n < 2 ? '<span class="bad">대사를 2줄 이상 써요</span>' : ''}`;
+    });
+    const tot = S.scripts.reduce((a, t) => a + secOf(t), 0);
+    $('tip2').innerHTML = `배역: <b>${esc(roleNames().join(' · '))}</b> · 낭독 약 ${Math.max(1, Math.round(tot / 6) / 10)}분${allHoles ? ` · <b>( ) 칸이 ${allHoles}개 남았어요</b>` : ''}${allBad.length ? ' · <b>배역 이름을 확인해요</b>' : ''}`;
+    $('to3').disabled = !!(allHoles || allBad.length || S.scripts.some(t => spoken(t).length < 2));
+  }
+  $('scenes').addEventListener('input', (e) => { const t = e.target; if (t.dataset.sc == null) return; S.scripts[+t.dataset.sc] = t.value; save(); meta2(); });
+  $('scenes').addEventListener('focusin', (e) => { const t = e.target; if (t.dataset.sc == null) return; S.focus = +t.dataset.sc; save(); drawQs(); });
+  $('qcats').addEventListener('click', (e) => { const b = e.target.closest('[data-qc]'); if (!b) return; S.qcat = b.dataset.qc; save(); draw2(); });
+  $('qs').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-q]'); if (!b) return;
+    const i = S.focus, ta = document.querySelector(`textarea[data-sc="${i}"]`); if (!ta) return;
+    const last = S.scripts[i].split('\n').filter(l => /^기자2?:/.test(l)).slice(-1)[0] || '';
+    const rep = castIds().includes('rep2') && /^기자:/.test(last) ? '기자2' : '기자';
+    const add = `${rep}: ${b.dataset.q}\n직업인: (대답을 써요)`;
+    S.scripts[i] = S.scripts[i].replace(/\s+$/, '') + '\n' + add; ta.value = S.scripts[i]; save(); meta2();
+    ta.focus(); const p = ta.value.lastIndexOf('(대답을 써요)'); ta.setSelectionRange(p, p + '(대답을 써요)'.length);
+    CU.toast(`장면 ${i + 1}에 질문을 넣었어요. ( ) 칸에 대답을 써요.`);
+  });
+  $('refill').addEventListener('click', () => { if (!confirm('틀로 다시 채울까요? 고친 대본이 모두 지워져요.')) return; S.scripts = []; save(); draw2(); });
+  $('to3').addEventListener('click', () => go(3));
+
+  /* 3 */
+  function songLines() { return S.sLyr.split('\n').map(l => l.trim()).filter(Boolean); }
+  function readMin() { return Math.max(1, Math.round(S.scripts.reduce((a, t) => a + secOf(t), 0) / 6) / 10); }
+  function songMin() { return Math.max(1, Math.round(songLines().length * 4 * 2 / 6) / 10); }
+  function readingData() {
+    const w = who(), ids = castIds();
+    return {
+      title: S.title.trim(), genre: '직업인 인터뷰 낭독극',
+      characters: ids.map(id => ({ role: D.roles[id].role, desc: id === 'pro' ? `${w.job} ${w.who} — ${D.roles[id].desc}` : D.roles[id].desc, tip: D.roles[id].tip })),
+      preparation: S.prep.trim(),
+      performanceStructure: `낭독 약 ${readMin()}분 + 노래 약 ${songMin()}분`,
+      scenes: D.scenes.map((s, i) => ({ sceneTitle: s.title, timeEstimate: `약 ${secOf(S.scripts[i])}초`, script: S.scripts[i].trim() })),
+      song: { songTitle: S.sTitle.trim(), sections: D.song.sections, lyrics: songLines().join('\n'), sunoPrompt: '', bgPrompt: '' },
+    };
+  }
+  function fullText() {
+    const d = readingData();
+    let t = `${d.title}\n[음악낭독극] ${d.genre}\n공연 구성: ${d.performanceStructure}\n준비물: ${d.preparation}\n\n배역\n` + d.characters.map(c => `• ${c.role} — ${c.desc} / 표현: ${c.tip}`).join('\n') + '\n\n';
+    d.scenes.forEach((s, i) => { t += `【장면 ${i + 1}: ${s.sceneTitle}】 ${s.timeEstimate}\n${s.script}\n\n`; });
+    return t + `【노래: ${d.song.songTitle}】\n${d.song.lyrics}`;
+  }
+  function b64url(str) { const bytes = new TextEncoder().encode(str); let s = ''; bytes.forEach(b => s += String.fromCharCode(b)); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
+  function makerBase() {
+    const u = (MK.load({ u: '' }).u || '').trim(); if (!u) return { url: D.makerBase, note: '' };
+    try { const x = new URL(u); if (D.makerOrigins.includes(x.origin) || location.hostname === 'localhost' || location.hostname === '127.0.0.1') { x.hash = ''; return { url: x.toString(), note: x.searchParams.get('teacher') ? '✓ 선생님 수업 주소로 보내요.' : '✓ 이 주소로 보내요.' }; } } catch {}
+    return { url: D.makerBase, note: '⚠ 뮤지컬 메이커 주소가 아니에요. 기본 주소로 보내요.' };
+  }
+  function makerLink() { return makerBase().url + '#reading=' + b64url(JSON.stringify({ v: 1, from: 'eaim-career', app: 'interview-play', d: readingData() })); }
+  function draw3() {
+    $('sTitle').value = S.sTitle; $('sLyr').value = S.sLyr; $('prep').value = S.prep;
+    $('words').innerHTML = '';
+    $('mkUrl').value = MK.load({ u: '' }).u || '';
+    $('goods').innerHTML = D.goodScript.map(g => `<button type="button" class="chip ${S.goods.includes(g) ? 'on' : ''}" data-g="${esc(g)}">${esc(g)}</button>`).join('');
+    preview();
+  }
+  function preview() {
+    const d = readingData(), ok = d.song.songTitle && songLines().length >= 4 && songLines().length <= 12;
+    $('play').innerHTML = `<div class="sub">🎤 직업인 인터뷰 낭독극 · ${esc(d.performanceStructure)}</div><h2>${esc(d.title)}</h2>
+      <div class="sub">${d.characters.map(c => esc(c.role)).join(' · ')}</div>
+      ${d.scenes.map((s, i) => `<div class="st">장면 ${i + 1}. ${esc(s.sceneTitle)} <span style="opacity:.7;font-weight:500">${esc(s.timeEstimate)}</span></div><pre>${esc(s.script)}</pre>`).join('')}
+      <div class="st">🎵 노래: ${esc(d.song.songTitle || '(노래 제목)')}</div><pre>${esc(d.song.lyrics || '(가사를 써요)')}</pre>`;
+    const mb = makerBase(); $('mkNote').textContent = mb.note;
+    const a = $('toMaker'); a.href = ok ? makerLink() : '#'; a.setAttribute('aria-disabled', ok ? 'false' : 'true'); a.style.opacity = ok ? '' : '.5';
+  }
+  $('sTitle').addEventListener('input', (e) => { S.sTitle = e.target.value; save(); preview(); });
+  $('sLyr').addEventListener('input', (e) => { S.sLyr = e.target.value; save(); preview(); });
+  $('prep').addEventListener('input', (e) => { S.prep = e.target.value; save(); preview(); });
+  $('mkUrl').addEventListener('input', (e) => { MK.save({ u: e.target.value.trim() }); preview(); });
+  $('fromSong').addEventListener('click', () => {
+    let t = '', l = '';
+    try { const v = JSON.parse(sessionStorage.getItem('eaim_career_theme_song') || 'null'); if (v && v.title) { t = v.title; l = [v.verse || [], v.chorus || []].map(p => p.filter(x => String(x).trim()).join('\n')).join('\n'); } } catch {}
+    if (!l) { const st = (CU.passport().stamps || {})['theme-song']; if (st && st.text) { const L = st.text.split('\n'); const m = L[0].match(/^\[진로 주제가\]\s*(.*?)\s*\(/); t = m ? m[1] : ''; l = L.slice(1).filter(x => x.trim() && !/^\[/.test(x)).join('\n'); } }
+    if (!l) { $('songNote').textContent = '진로 주제가가 아직 없어요. 틀로 쓰거나 직접 써요.'; return; }
+    S.sTitle = t; S.sLyr = l.split('\n').slice(0, 8).join('\n'); save(); $('songNote').textContent = '진로 주제가를 가져왔어요. 인터뷰에 맞게 고쳐도 돼요.'; draw3();
+  });
+  $('songFrame').addEventListener('click', () => {
+    $('words').innerHTML = '<span class="small muted">직업인의 손길을 한 낱말로:</span> ' + D.song.words.map(x => `<button type="button" data-w="${esc(x)}">${esc(x)}</button>`).join('');
+  });
+  $('words').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-w]'); if (!b) return; const w = who();
+    S.sLyr = D.song.frame.map(l => l.replace('{job}', w.job).replace('{word}', b.dataset.w)).join('\n'); if (!S.sTitle.trim()) S.sTitle = '누군가의 하루';
+    save(); $('sTitle').value = S.sTitle; $('sLyr').value = S.sLyr; preview(); CU.toast('틀을 넣었어요. 내 말로 고쳐요.');
+  });
+  $('goods').addEventListener('click', (e) => { const b = e.target.closest('[data-g]'); if (!b) return; const g = b.dataset.g; S.goods = S.goods.includes(g) ? S.goods.filter(x => x !== g) : [...S.goods, g]; save(); draw3(); });
+  $('toMaker').addEventListener('click', async (e) => {
+    if ($('toMaker').getAttribute('aria-disabled') === 'true') { e.preventDefault(); return CU.toast('노래 제목과 가사 4줄 이상(12줄까지)을 먼저 써요.'); }
+    if (CareerClass.safetyCheck(fullText())) { e.preventDefault(); CareerClass.showNotice('danger'); return; }
+    try { await navigator.clipboard.writeText(fullText()); } catch {}
+    CU.toast('뮤지컬 메이커로 보냈어요. 대본도 복사해 두었어요.');
+    CU.stamp('interview-play', summary());
+  });
+  function summary() { return fullText() + `\n\n[좋은 대본 점검] ${S.goods.join(', ')}`; }
+  $('btnCopy').addEventListener('click', () => CU.copy(fullText()));
+  CU.stampButton('interview-play', summary);
+  $('btnPrint').addEventListener('click', () => window.print());
+  $('send').addEventListener('click', async () => {
+    if (CareerClass.safetyCheck(fullText())) return CareerClass.showNotice('danger');
+    $('send').disabled = true; $('send').textContent = '내는 중...';
+    const d = readingData();
+    const r = await CareerClass.submit({ kind: 'interview-play', title: `인터뷰 낭독극 — ${d.title}`, content: summary(),
+      detail: { job: who().job, cast: S.cast, title: d.title, scenes: d.scenes.length, songTitle: d.song.songTitle, goods: S.goods } });
+    $('send').disabled = false; $('send').textContent = '선생님께 내기';
+    if (r.ok) CU.toast('선생님께 냈어요.');
+  });
+
+  function go(n) {
+    S.step = n; S.reached = Math.max(S.reached || 1, n); save();
+    [1, 2, 3].forEach(i => { $('step' + i).hidden = i !== n; });
+    document.querySelectorAll('.steps button').forEach(b => { const k = +b.dataset.go; b.removeAttribute('aria-current'); if (k === n) b.setAttribute('aria-current', 'step'); b.disabled = k > S.reached; });
+    ({ 1: draw1, 2: draw2, 3: draw3 })[n](); window.scrollTo({ top: 0 });
+  }
+  document.addEventListener('click', (e) => { const b = e.target.closest('[data-go]'); if (!b || b.disabled) return; if (+b.dataset.go > S.reached) return; go(+b.dataset.go); });
+  go(Math.min(S.step || 1, S.reached || 1));
+  CU.classroom({ app: 'interview-play', modeEl: $('mode'), sendEl: $('send'), replyEl: $('reply') });
+})();
+</script>
+<p class="eaim-copy">© 2026 박성애 · EAIM · 교육 목적 무료 사용, 무단 복제·상업적 이용 금지 · <a href="https://eaim.kr/#copyright" target="_blank" rel="noopener" style="color:inherit">이용 안내</a></p>
+</body>
+</html>

@@ -57,6 +57,9 @@ window.CAREER_APPS = {
   'theme-song':       { area: '01', order: 6, std: '[9진로01-02]', stds: ['[9진로01-02]'], icon: '🎵', name: '진로 주제가 작사실', file: 'theme-song.html', worksheet: 'worksheet/theme-song.html', open: true, ready: true, activityType: 'creation',
                         desc: '나의 강점과 꿈으로 진로 주제가 가사를 쓰고, 연주실 노래 작곡실에서 노래로 만들어요 (음악 융합)' },
 
+  'interview-play':   { area: '01', order: 7, std: '[9진로01-01]', stds: ['[9진로01-01]', '[9진로02-03]'], icon: '🎤', name: '직업인 인터뷰 낭독극', file: 'interview-play.html', worksheet: 'worksheet/interview-play.html', open: true, ready: true, activityType: 'creation',
+                        desc: '기자와 직업인이 되어 인터뷰 대본을 쓰고, 뮤지컬 메이커 음악낭독극으로 공연을 준비해요 (음악·연극 융합)' },
+
   /* ── 모으는 도구 ── */
   'passport':         { area: '', tool: true, order: 99, std: '', stds: [], icon: '🛂', name: '나의 진로 여권', file: 'passport.html', open: true, ready: true, activityType: 'project',
                         desc: '활동마다 받은 도장이 한 권에 모이는 나의 진로 포트폴리오' },

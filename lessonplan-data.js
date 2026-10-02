@@ -159,6 +159,19 @@ window.CAREER_LESSONS = [
     cce: { activity: '진로 탐색 활동', example: '자아탐색 활동: 자기이해, 생애 탐색, 가치관 확립 등' },
     care: '가사에 친구 이름·사는 곳 같은 개인정보를 쓰지 않는다. 기존 노래 가사를 옮겨 쓰지 않고 내 말로 쓴다(저작권). 노래 부르기를 어려워하는 학생은 가사 낭독이나 모둠 합창으로 참여하게 한다. 음악 시간과 융합하면 좋다.' },
 
+  { id: 'interview-play', app: 'interview-play', code: '[9진로01-01]', area: '01', ki: [1], k: [1], p: [0], v: [0],
+    scope: 'lesson', sessions: 2, minutes: 90,
+    q: '직업인을 인터뷰하면 그 직업의 어떤 모습을 알 수 있을까?',
+    hook: '여러분이 기자가 되어 한 직업인을 만난다면, 가장 먼저 무엇을 묻고 싶나요?',
+    steps: [
+      { name: '직업인·배역', title: '누구를 인터뷰할까요?', guide: '직업인의 하루에서 만난 인물이나 조사한 직업을 고르고, 모둠 인원에 맞춰 해설·기자·직업인(·모두) 배역을 정한다' },
+      { name: '대본 쓰기', title: '인터뷰 대본을 써요', guide: '다섯 장면 틀(시작·하루·흥미·적성·가치관·힘든 점과 보람·조언)의 빈칸을 직업인의 말투로 채우고, 질문 꾸러미(준비 과정·미래 등)로 질문을 더한다. "배역: 대사"와 [무대] 지문으로 쓴다' },
+      { name: '노래·공연', title: '마지막 노래와 공연 준비', guide: '진로 주제가를 가져오거나 틀로 마지막 노래 가사를 쓰고, 좋은 대본 기준으로 점검한 뒤 뮤지컬 메이커 음악낭독극으로 보내 배역표·표현 메모·무대 동선을 채워 공연한다' },
+    ],
+    output: '직업인 인터뷰 낭독극 대본',
+    cce: { activity: '진로 탐색 활동', example: '정보탐색 활동: 학업 및 진학 정보 탐색, 직업 정보 및 자격(면허) 제도 탐색, 진로진학 및 취업 유관기관 탐방 등' },
+    care: '직업인은 지어낸 인물로 하고 실제 사람 이름·연락처를 쓰지 않는다. 조사한 사실과 상상한 내용을 구분하게 한다. 직업에 대한 고정관념(성별·외모 등)이 대사에 들어가지 않게 살핀다. 실제 직업인 면담이나 진로 체험 전 질문 연습으로 써도 좋다. 국어(연극)·음악 시간과 융합하면 좋다.' },
+
   { id: 'path-board', app: 'path-board', code: '[9진로02-02]', area: '02', ki: [1, 2], k: [2], p: [1], v: [0, 1],
     scope: 'lesson', sessions: 1, minutes: 45,
     q: '꿈에 닿는 길은 몇 개일까?',
@@ -262,6 +275,6 @@ window.CAREER_LESSONS = [
 ];
 /* 차시 예고(이전·다음)와 목록 순서 — 교육과정 영역·성취기준 흐름 */
 (function () {
-  const ORDER = ['job-day', 'my-traits', 'multi-growth-1', 'multi-growth-2', 'theme-song', 'dream-team', 'work-play', 'job-change-cards', 'path-board', 'info-detective', 'exp-link', 'high-school', 'entre-explorer', 'booth-startup', 'multi-growth-3', 'decision-scale', 'path-map', 'study-plan', 'after-grad', 'multi-growth-4'];
+  const ORDER = ['job-day', 'my-traits', 'multi-growth-1', 'multi-growth-2', 'theme-song', 'interview-play', 'dream-team', 'work-play', 'job-change-cards', 'path-board', 'info-detective', 'exp-link', 'high-school', 'entre-explorer', 'booth-startup', 'multi-growth-3', 'decision-scale', 'path-map', 'study-plan', 'after-grad', 'multi-growth-4'];
   window.CAREER_LESSONS.sort((a, b) => ORDER.indexOf(a.id) - ORDER.indexOf(b.id));
 })();

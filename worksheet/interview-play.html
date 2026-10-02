@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="../favicon.png">
+<title>활동지 · EAIM 진로</title>
+<!-- EAIM 진로 활동지 v1.0 (2026-10-02) · interview-play — 문장은 앱 자료(../interview-play-data.js)를 그대로 읽고, 틀·기능은 ws.js 공통(에임 도덕 활동지 엔진을 옮김). AI·로그인·기록 없음. -->
+<link rel="stylesheet" href="ws.css">
+</head>
+<body>
+<script src="../career-apps.js"></script>
+<script src="../curriculum-career.js"></script>
+<script src="../lessonplan-data.js"></script>
+<script src="../job-day-data.js"></script>
+<script src="../interview-play-data.js"></script>
+<script src="../career-class.js"></script>
+<script src="ws.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.IP_DATA, E = WS.esc;
+
+  WS.start('interview-play', { help: '실제 사람 이름·연락처는 쓰지 않아요. 직업인 이름은 지어서 써요.' });
+  WS.add(WS.h2('1. 누구를 인터뷰할까요?') + WS.radios('job', window.JD_DATA.people.map(p => `${p.icon} ${D.places[p.id].job} ${D.places[p.id].who}`).concat(['✏️ 내가 조사한 직업: ____________']), { cols: true })
+    + WS.radios('cast', D.casts.map(c => c.t), { cols: false }) + WS.lines([{ label: '작품 제목' }, { label: '내가 맡은 배역' }]));
+  WS.add(WS.h2('2. 질문 꾸러미에서 고르기') + WS.guide('인터뷰에 넣을 질문 4개 이상에 ✔ 하세요. 흥미·적성·가치관 질문은 꼭 넣어요.')
+    + WS.checks('q', D.qbank.map(c => `${c.icon} ${c.name} — ${c.qs[0]}`), { cols: false }));
+  WS.add(WS.h2('3. 대본 쓰기') + WS.guide('줄마다 "배역: 대사", 움직임은 "[무대] 지문"으로 써요.')
+    + D.scenes.map((s, i) => WS.write(`장면 ${i + 1}. ${s.title} — ${s.hint}`, 4)).join(''));
+  WS.add(WS.h2('4. 마지막 노래와 점검') + WS.lines([{ label: '노래 제목' }]) + WS.write('노래 가사 (4~8줄)', 4)
+    + WS.checks('good', D.goodScript)
+    + WS.note('뮤지컬 메이커(eaim-musical-maker.vercel.app) 음악낭독극으로 가져가 배역표·표현 메모·무대 동선을 채우고 공연해요.')
+    + WS.write('공연을 하고 알게 된 이 직업의 모습', 2));
+
+  WS.done();
+})();
+</script>
+</body>
+</html>

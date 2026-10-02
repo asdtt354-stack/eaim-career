@@ -784,6 +784,55 @@
     "guide": "guide.html#theme-song"
   },
   {
+    "id": "career/interview-play",
+    "title": "직업인 인터뷰 낭독극",
+    "platform": "career",
+    "subjects": [
+      "진로와 직업"
+    ],
+    "fusion": [
+      "음악",
+      "국어",
+      "창의적 체험활동"
+    ],
+    "grade": [
+      "중1",
+      "중2",
+      "중3"
+    ],
+    "target": "student",
+    "activityType": "creation",
+    "scope": "lesson",
+    "sessions": 2,
+    "minutes": 90,
+    "standards": [
+      "[9진로01-01]",
+      "[9진로02-03]"
+    ],
+    "tags": [
+      "직업인 면담",
+      "인터뷰",
+      "낭독극",
+      "음악낭독극",
+      "뮤지컬 메이커",
+      "흥미·적성·가치관"
+    ],
+    "url": "interview-play.html",
+    "classroom": true,
+    "ai": false,
+    "summary": "직업인의 하루 인물이나 조사한 직업을 골라 해설·기자·직업인 배역으로 다섯 장면 인터뷰 대본을 쓰고(질문 꾸러미, 빈칸·배역 이름 점검, 낭독 시간 계산), 마지막 노래 가사를 붙여 뮤지컬 메이커 음악낭독극으로 보내 공연을 준비하는 음악·연극 융합 활동 (대본 쓰기는 AI 없음, 공개, 내기는 수업에서)",
+    "makerNote": "뮤지컬 메이커가 주소 #reading= 를 읽게 되기 전에는 복사한 대본을 붙여 넣는다",
+    "cce": {
+      "area": "진로 활동",
+      "activity": "진로 탐색 활동",
+      "example": "정보탐색 활동: 학업 및 진학 정보 탐색, 직업 정보 및 자격(면허) 제도 탐색, 진로진학 및 취업 유관기관 탐방 등",
+      "focus": [
+        "직업 세계 이해"
+      ]
+    },
+    "guide": "guide.html#interview-play"
+  },
+  {
     "id": "career/passport",
     "title": "나의 진로 여권",
     "platform": "career",
