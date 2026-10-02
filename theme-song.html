@@ -11,7 +11,7 @@
 <meta name="apple-mobile-web-app-title" content="EAIM 진로">
 <title>진로 주제가 작사실 · EAIM 진로</title>
 <!-- 진로 주제가 작사실 v1.0 (2026-10-02) — [9진로01-02] + 음악 융합. 가사 쓰기는 AI 없음. 완성 가사를 연주실 노래 작곡실로 넘김
-     (주소 #lyrics= base64url JSON {t,l} — 노래 작곡실이 읽게 되기 전에는 "가사 복사 → 붙여 넣기"). 가락(🎹)은 키 없이, AI 가수(🎤)는 수업 방에서. -->
+     (주소 #lyrics= base64url JSON {v,t,l} — 노래 작곡실 v2.2부터 저절로 받음, 대안은 "가사 복사 → 붙여 넣기"). 가락(🎹)은 키 없이, AI 가수(🎤)는 수업 방에서. -->
 <link rel="stylesheet" href="career.css">
 <style>
   .steps button{font:inherit;font-size:.82rem;padding:4px 12px;border-radius:999px;background:#efe9df;color:var(--sub);font-weight:700}
@@ -80,7 +80,7 @@
 
   <section id="step3" hidden>
     <div class="card">
-      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>좋은 가사 기준으로 내 가사를 점검해요</li><li><b>🎤 노래 작곡실로 가져가기</b> 를 눌러요 (가사가 복사돼요 — 노래 작곡실 ① 가사 칸에 붙여 넣어요)</li><li>🎹 <b>내가 가락 만들기</b>는 누구나, 🎤 <b>AI 가수</b>는 선생님 수업 방에서 돼요</li></ol><ol class="e"><li>기준을 눌러요</li><li>노래 작곡실로 가요 (가사를 붙여 넣어요)</li><li>🎹 가락은 바로, 🎤 AI 가수는 수업에서</li></ol></div>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>좋은 가사 기준으로 내 가사를 점검해요</li><li><b>🎤 노래 작곡실로 가져가기</b> 를 눌러요 — 노래 작곡실 ① 가사 칸에 가사가 저절로 들어가요</li><li>🎹 <b>내가 가락 만들기</b>는 누구나, 🎤 <b>AI 가수</b>는 선생님 수업 방에서 돼요</li></ol><ol class="e"><li>기준을 눌러요</li><li>노래 작곡실로 가요 (가사가 들어가요)</li><li>🎹 가락은 바로, 🎤 AI 가수는 수업에서</li></ol></div>
       <div class="song" id="song"></div>
       <h3>✅ 좋은 가사 점검</h3>
       <div class="goods" id="goods"></div>
@@ -91,7 +91,7 @@
         <button type="button" class="ghost" id="btnPrint">🖨 가사 카드 인쇄</button>
         <button type="button" class="teal hidden" id="send">선생님께 내기</button>
       </div>
-      <p class="muted small">노래 작곡실이 새 창으로 열려요. 가사는 이미 복사되어 있으니 ① 가사 칸에 붙여 넣기(길게 누르기 → 붙여넣기, 또는 Ctrl+V) 하면 돼요.</p>
+      <p class="muted small">노래 작곡실이 새 창으로 열리고 ① 가사 칸에 가사가 들어가요. 혹시 비어 있으면 복사해 둔 가사를 붙여 넣어요(길게 누르기 → 붙여넣기, 또는 Ctrl+V).</p>
       <div id="reply" class="reply hidden"></div>
     </div>
     <div class="row no-print"><button type="button" class="ghost" data-go="2">← 이전</button></div>
@@ -179,7 +179,7 @@
   $('goods').addEventListener('click', (e) => { const b = e.target.closest('[data-g]'); if (!b) return; const g = b.dataset.g; S.goods = S.goods.includes(g) ? S.goods.filter(x => x !== g) : [...S.goods, g]; save(); draw3(); });
   $('toRoom').addEventListener('click', async () => {
     if (CareerClass.safetyCheck(lyricText())) { CareerClass.showNotice('danger'); return; }
-    try { await navigator.clipboard.writeText(lyricText()); CU.toast('가사를 복사했어요. 노래 작곡실 ① 가사 칸에 붙여 넣어요.'); } catch {}
+    try { await navigator.clipboard.writeText(lyricText()); CU.toast('노래 작곡실로 보냈어요. 가사도 복사해 두었어요.'); } catch {}
     CU.stamp('theme-song', summary());
   });
   function summary() { return `[진로 주제가] ${S.title.trim()} (${D.moods[S.mood].name})\n${lyricText()}\n[좋은 가사 점검] ${S.goods.join(', ')}`; }
