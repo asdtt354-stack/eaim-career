@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════
-   EAIM 진로 — 앱 표 (career-apps.js)  v1.0 (2026-10-02)
+   EAIM 진로 — 앱 표 (career-apps.js)  v1.1 (2026-10-02)
    첫 화면(index.html), 교사 페이지(teacher.html), 교실 연결(career-class.js),
    지도안·가이드가 모두 이 표 하나를 읽습니다. 앱을 새로 만들면 ready:true 로 바꿉니다.
 
@@ -26,12 +26,14 @@ window.CAREER_APPS = {
   'multi-growth':     { area: '01', order: 5, std: '[9진로01-02]', stds: ['[9진로01-02]', '[9진로02-06]', '[9진로03-02]'], icon: '🌏', name: '다문화 성장 프로젝트', file: 'multi-growth.html', open: true, ready: true, activityType: 'project',
                         desc: '나의 강점 보물지도에서 직업, 창업 아이디어, 진로 경로까지 네 차시 동안 키워요' },
 
+  'path-board':       { area: '02', order: 2, std: '[9진로02-02]', stds: ['[9진로02-02]'], icon: '🎲', name: '진로 경로 보드게임', file: 'path-board.html', open: true, ready: true, activityType: 'game', game: true,
+                        desc: '주사위로 학교·일 경험·도전 세 갈래 길을 오가며 꿈에 닿는 여러 길을 겪어요 (1~4명)' },
+
   /* ── 준비 중 (성취기준마다 하나씩) ── */
   'job-people':       { area: '01', order: 1, std: '[9진로01-01]', icon: '🎙️', name: '직업인의 하루',        open: true, ready: false, desc: '여러 직업인의 진로 특성과 삶의 모습을 살펴봐요' },
   'my-traits':        { area: '01', order: 2, std: '[9진로01-02]', icon: '🔍', name: '나의 진로 특성 찾기',   open: true, ready: false, desc: '흥미·적성·가치관을 여러 방법으로 살펴봐요' },
   'dream-team':       { area: '01', order: 3, std: '[9진로01-03]', icon: '🤝', name: '함께 일하고 싶은 동료', open: true, ready: false, desc: '협업·신뢰·소통을 갖춘 직업인의 자세를 찾아요' },
   'work-play':        { area: '01', order: 4, std: '[9진로01-04]', icon: '⚖️', name: '일과 여가 저울',        open: true, ready: false, desc: '일과 여가가 조화로운 행복한 삶을 그려요' },
-  'path-maze':        { area: '02', order: 2, std: '[9진로02-02]', icon: '🌀', name: '진로 경로 미로',        open: true, ready: false, desc: '한 길만 있지 않은 여러 진로 경로를 걸어 봐요' },
   'info-detective':   { area: '02', order: 3, std: '[9진로02-03]', icon: '🕵️', name: '진로 정보 탐정',        open: true, ready: false, desc: '진로 정보를 찾는 여러 방법을 익히고 관심 분야를 조사해요' },
   'exp-link':         { area: '02', order: 4, std: '[9진로02-04]', icon: '🔗', name: '경험 잇기',             open: true, ready: false, desc: '학교 활동과 경험을 나의 진로와 이어요' },
   'high-school':      { area: '02', order: 5, std: '[9진로02-05]', icon: '🏫', name: '고등학교 탐험',         open: true, ready: false, desc: '고등학교 유형·특성·교육과정을 살펴봐요' },

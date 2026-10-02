@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>진로 경로 보드게임 · EAIM 진로</title>
+<!-- 진로 경로 보드게임 v1.0 (2026-10-02) — [9진로02-02], 한 기기 1~4명, AI 없음, 공개(점수·내기는 수업 QR)
+     발걸음마다 5음 음계 소리(브라우저 오디오, 끌 수 있음) — Musicalization -->
+<link rel="stylesheet" href="career.css">
+<style>
+  .seg{display:flex;gap:6px;flex-wrap:wrap}
+  .seg button{background:#fff;color:var(--ink);border:2px solid var(--line);font-weight:700;min-width:54px}
+  .seg button.on{border-color:var(--main);background:var(--main-soft)}
+  .pl{display:grid;gap:8px;grid-template-columns:auto minmax(0,1fr) minmax(0,1fr);align-items:center;margin:8px 0;padding:10px;border:1px solid var(--line);border-radius:14px;background:#fff}
+  @media (max-width:520px){.pl{grid-template-columns:auto minmax(0,1fr)}.pl select{grid-column:1/-1}}
+  .tok{font-size:1.8rem;background:#fff;border:2px solid var(--line);border-radius:12px;padding:2px 8px;cursor:pointer}
+  .turn{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:space-between}
+  .turn .who{font-size:1.15rem;font-weight:800}
+  .dice{font-size:3rem;line-height:1;background:#fff;border:3px solid var(--ink);color:var(--ink);border-radius:16px;padding:4px 14px;min-width:84px}
+  .dice.roll{animation:shake .5s}
+  @keyframes shake{0%,100%{transform:rotate(0)}25%{transform:rotate(-18deg)}75%{transform:rotate(18deg)}}
+  @media (prefers-reduced-motion:reduce){.dice.roll{animation:none}}
+  .board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  .lanehead{border-radius:12px;color:#fff;padding:8px 6px;text-align:center;font-weight:800;font-size:.88rem}
+  .lanehead small{display:block;font-weight:500;font-size:.72rem;opacity:.9}
+  .cell{position:relative;border:2px solid var(--line);border-radius:12px;background:#fff;padding:6px 6px 22px;font-size:.74rem;line-height:1.35;min-height:62px}
+  .cell .ty{font-size:.95rem;margin-right:2px}
+  .cell{scroll-margin-top:170px;scroll-margin-bottom:20px}
+  .cell .toks{position:absolute;left:4px;bottom:2px;font-size:1.05rem;letter-spacing:-2px}
+  .cell.now{box-shadow:0 0 0 3px var(--gold)}
+  .cell.block{background:#fff1f0}.cell.cross{background:#f3f0ff}.cell.event{background:#eef6ff}.cell.quiz{background:#fff8e1}.cell.rest{background:#eefaf2}
+  .startrow{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  .goal{grid-column:1/-1;border-radius:14px;padding:12px;text-align:center;font-weight:800;background:linear-gradient(135deg,var(--gold),var(--main));color:#fff;position:relative;min-height:60px}
+  .goal .toks{font-size:1.4rem}
+  .pieces{display:flex;gap:8px;flex-wrap:wrap;font-size:.9rem}
+  .pieces span{background:#f5f1ea;border-radius:999px;padding:2px 10px}
+  #modal{position:fixed;inset:0;background:rgba(30,25,40,.55);display:none;align-items:center;justify-content:center;padding:16px;z-index:50}
+  #modal.show{display:flex}
+  #modal .in{background:#fff;border-radius:20px;max-width:440px;width:100%;padding:22px;box-shadow:0 18px 40px rgba(0,0,0,.25);animation:pop .3s}
+  @keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+  #modal .ic{font-size:2.6rem;text-align:center}
+  #modal h3{text-align:center;margin:6px 0}
+  #modal .opts{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+  #modal .opts button{width:100%}
+  .log{max-height:180px;overflow:auto;font-size:.82rem;color:var(--sub)}
+  .route{display:flex;flex-wrap:wrap;align-items:center;gap:4px;font-size:.85rem;margin:4px 0}
+  .route span{background:#f5f1ea;border-radius:8px;padding:2px 8px}
+  .route i{font-style:normal;color:var(--sub)}
+  .mytrail{font-size:1.2rem;letter-spacing:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="home" href="index.html">← EAIM 진로</a>
+    <h1>🎲 진로 경로 보드게임</h1>
+    <button class="easy-btn" type="button" aria-pressed="false">쉬운 말</button>
+  </header>
+  <p class="row" style="margin:0"><span class="badge">[9진로02-02]</span><span class="badge gold">게임 · 1~4명</span>
+    <a class="badge blue" href="guide.html#student-path-board" style="text-decoration:none">📘 사용법</a>
+    <span id="mode" class="mode hidden"></span></p>
+
+  <!-- 준비 -->
+  <section id="scSetup">
+    <div class="card" id="introS">
+      <h2>꿈까지 가는 길은 하나가 아니에요 <button class="say" data-say="introS">🔊</button></h2>
+      <p class="n">주사위를 굴려 <b>학교 길 · 일 경험 길 · 도전 길</b> 가운데 하나로 꿈을 향해 가요. <b>갈림길</b>에서는 길을 바꿀 수 있고, <b>막힘 칸</b>에서는 다시 도전할지, 다른 길로 갈지 골라요. 가는 동안 역량 조각을 모아요.</p>
+      <p class="e">주사위를 굴려요. 세 가지 길이 있어요. 길을 바꿔도 돼요. 막히면 다시 하거나 다른 길로 가요.</p>
+    </div>
+    <div class="card">
+      <h2>몇 명이 함께하나요?</h2>
+      <p class="muted small">기기 한 대를 돌려 가며 해요. 별명만 써요(이름은 쓰지 않아요).</p>
+      <div class="seg" id="count"></div>
+      <div id="players"></div>
+      <div class="row" style="margin-top:12px"><button type="button" id="btnGo">게임 시작 🎲</button>
+        <button type="button" class="ghost" id="snd" aria-pressed="true">🔈 소리 켬</button></div>
+    </div>
+  </section>
+
+  <!-- 게임 -->
+  <section id="scGame" hidden>
+    <div class="card" style="position:sticky;top:6px;z-index:5">
+      <div class="turn">
+        <div><div class="who" id="who"></div><div class="pieces" id="myPieces"></div></div>
+        <button type="button" class="dice" id="dice" aria-label="주사위 굴리기">🎲</button>
+      </div>
+      <p class="muted small" id="hint" style="margin:6px 0 0"></p>
+    </div>
+    <div class="board" id="board"></div>
+    <div class="card">
+      <h3 style="margin-top:0">📜 기록</h3>
+      <div class="log" id="log"></div>
+      <div class="row" style="margin-top:8px"><button type="button" class="ghost" id="btnEnd">지금 끝내고 돌아보기</button></div>
+    </div>
+  </section>
+
+  <!-- 끝 -->
+  <section id="scEnd" hidden>
+    <div class="card center"><div class="big">🏁</div><h2>모두의 길을 돌아봐요</h2></div>
+    <div id="results"></div>
+    <div class="card">
+      <h2>✍️ 돌아보기</h2>
+      <label class="field" for="r1"><span class="n">길이 막혔을 때 나(우리)는 어떻게 했나요? 그 선택이 진짜 진로에서는 어떤 모습일까요?</span><span class="e">막혔을 때 어떻게 했나요?</span></label>
+      <textarea id="r1" maxlength="300"></textarea>
+      <label class="field" for="r2"><span class="n">내 꿈에 닿는 또 다른 길을 하나 만들어 보세요. (우선 길이 막히면 갈 대안 길)</span><span class="e">내 꿈으로 가는 다른 길을 하나 써요.</span></label>
+      <textarea id="r2" maxlength="300" placeholder="예: 학교 길이 막히면 → 일하며 자격증 → 나중에 대학"></textarea>
+      <div class="row no-print" style="margin-top:12px">
+        <button type="button" class="ghost" id="btnCopy">📋 복사</button>
+        <button type="button" class="ghost" id="btnPrint">🖨 인쇄</button>
+        <button type="button" class="ghost" id="btnAgain">🔁 다시 하기</button>
+        <button type="button" class="teal hidden" id="send">선생님께 내기</button>
+      </div>
+      <p class="muted small">직업으로 가는 길은 대표 예시예요. 실제 조건은 <a href="https://www.career.go.kr" target="_blank" rel="noopener">커리어넷</a>에서 찾아봐요.</p>
+      <div id="reply" class="reply hidden"></div>
+    </div>
+  </section>
+
+  <div class="std" id="stdBox"></div>
+</div>
+
+<div id="modal" role="dialog" aria-modal="true"><div class="in" id="mIn"></div></div>
+
+<script src="curriculum-career.js"></script>
+<script src="career-apps.js"></script>
+<script src="path-board-data.js"></script>
+<script src="career-class.js"></script>
+<script src="career-ui.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.PB_DATA, esc = CU.esc, tx = CU.tx, plain = CU.plain;
+  const $ = (id) => document.getElementById(id);
+  const std = window.EAIM_CAREER_CURRICULUM.find('[9진로02-02]');
+  $('stdBox').innerHTML = `<b>${std.code}</b> ${esc(std.text)}<br><span class="small">교육과정 해설: ${esc(std.note)}</span>`;
+  const LANES = Object.keys(D.lanes), LAST = D.start.length - 1, LEN = D.lanes.A.cells.length; // 세 길은 칸 수가 같아야 함(갈림길에서 같은 줄로 옮김)
+  const TYPE_IC = { start: '🚩', exp: '✨', event: '🎴', cross: '🔀', block: '🚧', quiz: '❓', rest: '☕' };
+  const DICE = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
+
+  /* ── 소리 (5음 음계) ── */
+  let soundOn = true, ac = null;
+  const NOTES = [523.25, 587.33, 659.25, 783.99, 880.00, 1046.5];
+  function tone(i, dur = 0.14) {
+    if (!soundOn) return;
+    try {
+      ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+      const o = ac.createOscillator(), g = ac.createGain();
+      o.type = 'triangle'; o.frequency.value = NOTES[i % NOTES.length];
+      g.gain.setValueAtTime(0.18, ac.currentTime); g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + dur);
+      o.connect(g); g.connect(ac.destination); o.start(); o.stop(ac.currentTime + dur);
+    } catch {}
+  }
+  const fanfare = () => [0, 2, 3, 5].forEach((n, i) => setTimeout(() => tone(n, .25), i * 140));
+  $('snd').addEventListener('click', () => { soundOn = !soundOn; $('snd').textContent = soundOn ? '🔈 소리 켬' : '🔇 소리 끔'; $('snd').setAttribute('aria-pressed', soundOn); });
+
+  /* ── 준비 ── */
+  let N = 1, P = [];
+  const newPlayer = (i) => ({ nick: `탐험가 ${i + 1}`, token: D.tokens[i], job: D.jobs[i % D.jobs.length].id });
+  let setup = [0, 1, 2, 3].map(newPlayer);
+  function drawSetup() {
+    $('count').innerHTML = [1, 2, 3, 4].map(n => `<button type="button" class="${N === n ? 'on' : ''}" data-n="${n}">${n}명</button>`).join('');
+    $('players').innerHTML = setup.slice(0, N).map((p, i) => `<div class="pl">
+      <button type="button" class="tok" data-tok="${i}" aria-label="말 바꾸기">${p.token}</button>
+      <input type="text" data-nick="${i}" maxlength="8" value="${esc(p.nick)}" aria-label="별명">
+      <select data-job="${i}" aria-label="꿈 직업">${D.jobs.map(j => `<option value="${j.id}" ${p.job === j.id ? 'selected' : ''}>${j.icon} ${esc(j.name)}</option>`).join('')}</select></div>`).join('');
+  }
+  $('count').addEventListener('click', (e) => { const b = e.target.closest('[data-n]'); if (!b) return; N = +b.dataset.n; drawSetup(); });
+  $('players').addEventListener('click', (e) => { const b = e.target.closest('[data-tok]'); if (!b) return; const p = setup[+b.dataset.tok];
+    const used = setup.slice(0, N).map(x => x.token); let k = D.tokens.indexOf(p.token);
+    do { k = (k + 1) % D.tokens.length; } while (used.includes(D.tokens[k]) && D.tokens[k] !== p.token);
+    p.token = D.tokens[k]; drawSetup(); });
+  $('players').addEventListener('input', (e) => { const t = e.target; if (t.dataset.nick != null) setup[+t.dataset.nick].nick = t.value; });
+  $('players').addEventListener('change', (e) => { const t = e.target; if (t.dataset.job != null) setup[+t.dataset.job].job = t.value; });
+
+  /* ── 게임 상태 ── */
+  let cur = 0, busy = false, usedQuiz = [], finishOrder = [], logRows = [];
+  $('btnGo').addEventListener('click', () => {
+    P = setup.slice(0, N).map((s, i) => ({ ...s, nick: (s.nick || '').trim() || `탐험가 ${i + 1}`, seg: 'start', i: 0, trail: [], switches: 0, blocks: [], pieces: {}, quizOk: 0, quizN: 0, skip: false, bonus: 0, done: false }));
+    cur = 0; usedQuiz = []; finishOrder = []; logRows = [];
+    $('scSetup').hidden = true; $('scGame').hidden = false; $('scEnd').hidden = true;
+    log('🚩 모두 중학교에서 출발해요!'); drawBoard(); drawTurn(); window.scrollTo({ top: 0 });
+  });
+  const pName = (p) => `${p.token} ${p.nick}`;
+  function log(t) { logRows.unshift(t); $('log').innerHTML = logRows.slice(0, 60).map(esc).join('<br>'); }
+  function gain(p, k, n = 1) { p.pieces[k] = (p.pieces[k] || 0) + n; const pc = D.pieces[k]; log(`${pName(p)} ${pc.icon} ${pc.name} +${n}`); }
+  const total = (p) => Object.values(p.pieces).reduce((a, b) => a + b, 0);
+
+  function cellAt(seg, i) { return seg === 'start' ? D.start[i] : D.lanes[seg].cells[i]; }
+  function toks(seg, i) { return P.filter(p => !p.done && p.seg === seg && p.i === i).map(p => p.token).join(''); }
+  function cellHtml(seg, i) {
+    const c = cellAt(seg, i), me = P[cur], now = me && me.seg === seg && me.i === i && !me.done;
+    return `<div class="cell ${c.type} ${now ? 'now' : ''}"><span class="ty">${TYPE_IC[c.type]}</span>${esc(c.t)}${c.gain ? ` ${D.pieces[c.gain].icon}` : ''}<span class="toks">${toks(seg, i)}</span></div>`;
+  }
+  function drawBoard() {
+    let h = `<div class="startrow">${D.start.map((c, i) => cellHtml('start', i)).join('')}</div>`;
+    h += LANES.map(k => { const L = D.lanes[k]; return `<div class="lanehead" style="background:${L.color}">${L.icon} ${esc(L.name)}<small>${tx({ t: L.t, e: L.e })}</small></div>`; }).join('');
+    for (let i = 0; i < LEN; i++) h += LANES.map(k => cellHtml(k, i)).join('');
+    h += `<div class="goal">🌟 꿈 도착 <div class="toks">${P.filter(p => p.done).map(p => p.token).join(' ')}</div></div>`;
+    $('board').innerHTML = h;
+  }
+  function drawTurn() {
+    const p = P[cur], job = D.jobs.find(j => j.id === p.job);
+    $('who').textContent = `${pName(p)} 차례 · 꿈: ${job.icon} ${job.name}`;
+    $('myPieces').innerHTML = Object.entries(D.pieces).map(([k, v]) => `<span>${v.icon} ${p.pieces[k] || 0}</span>`).join('');
+    $('hint').textContent = p.skip ? '이번 차례는 쉬어요(다시 도전 준비). 주사위를 누르면 다음 사람에게 넘어가요.' : (p.bonus ? `☕ 쉼표 보너스: 이번 주사위 +${p.bonus}` : '주사위를 눌러요.');
+    $('dice').disabled = busy;
+  }
+
+  /* ── 카드 창 ── */
+  function card({ icon, title, body, options }) {
+    return new Promise((res) => {
+      $('mIn').innerHTML = `<div class="ic">${icon}</div><h3>${title}</h3><div>${body || ''}</div><div class="opts">${options.map((o, i) => `<button type="button" class="${o.ghost ? 'ghost' : ''}" data-o="${i}">${o.label}</button>`).join('')}</div>`;
+      $('modal').classList.add('show');
+      const btns = $('mIn').querySelectorAll('[data-o]'); btns[0]?.focus();
+      btns.forEach(b => b.addEventListener('click', () => { $('modal').classList.remove('show'); res(options[+b.dataset.o].value); }, { once: true }));
+    });
+  }
+  const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+  async function chooseLane(p, title, allowStay) {
+    const opts = LANES.filter(k => !(allowStay && k === p.seg)).map(k => ({ label: `${D.lanes[k].icon} ${esc(D.lanes[k].name)} — ${tx({ t: D.lanes[k].t, e: D.lanes[k].e })}`, value: k }));
+    if (allowStay) opts.unshift({ label: `지금 길(${D.lanes[p.seg].icon} ${esc(D.lanes[p.seg].name)})로 계속 가기`, value: p.seg, ghost: true });
+    return card({ icon: '🔀', title, body: `<p class="muted small center">${tx({ t: '어느 길도 꿈에 닿을 수 있어요.', e: '어느 길로 가도 괜찮아요.' })}</p>`, options: opts });
+  }
+  function enterLane(p, k) {
+    if (p.seg !== 'start' && p.seg !== k) { p.switches++; log(`${pName(p)} ${D.lanes[p.seg].icon}→${D.lanes[k].icon} 길을 바꿨어요`); }
+    if (p.trail[p.trail.length - 1] !== k) p.trail.push(k);
+    p.seg = k;
+  }
+
+  /* ── 움직이기 ── */
+  async function step(p, dir) {
+    if (dir > 0) {
+      if (p.seg === 'start') {
+        if (p.i < LAST) p.i++;
+        else { const k = await chooseLane(p, `${esc(p.nick)}, 어느 길로 갈까요?`, false); enterLane(p, k); p.i = 0; log(`${pName(p)} ${D.lanes[k].icon} ${D.lanes[k].name}을 골랐어요`); }
+      } else if (p.i < LEN - 1) p.i++;
+      else { p.done = true; return 'goal'; }
+    } else {
+      if (p.seg === 'start') p.i = Math.max(0, p.i - 1); else p.i = Math.max(0, p.i - 1);
+    }
+    tone(p.seg === 'start' ? p.i : p.i % 6); drawBoard(); document.querySelector('.cell.now')?.scrollIntoView({ block: 'nearest' }); await sleep(220);
+    return 'ok';
+  }
+  async function move(p, n) {
+    for (let k = 0; k < Math.abs(n); k++) { if ((await step(p, n > 0 ? 1 : -1)) === 'goal') return 'goal'; }
+    return 'ok';
+  }
+
+  async function land(p) {
+    const c = cellAt(p.seg, p.i);
+    if (c.type === 'exp' || c.type === 'start') { if (c.gain) gain(p, c.gain); return; }
+    if (c.type === 'rest') {
+      await card({ icon: '☕', title: '쉼표 · 여가', body: `<p>${tx({ t: '좋아하는 여가를 하나 말해 봐요. 쉬는 시간도 소질을 키우고 배움을 얻는 시간이에요. 다음 주사위 +1!', e: '좋아하는 놀이를 말해요. 다음 주사위 +1!' })}</p>`, options: [{ label: '말했어요!', value: 1 }] });
+      p.bonus = 1; log(`${pName(p)} ☕ 쉼표 — 다음 주사위 +1`); return;
+    }
+    if (c.type === 'cross') {
+      const k = await chooseLane(p, '🔀 갈림길이에요! 길을 바꿀까요?', true); enterLane(p, k); drawBoard(); return;
+    }
+    if (c.type === 'quiz') {
+      let left = D.quiz.map((q, i) => i).filter(i => !usedQuiz.includes(i)); if (!left.length) { usedQuiz = []; left = D.quiz.map((q, i) => i); }
+      const qi = left[Math.floor(Math.random() * left.length)]; usedQuiz.push(qi); const q = D.quiz[qi];
+      const ans = await card({ icon: '❓', title: '진로 퀴즈', body: `<p class="center" style="font-size:1.05rem">${tx({ t: q.q, e: q.e })}</p>`, options: [{ label: '⭕ 맞아요', value: true }, { label: '❌ 아니에요', value: false }] });
+      const ok = ans === q.a; p.quizN++; if (ok) p.quizOk++;
+      await card({ icon: ok ? '🎉' : '🤔', title: ok ? '정답!' : '다시 생각해 봐요', body: `<p>${esc(q.why)}</p>`, options: [{ label: ok ? '📚 배움 +1 받기' : '알겠어요', value: 1 }] });
+      if (ok) { gain(p, 'learn'); fanfare(); }
+      return;
+    }
+    if (c.type === 'event') {
+      const ev = D.events[Math.floor(Math.random() * D.events.length)];
+      await card({ icon: ev.icon, title: '변화 카드', body: `<p class="center">${tx({ t: ev.t, e: ev.e })}</p>`, options: [{ label: '좋아요', value: 1 }] });
+      log(`${pName(p)} 🎴 ${plain({ t: ev.t, e: ev.e })}`);
+      if (ev.gain) gain(p, ev.gain);
+      if (ev.act === 'switch') { const k = await chooseLane(p, '새 관심을 따라 길을 바꿀까요?', true); enterLane(p, k); drawBoard(); }
+      if (ev.act === 'move' && (await move(p, ev.n)) === 'goal') return 'goal';
+      return;
+    }
+    if (c.type === 'block') {
+      const pick = await card({ icon: '🚧', title: esc(c.t), body: `<p class="center muted small">${tx({ t: '진로에서도 길이 막힐 때가 있어요. 어떻게 할까요?', e: '길이 막혔어요. 어떻게 할까요?' })}</p>`,
+        options: D.blockOptions.map(o => ({ label: tx(o), value: o.id })) });
+      p.blocks.push(pick);
+      if (pick === 'retry') { p.skip = true; gain(p, 'grit'); log(`${pName(p)} 🔁 다시 도전하기로 했어요`); }
+      if (pick === 'switch') { const k = await chooseLane(p, '어느 길로 옮길까요?', false); enterLane(p, k); drawBoard(); }
+      if (pick === 'back') { await move(p, -2); gain(p, 'learn'); log(`${pName(p)} ↩️ 돌아가 준비해요`); }
+    }
+  }
+
+  $('dice').addEventListener('click', async () => {
+    if (busy) return; const p = P[cur];
+    busy = true; $('dice').disabled = true;
+    if (p.skip) { p.skip = false; log(`${pName(p)} 한 번 쉬었어요`); return next(); }
+    const d = Math.floor(Math.random() * 6) + 1;
+    $('dice').classList.remove('roll'); void $('dice').offsetWidth; $('dice').classList.add('roll');
+    for (let k = 0; k < 6; k++) { $('dice').textContent = DICE[Math.floor(Math.random() * 6)]; await sleep(60); }
+    $('dice').textContent = DICE[d - 1];
+    const n = d + (p.bonus || 0); p.bonus = 0;
+    log(`${pName(p)} 🎲 ${d}${n > d ? ' +1' : ''}`);
+    let r = await move(p, n);
+    if (r !== 'goal') r = await land(p);
+    if (p.done || r === 'goal') { p.done = true; finishOrder.push(cur); fanfare(); log(`🌟 ${pName(p)} 꿈에 도착했어요!`); drawBoard();
+      await card({ icon: '🌟', title: `${esc(p.nick)}, 꿈에 도착!`, body: `<p class="center mytrail">${p.trail.map(k => D.lanes[k].icon).join(' → ')}</p><p class="center muted small">길을 ${p.switches}번 바꿨고, 역량 조각을 ${total(p)}개 모았어요.</p>`, options: [{ label: '좋아요', value: 1 }] }); }
+    next();
+  });
+  function next() {
+    busy = false;
+    if (P.every(p => p.done)) return end();
+    do { cur = (cur + 1) % P.length; } while (P[cur].done);
+    drawBoard(); drawTurn();
+  }
+  $('btnEnd').addEventListener('click', () => { if (busy) return; if (confirm('지금 끝내고 돌아볼까요?')) end(); });
+
+  /* ── 끝 ── */
+  function end() {
+    $('scGame').hidden = true; $('scEnd').hidden = false; window.scrollTo({ top: 0 });
+    $('results').innerHTML = P.map(p => { const job = D.jobs.find(j => j.id === p.job);
+      return `<div class="card"><h2>${p.token} ${esc(p.nick)} ${p.done ? '🌟' : '🚶'} <span class="muted small">꿈: ${job.icon} ${esc(job.name)}</span></h2>
+        <p class="mytrail">${p.trail.length ? p.trail.map(k => `${D.lanes[k].icon}`).join(' → ') : '🚩'} ${p.done ? '→ 🌟' : ''}</p>
+        <div class="pieces">${Object.entries(D.pieces).map(([k, v]) => `<span>${v.icon} ${esc(v.name)} ${p.pieces[k] || 0}</span>`).join('')}</div>
+        <p class="small" style="margin:8px 0 0">길 바꾸기 ${p.switches}번 · 막힘에서 고른 것: ${p.blocks.map(b => ({ retry: '다시 도전', switch: '다른 길', back: '돌아가 준비' }[b])).join(', ') || '없음'} · 퀴즈 ${p.quizOk}/${p.quizN}</p>
+        <h3>🧭 같은 꿈, 다른 길 — ${job.icon} ${esc(job.name)}</h3>
+        ${job.note ? `<p class="tip small" style="margin:6px 0">${esc(job.note)}</p>` : ''}
+        ${job.routes.map(r => `<div class="route"><b>${r[0]}</b>${r.slice(1).map(s => `<span>${esc(s)}</span>`).join('<i>→</i>')}</div>`).join('')}</div>`; }).join('');
+    $('r1').value = ''; $('r2').value = '';
+    if (window.CareerClass?.student) {
+      const best = P.reduce((a, p) => Math.max(a, total(p)), 0);
+      CareerClass.saveGame({ game: 'path-board', score: P.reduce((a, p) => a + total(p), 0), correct: P.reduce((a, p) => a + p.quizOk, 0), total: P.reduce((a, p) => a + p.quizN, 0), wrongLog: [{ players: P.length, best }] });
+    }
+  }
+  function summary() {
+    return [
+      `[진로 경로 보드게임] ${P.length}명`,
+      ...P.map(p => { const job = D.jobs.find(j => j.id === p.job);
+        return `- ${p.nick}(꿈: ${job.name}) 길: ${p.trail.map(k => D.lanes[k].name).join(' → ') || '출발'}${p.done ? ' → 도착' : ''} / 길 바꾸기 ${p.switches}번 / 역량 ${total(p)}개 / 막힘: ${p.blocks.map(b => ({ retry: '다시 도전', switch: '다른 길', back: '돌아가 준비' }[b])).join(', ') || '없음'}`; }),
+      `[막혔을 때] ${$('r1').value.trim()}`,
+      `[또 다른 길] ${$('r2').value.trim()}`,
+    ].join('\n');
+  }
+  $('btnCopy').addEventListener('click', () => CU.copy(summary()));
+  $('btnPrint').addEventListener('click', () => window.print());
+  $('btnAgain').addEventListener('click', () => { $('scEnd').hidden = true; $('scSetup').hidden = false; drawSetup(); window.scrollTo({ top: 0 }); });
+  $('send').addEventListener('click', async () => {
+    if (!$('r1').value.trim() || !$('r2').value.trim()) return CU.toast('돌아보기 두 칸을 채워 주세요.');
+    const all = $('r1').value + ' ' + $('r2').value + ' ' + P.map(p => p.nick).join(' ');
+    if (CareerClass.safetyCheck(all)) return CareerClass.showNotice('danger');
+    $('send').disabled = true; $('send').textContent = '내는 중...';
+    const r = await CareerClass.submit({
+      kind: 'path-board', title: `진로 경로 보드게임 — ${P.map(p => p.nick).join(', ')}`, content: summary(),
+      result: { score: P.reduce((a, p) => a + p.switches, 0) },
+      detail: { players: P.map(p => ({ nick: p.nick, job: p.job, trail: p.trail, switches: p.switches, blocks: p.blocks, pieces: p.pieces, done: p.done })), blocked: $('r1').value.trim(), altPath: $('r2').value.trim() },
+    });
+    $('send').disabled = false; $('send').textContent = '선생님께 내기';
+    if (r.ok) CU.toast('선생님께 냈어요.');
+  });
+
+  drawSetup();
+  CU.classroom({ app: 'path-board', modeEl: $('mode'), sendEl: $('send'), replyEl: $('reply') });
+})();
+</script>
+<p class="eaim-copy">© 2026 박성애 · EAIM · 교육 목적 무료 사용, 무단 복제·상업적 이용 금지 · <a href="https://eaim.kr/#copyright" target="_blank" rel="noopener" style="color:inherit">이용 안내</a></p>
+</body>
+</html>

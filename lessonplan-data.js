@@ -1,8 +1,21 @@
-/* EAIM 진로 — 지도안 자료 (lessonplan-data.js) v1.0 (2026-10-02)
+/* EAIM 진로 — 지도안 자료 (lessonplan-data.js) v1.1 (2026-10-02)
    앱(여러 차시 앱은 차시)마다: 성취기준·영역, 기본으로 고를 핵심 아이디어·내용 요소(curriculum-career.js 의 순서 번호),
    탐구 질문·마음 열기(초안), 앱 단계(화면의 단계 이름·제목에서 옮김), 결과물, 창체 진로 활동 연계, 배려할 점.
    앱 화면을 고치면 여기도 맞춘다. 가이드(guide.html 6번)도 이 파일을 읽는다. */
 window.CAREER_LESSONS = [
+  { id: 'path-board', app: 'path-board', code: '[9진로02-02]', area: '02', ki: [1, 2], k: [2], p: [1], v: [0, 1],
+    scope: 'lesson', sessions: 1, minutes: 45,
+    q: '꿈에 닿는 길은 몇 개일까?',
+    hook: '가고 싶은 길이 막히면, 여러분은 어떻게 하나요?',
+    steps: [
+      { name: '꿈과 말 고르기', title: '몇 명이 함께하나요?', guide: '모둠(1~4명)이 기기 한 대로 별명·말·꿈 직업을 고른다' },
+      { name: '세 갈래 길 걷기', title: '주사위로 꿈까지', guide: '주사위를 굴려 학교 길·일 경험 길·도전 길 가운데 하나를 고르고, 갈림길에서 길을 바꾸거나 막힘 칸에서 다시 도전·다른 길·돌아가 준비 가운데 고르며 역량 조각을 모은다. 변화 카드와 진로 퀴즈를 만난다' },
+      { name: '같은 꿈, 다른 길', title: '모두의 길을 돌아봐요', guide: '각자 걸어온 길과 직업별 대표 경로(같은 꿈, 다른 길)를 비교하고, 막혔을 때의 선택과 내 꿈에 닿는 대안 경로를 쓴다' },
+    ],
+    output: '나의 대안 진로 경로',
+    cce: { activity: '진로 탐색 활동', example: '정보탐색 활동: 학업 및 진학 정보 탐색, 직업 정보 및 자격(면허) 제도 탐색, 진로진학 및 취업 유관기관 탐방 등' },
+    care: '직업별 경로는 대표 예시이므로 실제 조건은 커리어넷 등 진로 정보로 확인하게 한다. 특정 경로(학교 길 등)가 더 낫다고 서열을 매기지 않는다. 별명만 쓰게 한다.' },
+
   { id: 'entre-explorer', app: 'entre-explorer', code: '[9진로02-06]', area: '02', ki: [3], k: [3], p: [2], v: [2],
     scope: 'lesson', sessions: 1, minutes: 45,
     q: '창업가 정신은 왜 나의 진로에 필요할까?',
@@ -91,3 +104,8 @@ window.CAREER_LESSONS = [
     cce: { activity: '진로 설계 및 실천 활동', example: '진로계획 활동: 진로 상담, 진로 의사 결정, 진로 설계 등' },
     care: '진로 경로는 바뀔 수 있음을 강조한다(가변성). 필요하면 개별 상담으로 이어 간다(교수·학습 개별성).' },
 ];
+/* 차시 예고(이전·다음)와 목록 순서 — 교육과정 영역·성취기준 흐름 */
+(function () {
+  const ORDER = ['multi-growth-1', 'multi-growth-2', 'job-change-cards', 'path-board', 'entre-explorer', 'booth-startup', 'multi-growth-3', 'multi-growth-4'];
+  window.CAREER_LESSONS.sort((a, b) => ORDER.indexOf(a.id) - ORDER.indexOf(b.id));
+})();

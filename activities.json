@@ -1,5 +1,100 @@
 [
   {
+    "id": "career/job-change-cards",
+    "title": "직업 세계 변화 카드 게임",
+    "platform": "career",
+    "subjects": [
+      "진로와 직업"
+    ],
+    "fusion": [
+      "창의적 체험활동"
+    ],
+    "grade": [
+      "중1",
+      "중2",
+      "중3"
+    ],
+    "target": "student",
+    "activityType": "game",
+    "scope": "lesson",
+    "sessions": 1,
+    "minutes": 45,
+    "standards": [
+      "[9진로02-01]",
+      "[9진로02-02]"
+    ],
+    "tags": [
+      "직업 세계 변화",
+      "고령화",
+      "저출산",
+      "과학기술",
+      "기후 변화",
+      "다문화",
+      "세계화",
+      "새 직업"
+    ],
+    "url": "job-change-cards.html",
+    "classroom": true,
+    "ai": false,
+    "summary": "고령화·저출산·과학기술·기후 변화·다문화·세계화 변화 카드를 뒤집어 직업 카드를 늘어날·줄어들·바뀔 가능성으로 나누고, 변화 카드와 좋아하는 것을 섞어 새 직업을 발명하는 게임 (공개, 점수·내기는 수업에서)",
+    "makerNote": "",
+    "cce": {
+      "area": "진로 활동",
+      "activity": "진로 탐색 활동",
+      "example": "직업이해 활동: 직업관 확립, 일과 직업의 역할 이해, 직업 세계의 변화 탐구 등",
+      "focus": [
+        "일과 직업에 대한 폭넓은 가치 탐구"
+      ]
+    },
+    "guide": "guide.html#job-change-cards"
+  },
+  {
+    "id": "career/path-board",
+    "title": "진로 경로 보드게임",
+    "platform": "career",
+    "subjects": [
+      "진로와 직업"
+    ],
+    "fusion": [
+      "창의적 체험활동"
+    ],
+    "grade": [
+      "중1",
+      "중2",
+      "중3"
+    ],
+    "target": "student",
+    "activityType": "game",
+    "scope": "lesson",
+    "sessions": 1,
+    "minutes": 45,
+    "standards": [
+      "[9진로02-02]"
+    ],
+    "tags": [
+      "진로 경로",
+      "다양성과 가변성",
+      "유연한 진로 탐색",
+      "보드게임",
+      "주사위",
+      "같은 꿈 다른 길"
+    ],
+    "url": "path-board.html",
+    "classroom": true,
+    "ai": false,
+    "summary": "1~4명이 기기 한 대로 주사위를 굴려 학교 길·일 경험 길·도전 길을 오가며 꿈에 닿고(갈림길·막힘·변화 카드·진로 퀴즈), 끝나면 직업별 '같은 꿈, 다른 길'을 비교하고 대안 경로를 쓰는 게임 (공개, 점수·내기는 수업에서)",
+    "makerNote": "",
+    "cce": {
+      "area": "진로 활동",
+      "activity": "진로 탐색 활동",
+      "example": "정보탐색 활동: 학업 및 진학 정보 탐색, 직업 정보 및 자격(면허) 제도 탐색, 진로진학 및 취업 유관기관 탐방 등",
+      "focus": [
+        "진로 탐색 및 진학으로의 연계"
+      ]
+    },
+    "guide": "guide.html#path-board"
+  },
+  {
     "id": "career/entre-explorer",
     "title": "창업가 정신 탐험대",
     "platform": "career",
@@ -90,55 +185,6 @@
       ]
     },
     "guide": "guide.html#booth-startup"
-  },
-  {
-    "id": "career/job-change-cards",
-    "title": "직업 세계 변화 카드 게임",
-    "platform": "career",
-    "subjects": [
-      "진로와 직업"
-    ],
-    "fusion": [
-      "창의적 체험활동"
-    ],
-    "grade": [
-      "중1",
-      "중2",
-      "중3"
-    ],
-    "target": "student",
-    "activityType": "game",
-    "scope": "lesson",
-    "sessions": 1,
-    "minutes": 45,
-    "standards": [
-      "[9진로02-01]",
-      "[9진로02-02]"
-    ],
-    "tags": [
-      "직업 세계 변화",
-      "고령화",
-      "저출산",
-      "과학기술",
-      "기후 변화",
-      "다문화",
-      "세계화",
-      "새 직업"
-    ],
-    "url": "job-change-cards.html",
-    "classroom": true,
-    "ai": false,
-    "summary": "고령화·저출산·과학기술·기후 변화·다문화·세계화 변화 카드를 뒤집어 직업 카드를 늘어날·줄어들·바뀔 가능성으로 나누고, 변화 카드와 좋아하는 것을 섞어 새 직업을 발명하는 게임 (공개, 점수·내기는 수업에서)",
-    "makerNote": "",
-    "cce": {
-      "area": "진로 활동",
-      "activity": "진로 탐색 활동",
-      "example": "직업이해 활동: 직업관 확립, 일과 직업의 역할 이해, 직업 세계의 변화 탐구 등",
-      "focus": [
-        "일과 직업에 대한 폭넓은 가치 탐구"
-      ]
-    },
-    "guide": "guide.html#job-change-cards"
   },
   {
     "id": "career/multi-growth",
