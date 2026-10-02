@@ -19,6 +19,97 @@
     "classroom": true,
     "ai": false,
     "makerNote": "",
+    "activityType": "writing",
+    "id": "career/job-day",
+    "title": "직업인의 하루",
+    "standards": [
+      "[9진로01-01]"
+    ],
+    "tags": [
+      "직업인의 삶",
+      "진로 특성",
+      "흥미·적성·가치관",
+      "직업군",
+      "직업인 인터뷰"
+    ],
+    "url": "job-day.html",
+    "summary": "지어낸 직업인 6명의 하루를 따라가며 장면마다 쓰인 흥미·적성·가치관을 찾고, 직업군별로 필요한 진로 특성과 10년 뒤 필요해질 특성을 생각한 뒤, 나와 닮은 직업인과 우리 동네 직업인 인터뷰 질문을 준비하는 활동 (공개, 내기는 수업에서)",
+    "cce": {
+      "area": "진로 활동",
+      "activity": "진로 탐색 활동",
+      "example": "직업이해 활동: 직업관 확립, 일과 직업의 역할 이해, 직업 세계의 변화 탐구 등",
+      "focus": [
+        "일과 직업에 대한 폭넓은 가치 탐구"
+      ]
+    },
+    "guide": "guide.html#job-day"
+  },
+  {
+    "platform": "career",
+    "subjects": [
+      "진로와 직업"
+    ],
+    "fusion": [
+      "창의적 체험활동"
+    ],
+    "grade": [
+      "중1",
+      "중2",
+      "중3"
+    ],
+    "target": "student",
+    "scope": "lesson",
+    "sessions": 1,
+    "minutes": 45,
+    "classroom": true,
+    "ai": false,
+    "makerNote": "",
+    "activityType": "writing",
+    "id": "career/my-traits",
+    "title": "나의 진로 특성 찾기",
+    "standards": [
+      "[9진로01-02]"
+    ],
+    "tags": [
+      "진로 특성",
+      "흥미",
+      "적성",
+      "가치관",
+      "가치 경매",
+      "긍정적 자아 개념"
+    ],
+    "url": "my-traits.html",
+    "summary": "경험 거울(시간 가는 줄 몰랐던 순간)·능력 거울(나의 별점 + 친구의 눈)·가치 경매(코인 100개)의 세 가지 방법으로 흥미·적성·가치관을 살펴 나의 진로 특성 카드를 만들고 키우고 싶은 특성을 정하는 활동 (공개, 내기는 수업에서)",
+    "cce": {
+      "area": "진로 활동",
+      "activity": "진로 탐색 활동",
+      "example": "진로이해 활동: 직업 흥미 및 적성 탐색, 진로 검사, 진로 성숙도 탐색 등",
+      "focus": [
+        "긍정적인 자아 개념 강화"
+      ]
+    },
+    "guide": "guide.html#my-traits"
+  },
+  {
+    "platform": "career",
+    "subjects": [
+      "진로와 직업"
+    ],
+    "fusion": [
+      "창의적 체험활동"
+    ],
+    "grade": [
+      "중1",
+      "중2",
+      "중3"
+    ],
+    "target": "student",
+    "scope": "lesson",
+    "sessions": 1,
+    "minutes": 45,
+    "classroom": true,
+    "ai": false,
+    "makerNote": "",
     "id": "career/dream-team",
     "title": "함께 일하고 싶은 동료",
     "activityType": "writing",
@@ -207,6 +298,51 @@
     "ai": false,
     "makerNote": "",
     "activityType": "writing",
+    "id": "career/info-detective",
+    "title": "진로 정보 탐정",
+    "standards": [
+      "[9진로02-03]"
+    ],
+    "tags": [
+      "진로 정보",
+      "정보 탐색 방법",
+      "커리어넷",
+      "정보 신뢰성",
+      "조사 노트"
+    ],
+    "url": "info-detective.html",
+    "summary": "진로 정보 사이트·진로 체험·직업인 인터뷰·상담·책·학교 정보 가운데 질문에 알맞은 방법을 고르고, 지어낸 정보 카드 8장을 다섯 가지 단서로 믿을 만한 정보·더 확인할 정보·광고와 과장으로 가려낸 뒤, 관심 직업 조사 노트를 출처와 함께 쓰는 활동 (공개, 내기는 수업에서)",
+    "cce": {
+      "area": "진로 활동",
+      "activity": "진로 탐색 활동",
+      "example": "정보탐색 활동: 학업 및 진학 정보 탐색, 직업 정보 및 자격(면허) 제도 탐색, 진로진학 및 취업 유관기관 탐방 등",
+      "focus": [
+        "진로 탐색 및 진학으로의 연계"
+      ]
+    },
+    "guide": "guide.html#info-detective"
+  },
+  {
+    "platform": "career",
+    "subjects": [
+      "진로와 직업"
+    ],
+    "fusion": [
+      "창의적 체험활동"
+    ],
+    "grade": [
+      "중1",
+      "중2",
+      "중3"
+    ],
+    "target": "student",
+    "scope": "lesson",
+    "sessions": 1,
+    "minutes": 45,
+    "classroom": true,
+    "ai": false,
+    "makerNote": "",
+    "activityType": "writing",
     "id": "career/exp-link",
     "title": "경험 잇기",
     "standards": [
@@ -230,6 +366,51 @@
       ]
     },
     "guide": "guide.html#exp-link"
+  },
+  {
+    "platform": "career",
+    "subjects": [
+      "진로와 직업"
+    ],
+    "fusion": [
+      "창의적 체험활동"
+    ],
+    "grade": [
+      "중1",
+      "중2",
+      "중3"
+    ],
+    "target": "student",
+    "scope": "lesson",
+    "sessions": 1,
+    "minutes": 45,
+    "classroom": true,
+    "ai": false,
+    "makerNote": "",
+    "activityType": "writing",
+    "id": "career/high-school",
+    "title": "고등학교 탐험",
+    "standards": [
+      "[9진로02-05]"
+    ],
+    "tags": [
+      "고등학교 유형",
+      "고교학점제",
+      "선택 과목",
+      "진학",
+      "교육 기회"
+    ],
+    "url": "high-school.html",
+    "summary": "일반고·특성화고·마이스터고·특수목적고·자율고의 특징을 살펴 친구들에게 어울리는 학교를 생각하고, 고교학점제를 읽고 진로에 맞는 2학년 선택 과목 6개로 모의 시간표를 짠 뒤, 나에게 중요한 기준과 우선·대안 학교 유형, 설명회 질문을 정하는 활동 (2026년 기준 정보, 공개, 내기는 수업에서)",
+    "cce": {
+      "area": "진로 활동",
+      "activity": "진로 탐색 활동",
+      "example": "정보탐색 활동: 학업 및 진학 정보 탐색, 직업 정보 및 자격(면허) 제도 탐색, 진로진학 및 취업 유관기관 탐방 등",
+      "focus": [
+        "진로 탐색 및 진학으로의 연계"
+      ]
+    },
+    "guide": "guide.html#high-school"
   },
   {
     "id": "career/entre-explorer",

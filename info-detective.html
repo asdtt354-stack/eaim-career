@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="career.webmanifest">
+<meta name="theme-color" content="#e2703a">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="EAIM 진로">
+<title>진로 정보 탐정 · EAIM 진로</title>
+<!-- 진로 정보 탐정 v1.0 (2026-10-02) — [9진로02-03], AI 없음, 공개(내기는 수업 QR) -->
+<link rel="stylesheet" href="career.css">
+<style>
+  .steps button{font:inherit;font-size:.82rem;padding:4px 12px;border-radius:999px;background:#efe9df;color:var(--sub);font-weight:700}
+  .steps button[aria-current]{background:var(--main);color:#fff}
+  .steps button:disabled{opacity:.5}
+  .meths{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+  .mt{border:1px solid var(--line);border-radius:14px;padding:10px 12px;background:#fff;font-size:.86rem}
+  .mt a{font-size:.8rem;margin-right:8px}
+  .mpick{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
+  .mpick button{background:#fff;color:var(--ink);border:2px solid var(--line);font-size:.8rem;padding:5px 9px;font-weight:600}
+  .mpick button.ok{border-color:var(--teal);background:var(--teal-soft)}
+  .mpick button.no{border-color:var(--red);background:#fde8e7}
+  .res{margin-top:8px;font-size:.88rem;padding:8px 10px;border-radius:10px;background:#f5f1ea}
+  .clue{background:#2b2a33;color:#fff;border-radius:14px;padding:10px 14px;font-size:.86rem}
+  .clue ol{margin:4px 0 0 18px;padding:0}
+  .ic{border:2px dashed var(--line);border-radius:14px;padding:12px;background:#fffdf8;margin:10px 0}
+  .ic .src{font-size:.78rem;color:var(--sub)}
+  .ver{display:grid;gap:6px;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:8px}
+  .ver button{background:#fff;color:var(--ink);border:2px solid var(--line);font-size:.82rem;padding:8px 4px}
+  .ver button.ok{border-color:var(--teal);background:var(--teal-soft)}
+  .ver button.no{border-color:var(--red);background:#fde8e7}
+  .report{border:3px solid var(--blue);border-radius:18px;padding:16px;background:#fff}
+  .chk{display:flex;gap:8px;align-items:center;margin:4px 0;font-size:.9rem}
+  .chk input{width:20px;height:20px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="home" href="index.html">← EAIM 진로</a>
+    <h1>🕵️ 진로 정보 탐정</h1>
+    <button class="easy-btn" type="button" aria-pressed="false">쉬운 말</button>
+  </header>
+  <p class="row" style="margin:0"><span class="badge">[9진로02-03]</span><span class="badge">직업 세계와 진로 탐색</span>
+    <a class="badge blue" href="guide.html#student-info-detective" style="text-decoration:none">📘 사용법</a>
+    <span id="mode" class="mode hidden"></span></p>
+
+  <nav class="steps" style="margin-top:12px" aria-label="단계">
+    <button type="button" data-go="1">1 정보 찾는 방법</button>
+    <button type="button" data-go="2">2 탐정 수사</button>
+    <button type="button" data-go="3">3 나의 조사 노트</button>
+  </nav>
+
+  <section id="step1">
+    <div class="card">
+      <h2>궁금할 땐 어디서 찾을까요?</h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>아래 여섯 가지 방법을 훑어봐요 (사이트 이름을 누르면 새 창으로 열려요)</li><li>질문마다 가장 알맞은 방법 단추를 <b>하나</b> 눌러요</li><li>6개를 다 하면 <b>다음</b> 단추가 나와요</li></ol><ol class="e"><li>방법을 훑어봐요</li><li>질문마다 하나 눌러요</li><li>다 하면 다음</li></ol></div>
+      <div class="meths" id="meths"></div>
+      <div id="qs" style="margin-top:12px"></div>
+    </div>
+    <div class="row"><button type="button" id="to2" class="hidden">탐정 수사 →</button></div>
+  </section>
+
+  <section id="step2" hidden>
+    <div class="card">
+      <h2>🔎 이 정보, 믿어도 될까요?</h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>정보 카드를 읽고 아래 다섯 가지 단서로 살펴봐요</li><li>✅ 믿을 만해요 · 🔎 더 확인해요 · 🚫 광고·과장 중 하나를 눌러요</li><li>8장을 다 하면 <b>다음</b> 단추가 나와요</li></ol><ol class="e"><li>카드를 읽어요</li><li>단추 하나를 눌러요</li><li>다 하면 다음</li></ol></div>
+      <div class="clue" id="clue"></div>
+      <div id="cards"></div>
+      <div class="tip hidden" id="sum2"></div>
+    </div>
+    <div class="row"><button type="button" class="ghost" data-go="1">← 이전</button><button type="button" id="to3" class="hidden">나의 조사 노트 →</button></div>
+  </section>
+
+  <section id="step3" hidden>
+    <div class="card">
+      <h2>📒 나의 진로 조사 노트</h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>관심 직업을 정하고 커리어넷 같은 사이트에서 찾아봐요</li><li>찾은 내용을 칸마다 내 말로 써요 (그대로 베끼지 않아요)</li><li>출처 2개를 쓰고 출처 점검 칸을 눌러요</li></ol><ol class="e"><li>직업을 정하고 찾아봐요</li><li>내 말로 써요</li><li>출처 2개를 써요</li></ol></div>
+      <label class="field" for="job">관심 직업</label><input type="text" id="job" maxlength="20" placeholder="예: 동물 사육사">
+      <label class="field" for="does">하는 일</label><textarea id="does" maxlength="200"></textarea>
+      <label class="field" for="need">필요한 능력·자격</label><input type="text" id="need" maxlength="100">
+      <label class="field" for="prep">준비 방법 (학과·자격·경험)</label><input type="text" id="prep" maxlength="100">
+      <label class="field" for="out">앞으로의 모습(전망)</label><input type="text" id="out" maxlength="100">
+      <label class="field" for="src1">출처 1</label><input type="text" id="src1" maxlength="60" placeholder="예: 커리어넷 직업 정보 (2026년 10월 확인)">
+      <label class="field" for="src2">출처 2</label><input type="text" id="src2" maxlength="60" placeholder="예: 동물원 사육사 인터뷰 기사">
+      <h3>출처 점검</h3>
+      <div id="checks"></div>
+    </div>
+    <div class="card">
+      <div class="report" id="report"></div>
+      <div class="row no-print" style="margin-top:12px">
+        <button type="button" class="ghost" id="btnCopy">📋 복사</button>
+        <button type="button" class="ghost" id="btnPrint">🖨 인쇄</button>
+        <button type="button" class="teal hidden" id="send">선생님께 내기</button>
+      </div>
+      <div id="reply" class="reply hidden"></div>
+    </div>
+    <div class="row no-print"><button type="button" class="ghost" data-go="2">← 이전</button></div>
+  </section>
+  <div class="std" id="stdBox"></div>
+</div>
+
+<script src="curriculum-career.js"></script>
+<script src="career-apps.js"></script>
+<script src="info-detective-data.js"></script>
+<script src="career-class.js"></script>
+<script src="career-ui.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.ID_DATA, esc = CU.esc;
+  const $ = (id) => document.getElementById(id);
+  const s0 = window.EAIM_CAREER_CURRICULUM.find('[9진로02-03]');
+  $('stdBox').innerHTML = `<b>${s0.code}</b> ${esc(s0.text)}`;
+  const ST = CU.sstore('info_detective');
+  let S = ST.load({ step: 1, reached: 1, q: {}, v: {}, job: '', does: '', need: '', prep: '', out: '', src1: '', src2: '', chk: {} });
+  const save = () => ST.save(S);
+  const ME = (id) => D.methods.find(m => m.id === id);
+  const VK = Object.keys(D.verdicts);
+
+  /* 1 */
+  function draw1() {
+    $('meths').innerHTML = D.methods.map(m => `<div class="mt"><b>${m.icon} ${esc(m.name)}</b><br>${esc(m.t)}${m.links ? '<br>' + m.links.map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener">↗ ${esc(n)}</a>`).join('') : ''}</div>`).join('');
+    $('qs').innerHTML = D.questions.map((q, i) => { const got = S.q[i];
+      return `<div class="story"><b>Q${i + 1}.</b> ${esc(q.q)}<div class="mpick">${D.methods.map(m => `<button type="button" class="${got ? (m.id === q.a ? 'ok' : (m.id === got ? 'no' : '')) : ''}" data-q="${i}" data-m="${m.id}" ${got ? 'disabled' : ''}>${m.icon} ${esc(m.name)}</button>`).join('')}</div>
+        ${got ? `<div class="res">${got === q.a ? '⭕ ' : `🤔 <b>${ME(q.a).icon} ${esc(ME(q.a).name)}</b>이 더 알맞아요. `}${esc(q.why)}</div>` : ''}</div>`; }).join('');
+    $('to2').classList.toggle('hidden', !D.questions.every((q, i) => S.q[i]));
+  }
+  $('qs').addEventListener('click', (e) => { const b = e.target.closest('[data-q]'); if (!b || S.q[b.dataset.q]) return; S.q[b.dataset.q] = b.dataset.m; save(); draw1(); });
+  $('to2').addEventListener('click', () => go(2));
+
+  /* 2 */
+  function draw2() {
+    $('clue').innerHTML = `🕵️ 탐정의 다섯 가지 단서<ol>${D.clues.map(c => `<li>${esc(c)}</li>`).join('')}</ol>`;
+    $('cards').innerHTML = D.cards.map((c, i) => { const got = S.v[i];
+      return `<div class="ic"><div class="src">📍 ${esc(c.src)} · 🗓 ${esc(c.date)}</div><p style="margin:6px 0 0;font-size:1rem">"${esc(c.t)}"</p>
+        <div class="ver">${VK.map(k => `<button type="button" class="${got ? (k === c.a ? 'ok' : (k === got ? 'no' : '')) : ''}" data-c="${i}" data-v="${k}" ${got ? 'disabled' : ''}>${D.verdicts[k].icon} ${esc(D.verdicts[k].name)}</button>`).join('')}</div>
+        ${got ? `<div class="res">${got === c.a ? '⭕ ' : '🤔 '}${esc(c.why)}</div>` : ''}</div>`; }).join('');
+    const all = D.cards.every((c, i) => S.v[i]);
+    $('sum2').classList.toggle('hidden', !all); $('to3').classList.toggle('hidden', !all);
+    if (all) $('sum2').textContent = `🕵️ ${D.cards.filter((c, i) => S.v[i] === c.a).length}/${D.cards.length} 해결! 좋은 진로 정보는 출처와 날짜가 분명하고, 근거가 있고, 여러 곳에서 확인돼요.`;
+  }
+  $('cards').addEventListener('click', (e) => { const b = e.target.closest('[data-c]'); if (!b || S.v[b.dataset.c]) return; S.v[b.dataset.c] = b.dataset.v; save(); draw2(); });
+  $('to3').addEventListener('click', () => go(3));
+
+  /* 3 */
+  const F3 = ['job', 'does', 'need', 'prep', 'out', 'src1', 'src2'];
+  const CH = ['출처가 공공 기관이나 직업인 본인이에요', '날짜가 최근이에요', '두 출처의 내용이 서로 맞아요', '광고나 과장이 아니에요'];
+  function draw3() {
+    F3.forEach(k => { $(k).value = S[k]; });
+    $('checks').innerHTML = CH.map((c, i) => `<label class="chk"><input type="checkbox" data-ch="${i}" ${S.chk[i] ? 'checked' : ''}> ${esc(c)}</label>`).join('');
+    drawReport();
+  }
+  function drawReport() {
+    $('report').innerHTML = `<div class="muted small">📒 진로 조사 노트</div><div style="font-size:1.3rem;font-weight:800;margin:4px 0">🔎 ${esc(S.job || '관심 직업')}</div>
+      <p style="margin:4px 0">🛠️ 하는 일: ${esc(S.does)}</p><p style="margin:4px 0">🎯 능력·자격: ${esc(S.need)}</p>
+      <p style="margin:4px 0">🛤️ 준비 방법: ${esc(S.prep)}</p><p style="margin:4px 0">🔭 전망: ${esc(S.out)}</p>
+      <p class="small" style="margin:8px 0 0">📍 출처: ${esc(S.src1)}${S.src2 ? ' / ' + esc(S.src2) : ''} · 출처 점검 ${Object.values(S.chk).filter(Boolean).length}/${CH.length}</p>`;
+  }
+  F3.forEach(k => $(k).addEventListener('input', (e) => { S[k] = e.target.value; save(); drawReport(); }));
+  $('checks').addEventListener('change', (e) => { const t = e.target; if (t.dataset.ch == null) return; S.chk[t.dataset.ch] = t.checked; save(); drawReport(); });
+
+  function summary() {
+    return [`[방법 찾기] ${D.questions.filter((q, i) => S.q[i] === q.a).length}/${D.questions.length} · [탐정 수사] ${D.cards.filter((c, i) => S.v[i] === c.a).length}/${D.cards.length}`,
+      `[관심 직업] ${S.job.trim()}`, `[하는 일] ${S.does.trim()}`, `[능력·자격] ${S.need.trim()}`, `[준비 방법] ${S.prep.trim()}`, `[전망] ${S.out.trim()}`,
+      `[출처] ${S.src1.trim()} / ${S.src2.trim()} · 점검 ${Object.values(S.chk).filter(Boolean).length}/${CH.length}`].join('\n');
+  }
+  $('btnCopy').addEventListener('click', () => CU.copy(summary()));
+  $('btnPrint').addEventListener('click', () => window.print());
+  $('send').addEventListener('click', async () => {
+    if (!S.job.trim() || !S.does.trim() || !S.src1.trim() || !S.src2.trim()) return CU.toast('직업·하는 일·출처 2개를 채워 주세요.');
+    if (CareerClass.safetyCheck(F3.map(k => S[k]).join(' '))) return CareerClass.showNotice('danger');
+    $('send').disabled = true; $('send').textContent = '내는 중...';
+    const r = await CareerClass.submit({ kind: 'info-report', title: `진로 조사 노트 — ${S.job.trim()}`, content: summary(),
+      result: { score: D.cards.filter((c, i) => S.v[i] === c.a).length, total: D.cards.length },
+      detail: Object.fromEntries([...F3.map(k => [k, S[k].trim()]), ['checks', S.chk]]) });
+    $('send').disabled = false; $('send').textContent = '선생님께 내기';
+    if (r.ok) CU.toast('선생님께 냈어요.');
+  });
+
+  function go(n) {
+    S.step = n; S.reached = Math.max(S.reached || 1, n); save();
+    [1, 2, 3].forEach(i => { $('step' + i).hidden = i !== n; });
+    document.querySelectorAll('.steps button').forEach(b => { const k = +b.dataset.go; b.removeAttribute('aria-current'); if (k === n) b.setAttribute('aria-current', 'step'); b.disabled = k > S.reached; });
+    ({ 1: draw1, 2: draw2, 3: draw3 })[n](); window.scrollTo({ top: 0 });
+  }
+  document.addEventListener('click', (e) => { const b = e.target.closest('[data-go]'); if (!b || b.disabled) return; if (+b.dataset.go > S.reached) return; go(+b.dataset.go); });
+  go(Math.min(S.step || 1, S.reached || 1));
+  CU.classroom({ app: 'info-detective', modeEl: $('mode'), sendEl: $('send'), replyEl: $('reply') });
+})();
+</script>
+<p class="eaim-copy">© 2026 박성애 · EAIM · 교육 목적 무료 사용, 무단 복제·상업적 이용 금지 · <a href="https://eaim.kr/#copyright" target="_blank" rel="noopener" style="color:inherit">이용 안내</a></p>
+</body>
+</html>

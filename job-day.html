@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="career.webmanifest">
+<meta name="theme-color" content="#e2703a">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="EAIM 진로">
+<title>직업인의 하루 · EAIM 진로</title>
+<!-- 직업인의 하루 v1.0 (2026-10-02) — [9진로01-01], AI 없음, 공개(내기는 수업 QR) -->
+<link rel="stylesheet" href="career.css">
+<style>
+  .steps button{font:inherit;font-size:.82rem;padding:4px 12px;border-radius:999px;background:#efe9df;color:var(--sub);font-weight:700}
+  .steps button[aria-current]{background:var(--main);color:#fff}
+  .steps button:disabled{opacity:.5}
+  .ppl{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+  .pp{border:3px solid var(--line);border-radius:16px;padding:12px;background:#fff;text-align:center;color:var(--ink);font-weight:700;display:block;width:100%}
+  .pp .ic{font-size:2.2rem;display:block}
+  .pp small{display:block;font-weight:500;color:var(--sub)}
+  .pp.done{border-color:var(--teal);background:var(--teal-soft)}
+  .pp.on{border-color:var(--main)}
+  .tl{position:relative;padding-left:22px;margin-top:10px}
+  .tl::before{content:'';position:absolute;left:8px;top:4px;bottom:4px;width:4px;border-radius:4px;background:var(--line)}
+  .sc{position:relative;margin-bottom:12px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px}
+  .sc::before{content:'';position:absolute;left:-20px;top:14px;width:12px;height:12px;border-radius:50%;background:var(--gold)}
+  .sc .tm{font-weight:800;font-size:.85rem;color:var(--sub)}
+  .pick3{display:grid;gap:6px;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:8px}
+  .pick3 button{background:#fff;color:var(--ink);border:2px solid var(--line);font-size:.84rem;padding:8px 4px;flex-direction:column}
+  .pick3 button.ok{border-color:var(--teal);background:var(--teal-soft)}
+  .pick3 button.no{border-color:var(--red);background:#fde8e7}
+  .res{margin-top:8px;font-size:.88rem;padding:8px 10px;border-radius:10px;background:#f5f1ea}
+  .needs{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+  .needs button{background:#fff;color:var(--ink);border:2px solid var(--line);font-size:.8rem;padding:4px 9px;font-weight:600}
+  .needs button.on{border-color:var(--main);background:var(--main-soft)}
+  .needs button.key{border-color:var(--teal);background:var(--teal-soft)}
+  .jcard{border-radius:20px;padding:18px;border:3px solid var(--gold);background:linear-gradient(160deg,#fff,#fffaf0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="home" href="index.html">← EAIM 진로</a>
+    <h1>🎙️ 직업인의 하루</h1>
+    <button class="easy-btn" type="button" aria-pressed="false">쉬운 말</button>
+  </header>
+  <p class="row" style="margin:0"><span class="badge teal">[9진로01-01]</span><span class="badge teal">진로와 나의 이해</span>
+    <a class="badge blue" href="guide.html#student-job-day" style="text-decoration:none">📘 사용법</a>
+    <span id="mode" class="mode hidden"></span></p>
+
+  <nav class="steps" style="margin-top:12px" aria-label="단계">
+    <button type="button" data-go="1">1 하루 따라가기</button>
+    <button type="button" data-go="2">2 직업군의 특성</button>
+    <button type="button" data-go="3">3 나와 닮은 직업인</button>
+  </nav>
+
+  <section id="step1">
+    <div class="card" id="i1">
+      <h2>직업인의 하루를 따라가요 <button class="say" data-say="i1">🔊</button></h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>직업인 카드를 하나 눌러요</li><li>장면마다 이 사람이 쓰는 것이 😊 흥미, 🎯 적성, 💎 가치관 중 무엇인지 눌러요</li><li>직업인 <b>2명 이상</b>을 끝내면 <b>다음</b> 단추가 나와요</li></ol><ol class="e"><li>카드를 하나 눌러요</li><li>장면마다 단추를 눌러요</li><li>2명 하면 다음</li></ol></div>
+      <p class="read">💡 알아 두기</p>
+      <p class="small" style="margin:2px 0 8px">😊 <b>흥미</b> 좋아하는 것 · 🎯 <b>적성</b> 잘할 수 있는 능력 · 💎 <b>가치관</b> 일에서 중요하게 여기는 것. 인물은 모두 지어낸 인물이에요.</p>
+      <div class="ppl" id="ppl"></div>
+      <div id="day"></div>
+    </div>
+    <div class="row"><button type="button" id="to2" class="hidden">다음 →</button></div>
+  </section>
+
+  <section id="step2" hidden>
+    <div class="card">
+      <h2>직업군마다 필요한 진로 특성</h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>직업군마다 필요할 것 같은 특성을 <b>3개</b> 눌러요</li><li><b>확인</b> 을 누르면 초록 칸(예시)이 보여요</li><li>10년 뒤 더 필요해질 특성을 써요</li></ol><ol class="e"><li>3개씩 눌러요</li><li>확인 을 눌러요</li><li>10년 뒤를 써요</li></ol></div>
+      <div id="groups"></div>
+      <div class="tip hidden" id="sum2"></div>
+      <label class="field" for="future"><span class="n">10년 뒤, 직업 세계에서 더 필요해질 진로 특성은 무엇일까요? 까닭도</span><span class="e">10년 뒤에 더 필요한 것은?</span></label>
+      <textarea id="future" maxlength="200" placeholder="예: AI와 함께 일하는 힘 — 많은 일을 AI가 돕게 될 테니까"></textarea>
+    </div>
+    <div class="row"><button type="button" class="ghost" data-go="1">← 이전</button><button type="button" id="to3" class="hidden">다음 →</button></div>
+  </section>
+
+  <section id="step3" hidden>
+    <div class="card">
+      <h2>나와 닮은 직업인, 만나 보고 싶은 직업인</h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>오늘 만난 직업인 중 나와 닮은 사람을 누르고 까닭을 써요</li><li>우리 동네에서 인터뷰해 보고 싶은 직업인과 질문 3개를 써요</li><li>아래 카드를 인쇄하거나 선생님께 내요</li></ol><ol class="e"><li>닮은 사람을 눌러요</li><li>질문 3개를 써요</li><li>카드를 봐요</li></ol></div>
+      <div class="ppl" id="like"></div>
+      <label class="field" for="why"><span class="n">어떤 점이 나와 닮았나요? (흥미·적성·가치관으로)</span><span class="e">어디가 닮았나요?</span></label>
+      <input type="text" id="why" maxlength="100" placeholder="예: 나도 사람 이야기 듣는 걸 좋아하고, 함께 사는 동네가 중요해요">
+      <label class="field" for="who"><span class="n">인터뷰해 보고 싶은 직업인 (우리 동네·가족·학교)</span><span class="e">만나고 싶은 직업인</span></label>
+      <input type="text" id="who" maxlength="30" placeholder="예: 동네 빵집 사장님, 보건 선생님 (이름은 쓰지 않아요)">
+      <label class="field">인터뷰 질문 3개</label>
+      <input type="text" id="q1" maxlength="80" placeholder="예: 이 일을 고른 까닭은 무엇인가요?">
+      <input type="text" id="q2" maxlength="80" placeholder="예: 하루 중 가장 보람 있는 순간은요?" style="margin-top:6px">
+      <input type="text" id="q3" maxlength="80" placeholder="예: 중학생 때 해 두면 좋은 것은요?" style="margin-top:6px">
+    </div>
+    <div class="card">
+      <div class="jcard" id="card"></div>
+      <div class="row no-print" style="margin-top:12px">
+        <button type="button" class="ghost" id="btnCopy">📋 복사</button>
+        <button type="button" class="ghost" id="btnPrint">🖨 인쇄</button>
+        <button type="button" class="teal hidden" id="send">선생님께 내기</button>
+      </div>
+      <div id="reply" class="reply hidden"></div>
+    </div>
+    <div class="row no-print"><button type="button" class="ghost" data-go="2">← 이전</button></div>
+  </section>
+  <div class="std" id="stdBox"></div>
+</div>
+
+<script src="curriculum-career.js"></script>
+<script src="career-apps.js"></script>
+<script src="job-day-data.js"></script>
+<script src="career-class.js"></script>
+<script src="career-ui.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.JD_DATA, esc = CU.esc, tx = CU.tx;
+  const $ = (id) => document.getElementById(id);
+  const TK = Object.keys(D.traits);
+  const s0 = window.EAIM_CAREER_CURRICULUM.find('[9진로01-01]');
+  $('stdBox').innerHTML = `<b>${s0.code}</b> ${esc(s0.text)}<br><span class="small">교육과정 해설: ${esc(s0.note)}</span>`;
+  const ST = CU.sstore('job_day');
+  let S = ST.load({ step: 1, reached: 1, cur: '', ans: {}, need: {}, checked: {}, future: '', like: '', why: '', who: '', q1: '', q2: '', q3: '' });
+  const save = () => ST.save(S);
+  const P = (id) => D.people.find(p => p.id === id);
+  const doneP = (p) => p.scenes.every((s, i) => S.ans[p.id + '_' + i]);
+  const score = () => Object.entries(S.ans).filter(([k, v]) => { const [id, i] = k.split('_'); return P(id).scenes[+i].a === v; }).length;
+
+  /* 1 */
+  function draw1() {
+    $('ppl').innerHTML = D.people.map(p => `<button type="button" class="pp ${doneP(p) ? 'done' : ''} ${S.cur === p.id ? 'on' : ''}" data-p="${p.id}"><span class="ic">${p.icon}</span>${esc(p.name)}<small>${esc(p.group)}${doneP(p) ? ' · ✔' : ''}</small></button>`).join('');
+    const p = P(S.cur);
+    $('day').innerHTML = p ? `<h3 style="margin-top:14px">${p.icon} ${esc(p.name)}의 하루</h3><div class="tl">${p.scenes.map((s, i) => { const k = p.id + '_' + i, got = S.ans[k];
+      return `<div class="sc" id="sc${i}"><span class="tm">${esc(s.time)}</span> <button class="say" data-say="sc${i}">🔊</button><p style="margin:4px 0 0">${esc(s.t)}</p>
+        <div class="pick3">${TK.map(t => `<button type="button" class="${got ? (t === s.a ? 'ok' : (t === got ? 'no' : '')) : ''}" data-k="${k}" data-t="${t}" ${got ? 'disabled' : ''}><span style="font-size:1.3rem">${D.traits[t].icon}</span>${esc(D.traits[t].name)}</button>`).join('')}</div>
+        ${got ? `<div class="res">${got === s.a ? '⭕ ' : '🤔 이렇게도 볼 수 있어요: '}${esc(s.why)}</div>` : ''}</div>`; }).join('')}</div>` : '<p class="muted center">위에서 직업인 카드를 눌러요.</p>';
+    $('to2').classList.toggle('hidden', D.people.filter(doneP).length < 2);
+  }
+  $('ppl').addEventListener('click', (e) => { const b = e.target.closest('[data-p]'); if (!b) return; S.cur = b.dataset.p; save(); draw1(); $('day').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+  $('day').addEventListener('click', (e) => { const b = e.target.closest('[data-t]'); if (!b || S.ans[b.dataset.k]) return; S.ans[b.dataset.k] = b.dataset.t; save(); draw1();
+    const p = P(S.cur); if (doneP(p)) CU.toast(`${p.icon} ${p.name}의 하루를 다 따라갔어요!`); });
+  $('to2').addEventListener('click', () => go(2));
+
+  /* 2 */
+  function draw2() {
+    $('groups').innerHTML = D.groupQ.map((g, i) => { const mine = S.need[i] || [], ck = S.checked[i];
+      return `<div class="story"><b>${esc(g.group)}</b> <span class="small muted">직업군</span>
+        <div class="needs">${D.allNeeds.map(n => `<button type="button" class="${ck && g.need.includes(n) ? 'key' : (mine.includes(n) ? 'on' : '')}" data-g="${i}" data-n="${esc(n)}" ${ck ? 'disabled' : ''}>${mine.includes(n) ? '✓ ' : ''}${esc(n)}</button>`).join('')}</div>
+        ${ck ? `<div class="res">초록 칸이 예시예요 · 같은 것 ${mine.filter(n => g.need.includes(n)).length}개. 다른 특성도 까닭이 있으면 맞아요.</div>` : `<button type="button" class="ghost" data-ck="${i}" style="margin-top:8px" ${mine.length !== 3 ? 'disabled' : ''}>확인</button>`}</div>`; }).join('');
+    const all = D.groupQ.every((g, i) => S.checked[i]);
+    $('sum2').classList.toggle('hidden', !all);
+    if (all) $('sum2').innerHTML = tx({ t: '직업군에 따라 비슷한 진로 특성이 필요하고, 이런 특성은 타고나는 것만이 아니라 경험과 학습으로 길러져요. 직업이 바뀌면 필요한 특성도 바뀌어요.', e: '직업마다 필요한 힘이 있어요. 그 힘은 배우고 경험하며 자라요.' });
+    $('future').value = S.future; check2();
+  }
+  function check2() { $('to3').classList.toggle('hidden', !(D.groupQ.every((g, i) => S.checked[i]) && S.future.trim())); }
+  $('groups').addEventListener('click', (e) => {
+    const c = e.target.closest('[data-ck]'); if (c) { S.checked[c.dataset.ck] = true; save(); return draw2(); }
+    const b = e.target.closest('[data-n]'); if (!b) return; const i = b.dataset.g, n = b.dataset.n; let m = S.need[i] || [];
+    if (m.includes(n)) m = m.filter(x => x !== n); else { if (m.length >= 3) return CU.toast('3개까지 골라요.'); m = [...m, n]; }
+    S.need[i] = m; save(); draw2(); });
+  $('future').addEventListener('input', (e) => { S.future = e.target.value; save(); check2(); });
+  $('to3').addEventListener('click', () => go(3));
+
+  /* 3 */
+  const F3 = ['why', 'who', 'q1', 'q2', 'q3'];
+  function draw3() {
+    $('like').innerHTML = D.people.map(p => `<button type="button" class="pp ${S.like === p.id ? 'on' : ''}" data-l="${p.id}"><span class="ic">${p.icon}</span>${esc(p.name)}</button>`).join('');
+    F3.forEach(k => { $(k).value = S[k]; }); drawCard();
+  }
+  function drawCard() { const p = P(S.like);
+    $('card').innerHTML = `<div class="muted small">🎙️ 나의 직업인 탐구 카드</div>
+      <p style="margin:6px 0">🔍 따라간 하루: ${D.people.filter(doneP).map(x => x.icon + ' ' + esc(x.name)).join(', ') || '-'} (특성 찾기 ${score()}개)</p>
+      <p style="margin:4px 0">🪞 나와 닮은 직업인: ${p ? p.icon + ' ' + esc(p.name) : '-'} — ${esc(S.why)}</p>
+      <p style="margin:4px 0">🔭 10년 뒤 필요한 특성: ${esc(S.future)}</p>
+      <p style="margin:4px 0">🎤 인터뷰할 직업인: ${esc(S.who || '-')}</p>
+      <ol style="margin:4px 0 0 18px">${[S.q1, S.q2, S.q3].filter(q => q.trim()).map(q => `<li>${esc(q)}</li>`).join('')}</ol>`; }
+  $('like').addEventListener('click', (e) => { const b = e.target.closest('[data-l]'); if (!b) return; S.like = b.dataset.l; save(); draw3(); });
+  F3.forEach(k => $(k).addEventListener('input', (e) => { S[k] = e.target.value; save(); drawCard(); }));
+
+  function summary() { const p = P(S.like);
+    return [`[따라간 하루] ${D.people.filter(doneP).map(x => x.name).join(', ')} · 특성 찾기 ${score()}/${Object.keys(S.ans).length}`,
+      `[10년 뒤 필요한 특성] ${S.future.trim()}`, `[나와 닮은 직업인] ${p ? p.name : ''} — ${S.why.trim()}`,
+      `[인터뷰할 직업인] ${S.who.trim()}`, `[질문] ${[S.q1, S.q2, S.q3].map(q => q.trim()).filter(Boolean).join(' / ')}`].join('\n'); }
+  $('btnCopy').addEventListener('click', () => CU.copy(summary()));
+  $('btnPrint').addEventListener('click', () => window.print());
+  $('send').addEventListener('click', async () => {
+    if (!S.like || !S.why.trim() || ![S.q1, S.q2, S.q3].every(q => q.trim())) return CU.toast('닮은 직업인·까닭·질문 3개를 채워 주세요.');
+    if (CareerClass.safetyCheck(F3.map(k => S[k]).join(' ') + ' ' + S.future)) return CareerClass.showNotice('danger');
+    $('send').disabled = true; $('send').textContent = '내는 중...';
+    const r = await CareerClass.submit({ kind: 'job-day', title: `직업인 탐구 — ${P(S.like).name}`, content: summary(),
+      result: { score: score(), total: Object.keys(S.ans).length }, detail: { done: D.people.filter(doneP).map(p => p.id), future: S.future.trim(), like: S.like, why: S.why.trim(), who: S.who.trim(), qs: [S.q1, S.q2, S.q3].map(q => q.trim()) } });
+    $('send').disabled = false; $('send').textContent = '선생님께 내기';
+    if (r.ok) CU.toast('선생님께 냈어요.');
+  });
+
+  function go(n) {
+    S.step = n; S.reached = Math.max(S.reached || 1, n); save();
+    [1, 2, 3].forEach(i => { $('step' + i).hidden = i !== n; });
+    document.querySelectorAll('.steps button').forEach(b => { const k = +b.dataset.go; b.removeAttribute('aria-current'); if (k === n) b.setAttribute('aria-current', 'step'); b.disabled = k > S.reached; });
+    ({ 1: draw1, 2: draw2, 3: draw3 })[n](); window.scrollTo({ top: 0 });
+  }
+  document.addEventListener('click', (e) => { const b = e.target.closest('[data-go]'); if (!b || b.disabled) return; if (+b.dataset.go > S.reached) return; go(+b.dataset.go); });
+  go(Math.min(S.step || 1, S.reached || 1));
+  CU.classroom({ app: 'job-day', modeEl: $('mode'), sendEl: $('send'), replyEl: $('reply') });
+})();
+</script>
+<p class="eaim-copy">© 2026 박성애 · EAIM · 교육 목적 무료 사용, 무단 복제·상업적 이용 금지 · <a href="https://eaim.kr/#copyright" target="_blank" rel="noopener" style="color:inherit">이용 안내</a></p>
+</body>
+</html>

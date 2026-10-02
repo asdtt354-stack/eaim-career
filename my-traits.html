@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="career.webmanifest">
+<meta name="theme-color" content="#e2703a">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="EAIM 진로">
+<title>나의 진로 특성 찾기 · EAIM 진로</title>
+<!-- 나의 진로 특성 찾기 v1.0 (2026-10-02) — [9진로01-02], 세 개의 거울(경험·능력+친구·가치 경매), AI 없음, 공개(내기는 수업 QR) -->
+<link rel="stylesheet" href="career.css">
+<style>
+  .steps button{font:inherit;font-size:.82rem;padding:4px 12px;border-radius:999px;background:#efe9df;color:var(--sub);font-weight:700}
+  .steps button[aria-current]{background:var(--main);color:#fff}
+  .steps button:disabled{opacity:.5}
+  .ab{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;border-bottom:1px dashed var(--line);padding:8px 0}
+  .stars button{background:none;border:0;color:#d8cfc2;font-size:1.5rem;padding:0 2px}
+  .stars button.on{color:var(--gold)}
+  .fr{font-size:.75rem;color:var(--blue);font-weight:700}
+  .friend{border:3px dashed var(--blue);border-radius:16px;padding:14px;background:var(--blue-soft);margin-top:12px}
+  .friend .chips{display:flex;gap:6px;flex-wrap:wrap}
+  .friend .chips button{background:#fff;color:var(--ink);border:2px solid var(--line);font-size:.84rem;padding:6px 10px;font-weight:600}
+  .friend .chips button.on{border-color:var(--blue);background:#fff;box-shadow:0 0 0 2px var(--blue)}
+  .auction{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+  .lot{display:flex;align-items:center;gap:8px;border:2px solid var(--line);border-radius:14px;padding:8px 10px;background:#fff}
+  .lot.top{border-color:var(--gold);background:var(--gold-soft)}
+  .lot .nm{flex:1;font-size:.86rem}
+  .lot button{width:34px;height:34px;padding:0;font-size:1.1rem}
+  .lot output{min-width:34px;text-align:center;font-weight:800}
+  .purse{position:sticky;top:6px;z-index:3;background:#2b2a33;color:#fff;border-radius:14px;padding:8px 14px;display:flex;justify-content:space-between;align-items:center;font-weight:700;margin-bottom:10px}
+  .tcard{border-radius:20px;padding:20px;border:3px solid var(--teal);background:linear-gradient(160deg,#fff,#effaf8)}
+  .tcard .row3{display:grid;gap:8px;grid-template-columns:repeat(3,minmax(0,1fr))}
+  @media (max-width:520px){.tcard .row3{grid-template-columns:1fr}}
+  .tcard .box{background:#fff;border-radius:12px;padding:10px;font-size:.86rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="home" href="index.html">← EAIM 진로</a>
+    <h1>🔍 나의 진로 특성 찾기</h1>
+    <button class="easy-btn" type="button" aria-pressed="false">쉬운 말</button>
+  </header>
+  <p class="row" style="margin:0"><span class="badge teal">[9진로01-02]</span><span class="badge teal">진로와 나의 이해</span>
+    <a class="badge blue" href="guide.html#student-my-traits" style="text-decoration:none">📘 사용법</a>
+    <span id="mode" class="mode hidden"></span></p>
+
+  <nav class="steps" style="margin-top:12px" aria-label="단계">
+    <button type="button" data-go="1">1 경험 거울</button>
+    <button type="button" data-go="2">2 능력 거울</button>
+    <button type="button" data-go="3">3 가치 경매</button>
+    <button type="button" data-go="4">4 나의 특성 카드</button>
+  </nav>
+
+  <section id="step1">
+    <div class="card" id="i1">
+      <h2>🪞 경험 거울 — 시간 가는 줄 몰랐던 순간 <button class="say" data-say="i1">🔊</button></h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>시간 가는 줄 몰랐던 순간을 <b>3개</b> 눌러요</li><li>그중 하나의 실제 경험을 짧게 써요</li><li><b>다음</b> 을 눌러요</li></ol><ol class="e"><li>3개를 눌러요</li><li>경험을 짧게 써요</li><li>다음 을 눌러요</li></ol></div>
+      <p class="read">💡 알아 두기</p>
+      <p class="small" style="margin:2px 0 8px">검사지 말고도 나를 아는 방법은 여러 가지예요. 오늘은 <b>경험 · 능력(나와 친구의 눈) · 가치</b> 세 거울로 나를 비춰 봐요. 진로 특성은 정해진 것이 아니라 경험과 배움으로 자라요.</p>
+      <div class="grid two" id="moments"></div>
+      <label class="field" for="story"><span class="n">그 순간 하나를 짧게 써요</span><span class="e">그때 이야기를 써요</span></label>
+      <input type="text" id="story" maxlength="100" placeholder="예: 동생 자전거를 고치다가 저녁 먹는 것도 잊었어요">
+    </div>
+    <div class="row"><button type="button" id="to2" disabled>다음 →</button></div>
+  </section>
+
+  <section id="step2" hidden>
+    <div class="card">
+      <h2>🪞 능력 거울 — 나의 눈, 친구의 눈</h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>여덟 가지 능력마다 ★ 을 눌러 나를 매겨요</li><li>(할 수 있으면) 기기를 친구에게 건네 친구가 보는 내 강점 <b>3개</b>를 눌러 달라고 해요</li><li><b>다음</b> 을 눌러요 — 친구 칸은 건너뛰어도 돼요</li></ol><ol class="e"><li>★ 을 눌러요</li><li>친구가 3개를 눌러요 (안 해도 돼요)</li><li>다음 을 눌러요</li></ol></div>
+      <div id="abilities"></div>
+      <div class="friend">
+        <b>🤝 친구의 눈 (선택)</b>
+        <p class="small" style="margin:4px 0 8px">친구에게: "이 친구가 잘하는 것 같은 것 3개를 눌러 주세요." 친구 이름은 쓰지 않아요.</p>
+        <div class="chips" id="friend"></div>
+      </div>
+    </div>
+    <div class="row"><button type="button" class="ghost" data-go="1">← 이전</button><button type="button" id="to3" disabled>다음 →</button></div>
+  </section>
+
+  <section id="step3" hidden>
+    <div class="card">
+      <h2>💎 가치 경매</h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>코인 <b>100개</b>로 내가 갖고 싶은 가치를 사요 (＋ 를 누를 때마다 10코인)</li><li>코인을 다 쓰면 많이 산 가치 3개가 금색이 돼요</li><li><b>다음</b> 을 눌러요</li></ol><ol class="e"><li>＋ 로 코인을 써요 (10개씩)</li><li>다 쓰면 금색 3개</li><li>다음 을 눌러요</li></ol></div>
+      <div class="purse"><span>🪙 남은 코인</span><span id="left"></span></div>
+      <div class="auction" id="auction"></div>
+    </div>
+    <div class="row"><button type="button" class="ghost" data-go="2">← 이전</button><button type="button" id="to4" disabled>나의 특성 카드 →</button></div>
+  </section>
+
+  <section id="step4" hidden>
+    <div class="card">
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>세 거울이 모인 카드를 읽어요</li><li>나를 소개하는 문장과, 앞으로 키우고 싶은 특성을 써요</li><li>인쇄하거나 선생님께 내요</li></ol><ol class="e"><li>카드를 읽어요</li><li>두 칸을 써요</li><li>인쇄하거나 내요</li></ol></div>
+      <div class="tcard" id="card"></div>
+      <label class="field" for="me"><span class="n">"나는 ___을 좋아하고, ___을 잘하며, ___을 중요하게 여기는 사람이에요." 내 말로 고쳐 써요</span><span class="e">나를 소개하는 한 문장</span></label>
+      <textarea id="me" maxlength="200"></textarea>
+      <label class="field" for="grow"><span class="n">경험과 배움으로 앞으로 키우고 싶은 특성</span><span class="e">키우고 싶은 힘</span></label>
+      <input type="text" id="grow" maxlength="80" placeholder="예: 사람들 앞에서 말하는 힘 — 발표 동아리에 들어가 볼래요">
+      <div class="row no-print" style="margin-top:12px">
+        <button type="button" class="ghost" id="btnCopy">📋 복사</button>
+        <button type="button" class="ghost" id="btnPrint">🖨 인쇄</button>
+        <button type="button" class="teal hidden" id="send">선생님께 내기</button>
+      </div>
+      <div id="reply" class="reply hidden"></div>
+    </div>
+    <div class="row no-print"><button type="button" class="ghost" data-go="3">← 이전</button></div>
+  </section>
+  <div class="std" id="stdBox"></div>
+</div>
+
+<script src="curriculum-career.js"></script>
+<script src="career-apps.js"></script>
+<script src="my-traits-data.js"></script>
+<script src="career-class.js"></script>
+<script src="career-ui.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.MT_DATA, esc = CU.esc, tx = CU.tx;
+  const $ = (id) => document.getElementById(id);
+  const s0 = window.EAIM_CAREER_CURRICULUM.find('[9진로01-02]');
+  $('stdBox').innerHTML = `<b>${s0.code}</b> ${esc(s0.text)}<br><span class="small">교육과정 해설: ${esc(s0.note)}</span>`;
+  const ST = CU.sstore('my_traits');
+  let S = ST.load({ step: 1, reached: 1, moments: [], story: '', ab: {}, friend: [], bid: {}, me: '', grow: '' });
+  const save = () => ST.save(S);
+
+  /* 1 */
+  function draw1() {
+    $('moments').innerHTML = D.moments.map(m => `<button type="button" class="chip ${S.moments.includes(m.id) ? 'on' : ''}" data-m="${m.id}">${m.icon} ${tx(m)}</button>`).join('');
+    $('story').value = S.story; $('to2').disabled = !(S.moments.length === 3 && S.story.trim());
+  }
+  $('moments').addEventListener('click', (e) => { const b = e.target.closest('[data-m]'); if (!b) return; const id = b.dataset.m;
+    if (S.moments.includes(id)) S.moments = S.moments.filter(x => x !== id); else { if (S.moments.length >= 3) return CU.toast('3개까지 골라요. 하나를 빼고 골라요.'); S.moments.push(id); }
+    save(); draw1(); });
+  $('story').addEventListener('input', (e) => { S.story = e.target.value; save(); $('to2').disabled = !(S.moments.length === 3 && S.story.trim()); });
+  $('to2').addEventListener('click', () => go(2));
+
+  /* 2 */
+  function draw2() {
+    $('abilities').innerHTML = D.abilities.map(a => `<div class="ab"><div><b>${a.icon} ${esc(a.name)}</b> ${S.friend.includes(a.id) ? '<span class="fr">🤝 친구가 고름</span>' : ''}<br><span class="small muted">${esc(a.t)}</span></div>
+      <div class="stars">${[1, 2, 3, 4, 5].map(n => `<button type="button" class="${(S.ab[a.id] || 0) >= n ? 'on' : ''}" data-a="${a.id}" data-v="${n}" aria-label="${esc(a.name)} ${n}점">★</button>`).join('')}</div></div>`).join('');
+    $('friend').innerHTML = D.abilities.map(a => `<button type="button" class="${S.friend.includes(a.id) ? 'on' : ''}" data-f="${a.id}">${a.icon} ${esc(a.name)}</button>`).join('');
+    $('to3').disabled = D.abilities.some(a => !S.ab[a.id]);
+  }
+  $('abilities').addEventListener('click', (e) => { const b = e.target.closest('[data-a]'); if (!b) return; S.ab[b.dataset.a] = +b.dataset.v; save(); draw2(); });
+  $('friend').addEventListener('click', (e) => { const b = e.target.closest('[data-f]'); if (!b) return; const id = b.dataset.f;
+    if (S.friend.includes(id)) S.friend = S.friend.filter(x => x !== id); else { if (S.friend.length >= 3) return CU.toast('친구는 3개까지 골라요.'); S.friend.push(id); }
+    save(); draw2(); });
+  $('to3').addEventListener('click', () => go(3));
+
+  /* 3 */
+  const spent = () => Object.values(S.bid).reduce((a, b) => a + b, 0);
+  const topV = () => D.values.filter(v => S.bid[v.id]).sort((a, b) => S.bid[b.id] - S.bid[a.id]).slice(0, 3);
+  function draw3() {
+    const left = D.coins - spent(), tops = left === 0 ? topV().map(v => v.id) : [];
+    $('left').textContent = `${left} / ${D.coins}`;
+    $('auction').innerHTML = D.values.map(v => `<div class="lot ${tops.includes(v.id) ? 'top' : ''}"><span style="font-size:1.4rem">${v.icon}</span><span class="nm"><b>${esc(v.name)}</b><br><span class="small muted">${esc(v.t)}</span></span>
+      <button type="button" class="ghost" data-v="${v.id}" data-d="-10" aria-label="${esc(v.name)} 10코인 빼기">−</button><output>${S.bid[v.id] || 0}</output><button type="button" data-v="${v.id}" data-d="10" aria-label="${esc(v.name)} 10코인 더하기">＋</button></div>`).join('');
+    $('to4').disabled = left !== 0;
+  }
+  $('auction').addEventListener('click', (e) => { const b = e.target.closest('[data-v]'); if (!b) return; const id = b.dataset.v, d = +b.dataset.d;
+    if (d > 0 && spent() >= D.coins) return CU.toast('코인을 다 썼어요. 다른 가치에서 빼고 더해요.');
+    S.bid[id] = Math.max(0, (S.bid[id] || 0) + d); if (!S.bid[id]) delete S.bid[id]; save(); draw3();
+    if (spent() === D.coins) CU.toast('🔨 낙찰! 금색이 내가 가장 중요하게 여기는 가치예요.'); });
+  $('to4').addEventListener('click', () => go(4));
+
+  /* 4 */
+  const M = (id) => D.moments.find(m => m.id === id), A = (id) => D.abilities.find(a => a.id === id);
+  const topAb = () => D.abilities.filter(a => S.ab[a.id]).sort((a, b) => S.ab[b.id] - S.ab[a.id]).slice(0, 3);
+  function draw4() {
+    const eul = (w) => { const c = String(w).trim().slice(-1).charCodeAt(0) - 0xAC00; return c >= 0 && c <= 11171 ? (c % 28 ? '을' : '를') : '을(를)'; };
+    const ws = S.moments.map(id => M(id).word).join('·'), vs = topV().map(v => v.name).join('·');
+    if (!S.me.trim()) S.me = `나는 ${ws}${eul(ws)} 좋아하고, ${topAb().map(a => a.name).join('·')}에서 힘을 보이며, ${vs}${eul(vs)} 중요하게 여기는 사람이에요.`;
+    $('me').value = S.me; $('grow').value = S.grow; drawCard();
+  }
+  function drawCard() {
+    $('card').innerHTML = `<div class="muted small">🔍 나의 진로 특성 카드</div>
+      <div class="row3" style="margin-top:8px">
+        <div class="box"><b>😊 흥미 (경험 거울)</b><br>${S.moments.map(id => M(id).icon + ' ' + esc(M(id).word)).join('<br>')}<br><span class="small muted">"${esc(S.story)}"</span></div>
+        <div class="box"><b>🎯 적성 (능력 거울)</b><br>${topAb().map(a => `${a.icon} ${esc(a.name)} ${'★'.repeat(S.ab[a.id])}`).join('<br>')}${S.friend.length ? `<br><span class="fr">🤝 친구의 눈: ${S.friend.map(id => esc(A(id).name)).join(', ')}</span>` : ''}</div>
+        <div class="box"><b>💎 가치관 (가치 경매)</b><br>${topV().map(v => `${v.icon} ${esc(v.name)} ${S.bid[v.id]}코인`).join('<br>')}</div>
+      </div>
+      <p style="margin:12px 0 0;font-weight:700">${esc(S.me)}</p>
+      <p class="small" style="margin:6px 0 0">🌱 키우고 싶은 특성: ${esc(S.grow || '-')}</p>`;
+  }
+  $('me').addEventListener('input', (e) => { S.me = e.target.value; save(); drawCard(); });
+  $('grow').addEventListener('input', (e) => { S.grow = e.target.value; save(); drawCard(); });
+
+  function summary() {
+    return [`[흥미] ${S.moments.map(id => M(id).word).join(', ')} — ${S.story.trim()}`,
+      `[적성] 나: ${D.abilities.map(a => `${a.name} ${S.ab[a.id] || 0}`).join(', ')}${S.friend.length ? ` / 친구의 눈: ${S.friend.map(id => A(id).name).join(', ')}` : ''}`,
+      `[가치관] ${topV().map(v => `${v.name} ${S.bid[v.id]}`).join(', ')} (전체: ${D.values.filter(v => S.bid[v.id]).map(v => `${v.name} ${S.bid[v.id]}`).join(', ')})`,
+      `[나를 소개] ${S.me.trim()}`, `[키우고 싶은 특성] ${S.grow.trim()}`].join('\n');
+  }
+  $('btnCopy').addEventListener('click', () => CU.copy(summary()));
+  $('btnPrint').addEventListener('click', () => window.print());
+  $('send').addEventListener('click', async () => {
+    if (!S.me.trim() || !S.grow.trim()) return CU.toast('나를 소개하는 문장과 키우고 싶은 특성을 써 주세요.');
+    if (CareerClass.safetyCheck(S.story + ' ' + S.me + ' ' + S.grow)) return CareerClass.showNotice('danger');
+    $('send').disabled = true; $('send').textContent = '내는 중...';
+    const r = await CareerClass.submit({ kind: 'my-traits', title: '나의 진로 특성 카드', content: summary(),
+      detail: { moments: S.moments, story: S.story.trim(), abilities: S.ab, friend: S.friend, values: S.bid, me: S.me.trim(), grow: S.grow.trim() } });
+    $('send').disabled = false; $('send').textContent = '선생님께 내기';
+    if (r.ok) CU.toast('선생님께 냈어요.');
+  });
+
+  function go(n) {
+    S.step = n; S.reached = Math.max(S.reached || 1, n); save();
+    [1, 2, 3, 4].forEach(i => { $('step' + i).hidden = i !== n; });
+    document.querySelectorAll('.steps button').forEach(b => { const k = +b.dataset.go; b.removeAttribute('aria-current'); if (k === n) b.setAttribute('aria-current', 'step'); b.disabled = k > S.reached; });
+    ({ 1: draw1, 2: draw2, 3: draw3, 4: draw4 })[n](); window.scrollTo({ top: 0 });
+  }
+  document.addEventListener('click', (e) => { const b = e.target.closest('[data-go]'); if (!b || b.disabled) return; if (+b.dataset.go > S.reached) return; go(+b.dataset.go); });
+  go(Math.min(S.step || 1, S.reached || 1));
+  CU.classroom({ app: 'my-traits', modeEl: $('mode'), sendEl: $('send'), replyEl: $('reply') });
+})();
+</script>
+<p class="eaim-copy">© 2026 박성애 · EAIM · 교육 목적 무료 사용, 무단 복제·상업적 이용 금지 · <a href="https://eaim.kr/#copyright" target="_blank" rel="noopener" style="color:inherit">이용 안내</a></p>
+</body>
+</html>

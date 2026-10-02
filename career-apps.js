@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════
-   EAIM 진로 — 앱 표 (career-apps.js)  v1.3 (2026-10-02)
+   EAIM 진로 — 앱 표 (career-apps.js)  v1.4 (2026-10-02)
    첫 화면(index.html), 교사 페이지(teacher.html), 교실 연결(career-class.js),
    지도안·가이드가 모두 이 표 하나를 읽습니다. 앱을 새로 만들면 ready:true 로 바꿉니다.
 
@@ -46,11 +46,16 @@ window.CAREER_APPS = {
   'after-grad':       { area: '03', order: 4, std: '[9진로03-04]', stds: ['[9진로03-04]'], icon: '🎓', name: '졸업 뒤 첫걸음', file: 'after-grad.html', open: true, ready: true, activityType: 'writing',
                         desc: '졸업 뒤 시기별 목표를 그리고, 자기 관리 미션과 21일 습관 챌린지를 해요' },
 
+  'job-day':          { area: '01', order: 1, std: '[9진로01-01]', stds: ['[9진로01-01]'], icon: '🎙️', name: '직업인의 하루', file: 'job-day.html', open: true, ready: true, activityType: 'writing',
+                        desc: '여러 직업인의 하루를 따라가며 흥미·적성·가치관을 찾고, 만나 보고 싶은 직업인 인터뷰를 준비해요' },
+  'my-traits':        { area: '01', order: 2, std: '[9진로01-02]', stds: ['[9진로01-02]'], icon: '🔍', name: '나의 진로 특성 찾기', file: 'my-traits.html', open: true, ready: true, activityType: 'writing',
+                        desc: '경험 거울·능력 거울(친구의 눈)·가치 경매로 나의 진로 특성 카드를 만들어요' },
+  'info-detective':   { area: '02', order: 3, std: '[9진로02-03]', stds: ['[9진로02-03]'], icon: '🕵️', name: '진로 정보 탐정', file: 'info-detective.html', open: true, ready: true, activityType: 'writing',
+                        desc: '정보 찾는 방법을 익히고, 믿을 만한 정보와 광고·과장을 가려낸 뒤 조사 노트를 써요' },
+  'high-school':      { area: '02', order: 5, std: '[9진로02-05]', stds: ['[9진로02-05]'], icon: '🏫', name: '고등학교 탐험', file: 'high-school.html', open: true, ready: true, activityType: 'writing',
+                        desc: '고등학교 유형을 살펴보고, 고교학점제 모의 시간표를 짜고, 나에게 맞는 학교를 찾아요 (2026년 기준)' },
+
   /* ── 준비 중 (성취기준마다 하나씩) ── */
-  'job-people':       { area: '01', order: 1, std: '[9진로01-01]', icon: '🎙️', name: '직업인의 하루',        open: true, ready: false, desc: '여러 직업인의 진로 특성과 삶의 모습을 살펴봐요' },
-  'my-traits':        { area: '01', order: 2, std: '[9진로01-02]', icon: '🔍', name: '나의 진로 특성 찾기',   open: true, ready: false, desc: '흥미·적성·가치관을 여러 방법으로 살펴봐요' },
-  'info-detective':   { area: '02', order: 3, std: '[9진로02-03]', icon: '🕵️', name: '진로 정보 탐정',        open: true, ready: false, desc: '진로 정보를 찾는 여러 방법을 익히고 관심 분야를 조사해요' },
-  'high-school':      { area: '02', order: 5, std: '[9진로02-05]', icon: '🏫', name: '고등학교 탐험',         open: true, ready: false, desc: '고등학교 유형·특성·교육과정을 살펴봐요' },
 };
 
 // 공통 교실 모듈 studentLink() 가 읽는 앱 파일 표 (만든 앱만)

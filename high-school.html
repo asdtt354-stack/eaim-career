@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="career.webmanifest">
+<meta name="theme-color" content="#e2703a">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="EAIM 진로">
+<title>고등학교 탐험 · EAIM 진로</title>
+<!-- 고등학교 탐험 v1.0 (2026-10-02) — [9진로02-05], 2026년 기준 정보, AI 없음, 공개(내기는 수업 QR) -->
+<link rel="stylesheet" href="career.css">
+<style>
+  .steps button{font:inherit;font-size:.82rem;padding:4px 12px;border-radius:999px;background:#efe9df;color:var(--sub);font-weight:700}
+  .steps button[aria-current]{background:var(--main);color:#fff}
+  .steps button:disabled{opacity:.5}
+  .types{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+  .tp{border:3px solid var(--line);border-radius:16px;padding:12px;background:#fff;text-align:center;color:var(--ink);font-weight:800;display:block;width:100%}
+  .tp .ic{font-size:2rem;display:block}
+  .tp.seen{border-color:var(--teal)}
+  .tp.on{border-color:var(--main);background:var(--main-soft)}
+  .detail{border:2px solid var(--main);border-radius:16px;padding:14px;background:#fff;margin-top:10px}
+  .detail dt{font-weight:800;margin-top:8px}
+  .detail dd{margin:2px 0 0}
+  .pick5{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
+  .pick5 button{background:#fff;color:var(--ink);border:2px solid var(--line);font-size:.82rem;padding:6px 9px;font-weight:600}
+  .pick5 button.ok{border-color:var(--teal);background:var(--teal-soft)}
+  .pick5 button.no{border-color:var(--gold);background:var(--gold-soft)}
+  .res{margin-top:8px;font-size:.88rem;padding:8px 10px;border-radius:10px;background:#f5f1ea}
+  .facts{background:var(--blue-soft);border-radius:14px;padding:12px 14px}
+  .facts li{margin:4px 0;font-size:.9rem}
+  .sarea{border:1px solid var(--line);border-radius:14px;padding:10px 12px;background:#fff;margin:8px 0}
+  .sarea .sb{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+  .sarea .sb button{background:#fff;color:var(--ink);border:2px solid var(--line);font-size:.8rem;padding:5px 9px;font-weight:600}
+  .sarea .sb button.on{color:#fff}
+  .legend{display:flex;gap:10px;flex-wrap:wrap;font-size:.8rem}
+  .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+  .tt{border:3px solid var(--blue);border-radius:16px;padding:14px;background:#fff}
+  .hcard{border-radius:20px;padding:18px;border:3px solid var(--teal);background:linear-gradient(160deg,#fff,#effaf8)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="home" href="index.html">← EAIM 진로</a>
+    <h1>🏫 고등학교 탐험</h1>
+    <button class="easy-btn" type="button" aria-pressed="false">쉬운 말</button>
+  </header>
+  <p class="row" style="margin:0"><span class="badge">[9진로02-05]</span><span class="badge">직업 세계와 진로 탐색</span><span class="badge gold">2026년 기준</span>
+    <a class="badge blue" href="guide.html#student-high-school" style="text-decoration:none">📘 사용법</a>
+    <span id="mode" class="mode hidden"></span></p>
+
+  <nav class="steps" style="margin-top:12px" aria-label="단계">
+    <button type="button" data-go="1">1 고등학교 유형</button>
+    <button type="button" data-go="2">2 고교학점제 체험</button>
+    <button type="button" data-go="3">3 나에게 맞는 학교</button>
+  </nav>
+
+  <section id="step1">
+    <div class="card">
+      <h2>고등학교에는 어떤 유형이 있을까요?</h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>유형 카드를 하나씩 눌러 설명을 읽어요 (다섯 개 모두)</li><li>아래 친구들에게 어울릴 학교 유형을 눌러요 (답이 여러 개일 수 있어요)</li><li>다 하면 <b>다음</b> 단추가 나와요</li></ol><ol class="e"><li>카드를 다 눌러 읽어요</li><li>친구에게 맞는 학교를 눌러요</li><li>다 하면 다음</li></ol></div>
+      <div class="types" id="types"></div>
+      <div id="detail"></div>
+      <p class="muted small">2026년 기준 정보예요. 학교 유형과 입학 제도는 정책에 따라 바뀔 수 있으니, 우리 지역 교육청 고입 안내를 꼭 확인해요.</p>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">이 친구에게 어울리는 학교는?</h3>
+      <div id="profiles"></div>
+    </div>
+    <div class="row"><button type="button" id="to2" class="hidden">고교학점제 체험 →</button></div>
+  </section>
+
+  <section id="step2" hidden>
+    <div class="card">
+      <h2>📚 고교학점제 — 내가 고르는 시간표</h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>파란 상자에서 고교학점제를 읽어요</li><li>나의 진로 목표를 쓰고, 2학년 때 듣고 싶은 선택 과목 <b>6개</b>를 눌러요</li><li>고른 까닭을 쓰면 <b>다음</b> 단추가 나와요</li></ol><ol class="e"><li>파란 상자를 읽어요</li><li>과목 6개를 눌러요</li><li>까닭을 써요</li></ol></div>
+      <ul class="facts" id="facts"></ul>
+      <label class="field" for="goal"><span class="n">나의 진로 목표 (잠정적이어도 좋아요)</span><span class="e">하고 싶은 일</span></label>
+      <input type="text" id="goal" maxlength="30" placeholder="예: 환경 공학자">
+      <div class="legend" id="legend" style="margin-top:10px"></div>
+      <div id="subs"></div>
+      <div class="tt" id="tt"></div>
+      <label class="field" for="why2"><span class="n">이 과목들을 고른 까닭 (진로와 이어서)</span><span class="e">왜 골랐나요?</span></label>
+      <textarea id="why2" maxlength="200"></textarea>
+      <p class="muted small">2022 개정 교육과정의 과목 예시예요. 학교마다 여는 과목이 달라요. 이 시간표는 체험용 모의 시간표예요.</p>
+    </div>
+    <div class="row"><button type="button" class="ghost" data-go="1">← 이전</button><button type="button" id="to3" disabled>나에게 맞는 학교 →</button></div>
+  </section>
+
+  <section id="step3" hidden>
+    <div class="card">
+      <h2>🧭 나에게 맞는 고등학교 찾기</h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>학교를 고를 때 나에게 중요한 것을 <b>3개</b> 눌러요</li><li>가고 싶은 유형(우선)과 다른 길(대안)을 골라요</li><li>설명회에서 물어볼 질문을 쓰고 확인할 곳을 살펴봐요</li></ol><ol class="e"><li>중요한 것 3개를 눌러요</li><li>학교 유형 2개를 골라요</li><li>질문을 써요</li></ol></div>
+      <h3>나에게 중요한 것</h3><div class="grid two" id="matters"></div>
+      <div class="grid two" style="margin-top:8px">
+        <div><label class="field" for="t1">🥇 가고 싶은 유형</label><select id="t1"></select></div>
+        <div><label class="field" for="t2">🥈 대안 유형</label><select id="t2"></select></div>
+      </div>
+      <label class="field" for="ask"><span class="n">입학 설명회나 선배에게 물어볼 질문</span><span class="e">물어볼 것</span></label>
+      <input type="text" id="ask" maxlength="100" placeholder="예: 2학년 때 환경 관련 과목을 들을 수 있나요?">
+      <h3>꼭 확인할 곳</h3>
+      <div id="where"></div>
+    </div>
+    <div class="card">
+      <div class="hcard" id="card"></div>
+      <div class="row no-print" style="margin-top:12px">
+        <button type="button" class="ghost" id="btnCopy">📋 복사</button>
+        <button type="button" class="ghost" id="btnPrint">🖨 인쇄</button>
+        <button type="button" class="teal hidden" id="send">선생님께 내기</button>
+      </div>
+      <div id="reply" class="reply hidden"></div>
+    </div>
+    <div class="row no-print"><button type="button" class="ghost" data-go="2">← 이전</button></div>
+  </section>
+  <div class="std" id="stdBox"></div>
+</div>
+
+<script src="curriculum-career.js"></script>
+<script src="career-apps.js"></script>
+<script src="high-school-data.js"></script>
+<script src="career-class.js"></script>
+<script src="career-ui.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.HS_DATA, esc = CU.esc;
+  const $ = (id) => document.getElementById(id);
+  const s0 = window.EAIM_CAREER_CURRICULUM.find('[9진로02-05]');
+  $('stdBox').innerHTML = `<b>${s0.code}</b> ${esc(s0.text)}<br><span class="small">교육과정 해설: ${esc(s0.note)}</span>`;
+  const ST = CU.sstore('high_school');
+  let S = ST.load({ step: 1, reached: 1, seen: [], cur: '', prof: {}, goal: '', picks: [], why2: '', matters: [], t1: '', t2: '', ask: '' });
+  const save = () => ST.save(S);
+  const T = (id) => D.types.find(t => t.id === id);
+
+  /* 1 */
+  function draw1() {
+    $('types').innerHTML = D.types.map(t => `<button type="button" class="tp ${S.seen.includes(t.id) ? 'seen' : ''} ${S.cur === t.id ? 'on' : ''}" data-t="${t.id}"><span class="ic">${t.icon}</span>${esc(t.name)}${S.seen.includes(t.id) ? ' ✔' : ''}</button>`).join('');
+    const t = T(S.cur);
+    $('detail').innerHTML = t ? `<div class="detail"><b style="font-size:1.1rem">${t.icon} ${esc(t.name)}</b><dl>
+      <dt>📘 무엇을 배우나요?</dt><dd>${esc(t.learn)}</dd><dt>🙋 이런 친구에게</dt><dd>${esc(t.fit)}</dd><dt>🛤️ 졸업 뒤</dt><dd>${esc(t.after)}</dd><dt>📌 알아 둘 점</dt><dd>${esc(t.note)}</dd></dl></div>` : '';
+    $('profiles').innerHTML = D.profiles.map((p, i) => { const got = S.prof[i];
+      return `<div class="story"><b>${i + 1}.</b> ${esc(p.t)}<div class="pick5">${D.types.map(t => `<button type="button" class="${got ? (p.fits.includes(t.id) ? 'ok' : (got === t.id ? 'no' : '')) : ''}" data-p="${i}" data-v="${t.id}" ${got ? 'disabled' : ''}>${t.icon} ${esc(t.name)}</button>`).join('')}</div>
+        ${got ? `<div class="res">${p.fits.includes(got) ? '⭕ 좋은 생각이에요! ' : '🤔 다른 길도 볼까요? '}${esc(p.why)}</div>` : ''}</div>`; }).join('');
+    $('to2').classList.toggle('hidden', !(S.seen.length === D.types.length && D.profiles.every((p, i) => S.prof[i])));
+  }
+  $('types').addEventListener('click', (e) => { const b = e.target.closest('[data-t]'); if (!b) return; S.cur = b.dataset.t; if (!S.seen.includes(S.cur)) S.seen.push(S.cur); save(); draw1(); });
+  $('profiles').addEventListener('click', (e) => { const b = e.target.closest('[data-p]'); if (!b || S.prof[b.dataset.p]) return; S.prof[b.dataset.p] = b.dataset.v; save(); draw1(); });
+  $('to2').addEventListener('click', () => go(2));
+
+  /* 2 */
+  const kindOf = (name) => { for (const a of D.subjects) for (const k of ['g', 'c', 'f']) if (a[k].includes(name)) return k; return 'g'; };
+  function draw2() {
+    $('facts').innerHTML = D.credit.map(t => `<li>${esc(t)}</li>`).join('');
+    $('legend').innerHTML = Object.entries(D.kinds).map(([k, v]) => `<span><i style="background:${v.color}"></i>${v.name}</span>`).join('');
+    $('subs').innerHTML = D.subjects.map(a => `<div class="sarea"><b>${esc(a.area)}</b><div class="sb">${['g', 'c', 'f'].flatMap(k => a[k].map(n => {
+      const on = S.picks.includes(n), col = D.kinds[k].color;
+      return `<button type="button" class="${on ? 'on' : ''}" style="border-color:${col};${on ? `background:${col}` : ''}" data-s="${esc(n)}">${on ? '✓ ' : ''}${esc(n)}</button>`; })).join('')}</div></div>`).join('');
+    $('goal').value = S.goal; $('why2').value = S.why2; drawTT();
+  }
+  function drawTT() {
+    const cnt = { g: 0, c: 0, f: 0 }; S.picks.forEach(n => cnt[kindOf(n)]++);
+    $('tt').innerHTML = `<b>🗓️ ${esc(S.goal || '나')}의 2학년 선택 과목 (${S.picks.length}/${D.pickN})</b>
+      <p style="margin:6px 0">${S.picks.map(n => `<span class="badge" style="background:${D.kinds[kindOf(n)].color};color:#fff;margin:2px">${esc(n)}</span>`).join(' ') || '<span class="muted">과목을 눌러 골라요</span>'}</p>
+      <p class="small muted" style="margin:0">일반 선택 ${cnt.g} · 진로 선택 ${cnt.c} · 융합 선택 ${cnt.f} · 각 4학점으로 치면 ${S.picks.length * 4}학점</p>`;
+    $('to3').disabled = !(S.picks.length === D.pickN && S.goal.trim() && S.why2.trim());
+  }
+  $('subs').addEventListener('click', (e) => { const b = e.target.closest('[data-s]'); if (!b) return; const n = b.dataset.s;
+    if (S.picks.includes(n)) S.picks = S.picks.filter(x => x !== n); else { if (S.picks.length >= D.pickN) return CU.toast(`${D.pickN}개까지 골라요. 하나를 빼고 골라요.`); S.picks.push(n); }
+    save(); draw2(); });
+  ['goal', 'why2'].forEach(id => $(id).addEventListener('input', (e) => { S[id] = e.target.value; save(); drawTT(); }));
+  $('to3').addEventListener('click', () => go(3));
+
+  /* 3 */
+  function draw3() {
+    $('matters').innerHTML = D.matters.map(m => `<button type="button" class="chip ${S.matters.includes(m) ? 'on' : ''}" data-m="${esc(m)}">${esc(m)}</button>`).join('');
+    const opt = (v) => `<option value="">고르기</option>` + D.types.map(t => `<option value="${t.id}" ${v === t.id ? 'selected' : ''}>${t.icon} ${esc(t.name)}</option>`).join('');
+    $('t1').innerHTML = opt(S.t1); $('t2').innerHTML = opt(S.t2); $('ask').value = S.ask;
+    $('where').innerHTML = D.checkWhere.map(([n, u]) => u ? `<a class="btn ghost" href="${u}" target="_blank" rel="noopener" style="margin:4px 6px 0 0">↗ ${esc(n)}</a>` : `<span class="badge blue" style="margin:4px 6px 0 0">📍 ${esc(n)}</span>`).join('');
+    drawCard();
+  }
+  function drawCard() {
+    $('card').innerHTML = `<div class="muted small">🏫 나의 고등학교 탐험 카드 · ${esc(D.asof)}</div>
+      <p style="margin:6px 0">🎯 진로 목표: ${esc(S.goal || '-')}</p>
+      <p style="margin:4px 0">📚 듣고 싶은 과목: ${S.picks.map(esc).join(', ') || '-'}</p>
+      <p style="margin:4px 0">⭐ 학교를 고를 때 중요한 것: ${S.matters.map(esc).join(', ') || '-'}</p>
+      <p style="margin:4px 0">🥇 ${T(S.t1) ? T(S.t1).icon + ' ' + esc(T(S.t1).name) : '-'} · 🥈 ${T(S.t2) ? T(S.t2).icon + ' ' + esc(T(S.t2).name) : '-'}</p>
+      <p style="margin:4px 0">❓ 물어볼 질문: ${esc(S.ask || '-')}</p>`;
+  }
+  $('matters').addEventListener('click', (e) => { const b = e.target.closest('[data-m]'); if (!b) return; const m = b.dataset.m;
+    if (S.matters.includes(m)) S.matters = S.matters.filter(x => x !== m); else { if (S.matters.length >= 3) return CU.toast('3개까지 골라요.'); S.matters.push(m); }
+    save(); draw3(); });
+  [['t1', 'change'], ['t2', 'change'], ['ask', 'input']].forEach(([id, ev]) => $(id).addEventListener(ev, (e) => { S[id] = e.target.value; save(); drawCard(); }));
+
+  function summary() {
+    return [`[유형 탐험] 친구 맞히기 ${D.profiles.filter((p, i) => p.fits.includes(S.prof[i])).length}/${D.profiles.length}`,
+      `[진로 목표] ${S.goal.trim()}`, `[선택 과목 6] ${S.picks.join(', ')} — ${S.why2.trim()}`,
+      `[중요한 것] ${S.matters.join(', ')}`, `[학교 유형] 우선 ${T(S.t1)?.name || '-'} / 대안 ${T(S.t2)?.name || '-'}`, `[질문] ${S.ask.trim()}`].join('\n');
+  }
+  $('btnCopy').addEventListener('click', () => CU.copy(summary()));
+  $('btnPrint').addEventListener('click', () => window.print());
+  $('send').addEventListener('click', async () => {
+    if (S.matters.length < 3 || !S.t1 || !S.ask.trim()) return CU.toast('중요한 것 3개·가고 싶은 유형·질문을 채워 주세요.');
+    if (CareerClass.safetyCheck(S.goal + ' ' + S.why2 + ' ' + S.ask)) return CareerClass.showNotice('danger');
+    $('send').disabled = true; $('send').textContent = '내는 중...';
+    const r = await CareerClass.submit({ kind: 'high-school', title: `고등학교 탐험 — ${S.goal.trim()}`, content: summary(),
+      detail: { goal: S.goal.trim(), picks: S.picks, why: S.why2.trim(), matters: S.matters, t1: S.t1, t2: S.t2, ask: S.ask.trim() } });
+    $('send').disabled = false; $('send').textContent = '선생님께 내기';
+    if (r.ok) CU.toast('선생님께 냈어요.');
+  });
+
+  function go(n) {
+    S.step = n; S.reached = Math.max(S.reached || 1, n); save();
+    [1, 2, 3].forEach(i => { $('step' + i).hidden = i !== n; });
+    document.querySelectorAll('.steps button').forEach(b => { const k = +b.dataset.go; b.removeAttribute('aria-current'); if (k === n) b.setAttribute('aria-current', 'step'); b.disabled = k > S.reached; });
+    ({ 1: draw1, 2: draw2, 3: draw3 })[n](); window.scrollTo({ top: 0 });
+  }
+  document.addEventListener('click', (e) => { const b = e.target.closest('[data-go]'); if (!b || b.disabled) return; if (+b.dataset.go > S.reached) return; go(+b.dataset.go); });
+  go(Math.min(S.step || 1, S.reached || 1));
+  CU.classroom({ app: 'high-school', modeEl: $('mode'), sendEl: $('send'), replyEl: $('reply') });
+})();
+</script>
+<p class="eaim-copy">© 2026 박성애 · EAIM · 교육 목적 무료 사용, 무단 복제·상업적 이용 금지 · <a href="https://eaim.kr/#copyright" target="_blank" rel="noopener" style="color:inherit">이용 안내</a></p>
+</body>
+</html>
