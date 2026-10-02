@@ -16,6 +16,8 @@
   }
   function initEasy() {
     let on = false; try { on = localStorage.getItem(LS) === '1'; } catch {}
+    /* 주소에 ?easy=1 이 있으면 쉬운 말로 시작 (에임 케어 한국어 트랙 등에서 들어올 때, v1.8) */
+    try { const q = new URLSearchParams(location.search).get('easy'); if (q === '1') on = true; else if (q === '0') on = false; } catch {}
     setEasy(on);
     document.addEventListener('click', (e) => { if (e.target.closest('.easy-btn')) setEasy(!document.body.classList.contains('easy')); });
   }

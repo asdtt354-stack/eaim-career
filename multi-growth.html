@@ -380,6 +380,8 @@
   $('btnCopy').addEventListener('click', () => CU.copy(allText()));
   CU.stampButton('multi-growth', allText);
 
+  /* 주소 ?part=1~4 로 그 차시를 바로 연다 (에임 케어 한국어 트랙 연결, v1.8) */
+  try { const qp = +new URLSearchParams(location.search).get('part'); if (qp >= 1 && qp <= 4) S.tab = qp; } catch {}
   drawTree(); drawStrip(); go(S.tab || 1);
   CU.classroom({ app: 'multi-growth', modeEl: $('mode'), sendEl: $('send'), replyEl: $('reply') });
 })();

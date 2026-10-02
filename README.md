@@ -52,3 +52,4 @@ Firestore 경로: teachers/{uid}/rooms/{roomId} (platform:'career') 아래 stude
 - 진로 주제가 → 연주실 노래 작곡실 `song.html#lyrics=` base64url(JSON {v:1,t,l,from})
 - 직업인 인터뷰 낭독극 → 뮤지컬 메이커 `maker.html#reading=` base64url(JSON {v:1,from,app,d:{음악낭독극 자료}}) — 메이커는 이 기기에 14일 맡겨 두고 학생 화면에서 "📥 불러오기". 선생님 학생 주소(?role=student&teacher=…)를 붙여 넣으면 그 수업으로 감
 - 받는 쪽이 아직 못 읽으면: 복사한 내용을 붙여 넣기
+- 주소로 바로 열기(v1.8): 모든 앱 `?easy=1` 쉬운 말로 시작(`?easy=0` 끄기) · multi-growth.html `?part=1~4` 그 차시 바로 열기 · 수업 QR `?code=` 와 함께 써도 됨 (에임 케어 한국어 트랙에서 연결)
