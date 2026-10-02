@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="career.webmanifest">
+<meta name="theme-color" content="#e2703a">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="EAIM 진로">
 <title>함께 일하고 싶은 동료 · EAIM 진로</title>
 <!-- 함께 일하고 싶은 동료 v1.0 (2026-10-02) — [9진로01-03], AI 없음, 공개(내기는 수업 QR) -->
 <link rel="stylesheet" href="career.css">
@@ -49,6 +54,7 @@
   <section id="step1">
     <div class="card" id="i1">
       <h2>미션을 고르고 동료 3명을 뽑아요 <button class="say" data-say="i1">🔊</button></h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>미션을 <b>하나</b> 눌러요</li><li>동료 카드를 읽고 <b>3명</b>을 눌러요</li><li><b>위기 카드 뒤집기</b> 를 눌러요</li></ol><ol class="e"><li>미션을 눌러요</li><li>3명을 눌러요</li><li>아래 단추를 눌러요</li></ol></div>
       <p class="n">직업 세계에서는 혼자보다 함께 일할 때가 많아요. 동료 카드를 읽고 <b>함께 일하고 싶은 동료 3명</b>을 골라요. 실력만 볼지, 태도도 볼지 생각해 봐요.</p>
       <p class="e">같이 일할 친구 3명을 골라요. 잘하는 것과 행동을 함께 봐요.</p>
       <h3>미션</h3><div class="grid two" id="missions"></div>
@@ -62,6 +68,7 @@
   <section id="step2" hidden>
     <div class="card">
       <h2>우리 팀에 위기가 찾아왔어요!</h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>위기 카드 결과(✅ / 😥)를 읽어요</li><li>팀 그래프를 보고 한 문장을 써요</li><li>바꾸고 싶으면 <b>다시 뽑기</b>로 비교해 봐요</li></ol><ol class="e"><li>결과를 읽어요</li><li>한 문장을 써요</li><li>다시 뽑아도 돼요</li></ol></div>
       <div id="crises"></div>
       <h3>우리 팀의 다섯 가지 힘</h3>
       <div id="radar"></div>
@@ -75,6 +82,7 @@
   <section id="step3" hidden>
     <div class="card" id="i3">
       <h2>나는 어떤 동료일까요? <button class="say" data-say="i3">🔊</button></h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>힘마다 ★ 을 눌러 별점을 매겨요</li><li>키우고 싶은 힘 단추를 누르고 실천을 써요</li><li>동료 한마디를 쓰면 아래 명함이 완성돼요</li></ol><ol class="e"><li>★ 을 눌러요</li><li>키울 힘을 눌러요</li><li>한마디를 써요</li></ol></div>
       <p class="n">나를 돌아보며 별을 매겨요(1~5). 잘하는 것도, 키우고 싶은 것도 있어요.</p>
       <p class="e">나는 얼마나 잘하나요? 별을 눌러요.</p>
       <div id="self"></div>

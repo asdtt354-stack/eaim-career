@@ -112,6 +112,9 @@
   const shuffle = (a) => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
   const won = (n) => (Math.round(n)).toLocaleString('ko-KR') + '원';
 
+  /* 설치(홈 화면·바탕화면 아이콘) — 서비스 워커 등록. 보안 주소(https)에서만 */
+  if ('serviceWorker' in navigator && location.protocol === 'https:') { try { navigator.serviceWorker.register('career-sw.js'); } catch {} }
+
   window.CU = { esc, tx, plain, initEasy, setEasy, speak, toast, copy, download, classroom, store, sstore, shuffle, won };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initEasy); else initEasy();
 })();

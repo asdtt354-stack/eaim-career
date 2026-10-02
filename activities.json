@@ -369,6 +369,143 @@
     "guide": "guide.html#decision-scale"
   },
   {
+    "platform": "career",
+    "subjects": [
+      "진로와 직업"
+    ],
+    "fusion": [
+      "창의적 체험활동"
+    ],
+    "grade": [
+      "중1",
+      "중2",
+      "중3"
+    ],
+    "target": "student",
+    "scope": "lesson",
+    "sessions": 1,
+    "minutes": 45,
+    "classroom": true,
+    "ai": false,
+    "makerNote": "",
+    "activityType": "writing",
+    "id": "career/path-map",
+    "title": "나의 진로 경로 지도",
+    "standards": [
+      "[9진로03-02]"
+    ],
+    "tags": [
+      "진로 경로",
+      "우선 경로",
+      "대안 경로",
+      "고등학교 선택",
+      "진로 설계"
+    ],
+    "url": "path-map.html",
+    "summary": "관심 분야와 직업을 고르고, 고등학교 유형·졸업 뒤 길·할 일로 우선 경로와 대안 경로를 지도에 함께 그린 뒤 대안 경로로 갈아탈 신호를 정하는 활동 (공개, 내기는 수업에서)",
+    "cce": {
+      "area": "진로 활동",
+      "activity": "진로 설계 및 실천 활동",
+      "example": "진로계획 활동: 진로 상담, 진로 의사 결정, 진로 설계 등",
+      "focus": [
+        "진로 탐색 및 진학으로의 연계"
+      ]
+    },
+    "guide": "guide.html#path-map"
+  },
+  {
+    "platform": "career",
+    "subjects": [
+      "진로와 직업"
+    ],
+    "fusion": [
+      "창의적 체험활동"
+    ],
+    "grade": [
+      "중1",
+      "중2",
+      "중3"
+    ],
+    "target": "student",
+    "scope": "lesson",
+    "sessions": 1,
+    "minutes": 45,
+    "classroom": true,
+    "ai": false,
+    "makerNote": "",
+    "activityType": "writing",
+    "id": "career/study-plan",
+    "title": "진로 학습 계획표",
+    "standards": [
+      "[9진로03-03]"
+    ],
+    "tags": [
+      "학습 계획",
+      "자기 주도 학습",
+      "학습 방법",
+      "진로와 교과",
+      "실천"
+    ],
+    "url": "study-plan.html",
+    "summary": "직업마다 도움이 되는 과목을 찾아 진로와 학습을 잇고, 효과가 알려진 학습 방법(스스로 떠올리기·나눠서 복습·설명하기 등) 두 가지를 골라 일주일 학습 계획표를 세우고 실천 체크·돌아보기를 하는 활동 (공개, 내기는 수업에서)",
+    "cce": {
+      "area": "진로 활동",
+      "activity": "진로 설계 및 실천 활동",
+      "example": "진로 준비 활동: 진로 목표 설정, 진로 실천 계획 수립 등",
+      "focus": [
+        "진로 탐색 및 진학으로의 연계"
+      ]
+    },
+    "guide": "guide.html#study-plan"
+  },
+  {
+    "platform": "career",
+    "subjects": [
+      "진로와 직업"
+    ],
+    "fusion": [
+      "창의적 체험활동"
+    ],
+    "grade": [
+      "중1",
+      "중2",
+      "중3"
+    ],
+    "target": "student",
+    "scope": "lesson",
+    "sessions": 1,
+    "minutes": 45,
+    "classroom": true,
+    "ai": false,
+    "makerNote": "",
+    "activityType": "writing",
+    "id": "career/after-grad",
+    "title": "졸업 뒤 첫걸음",
+    "standards": [
+      "[9진로03-04]"
+    ],
+    "tags": [
+      "졸업 이후 계획",
+      "자기 관리",
+      "시간 관리",
+      "용돈 관리",
+      "대인관계",
+      "새로운 도전",
+      "습관"
+    ],
+    "url": "after-grad.html",
+    "summary": "졸업 전·고1·고교 졸업·20대의 목표를 그리고, 몸·마음·시간·용돈·관계·새로운 도전 다섯 가지 자기 관리 미션에서 습관을 골라 21일 습관 챌린지를 하는 활동 (공개, 내기는 수업에서)",
+    "cce": {
+      "area": "진로 활동",
+      "activity": "진로 설계 및 실천 활동",
+      "example": "진로 준비 활동: 진로 목표 설정, 진로 실천 계획 수립 등",
+      "focus": [
+        "진로 탐색 및 진학으로의 연계"
+      ]
+    },
+    "guide": "guide.html#after-grad"
+  },
+  {
     "id": "career/multi-growth",
     "title": "다문화 성장 프로젝트",
     "platform": "career",

@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="career.webmanifest">
+<meta name="theme-color" content="#e2703a">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="EAIM 진로">
 <title>직업 세계 변화 카드 게임 · EAIM 진로</title>
 <!-- 직업 세계 변화 카드 게임 v1.0 (2026-10-02) — [9진로02-01]·[9진로02-02], AI 없음, 공개(점수·내기는 수업 QR) -->
 <link rel="stylesheet" href="career.css">
@@ -54,6 +59,7 @@
     </div>
     <div class="card">
       <h2>변화 카드를 골라 뒤집어요</h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>색깔 카드를 <b>하나</b> 눌러 뒤집어요</li><li>카드 3장 이상을 하면 <b>새 직업 발명소</b> 단추가 나와요</li></ol><ol class="e"><li>카드를 하나 눌러요</li><li>3장 하면 발명소가 열려요</li></ol></div>
       <p class="muted small">카드 하나에 직업 4장. 모든 카드를 해도 되고, 3장만 해도 돼요.</p>
       <div class="deck" id="deck"></div>
       <div class="scorebar" style="margin-top:12px"><span id="sc1"></span><button type="button" id="toInvent" class="hidden">🧪 새 직업 발명소로 →</button></div>
@@ -62,6 +68,7 @@
 
   <!-- 한 판 -->
   <section id="scPlay" hidden>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>위 변화 카드를 읽어요</li><li>직업 카드가 📈 📉 🔄 중 어디일지 <b>하나</b> 눌러요</li><li>풀이를 읽고 <b>다음 카드</b> 를 눌러요</li></ol><ol class="e"><li>변화 카드를 읽어요</li><li>📈 📉 🔄 중 하나를 눌러요</li><li>다음 카드 를 눌러요</li></ol></div>
     <div class="scorebar"><span id="sc2"></span><span class="streak" id="streak"></span></div>
     <div class="flip"><div class="in" id="chgCard"></div></div>
     <div class="job" id="jobCard"></div>
@@ -74,6 +81,7 @@
   <section id="scInvent" hidden>
     <div class="card" id="introI">
       <h2>🧪 새 직업 발명소 <button class="say" data-say="introI">🔊</button></h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>① ② ③ 에서 하나씩 눌러 골라요</li><li>새 직업 이름과 하는 일을 써요</li><li>아래 카드에 내 발명이 보여요</li></ol><ol class="e"><li>① ② ③ 을 눌러요</li><li>이름과 하는 일을 써요</li><li>아래 카드를 봐요</li></ol></div>
       <p class="n">변화는 새로운 직업을 만들어요. <b>변화 카드 + 내가 좋아하는 것</b>을 섞어 아직 없는 직업을 발명해 봐요.</p>
       <p class="e">변화 카드와 좋아하는 것을 섞어서 새 직업을 만들어요.</p>
       <h3>① 변화 카드</h3><div class="chg" id="chgPick"></div>

@@ -1,7 +1,7 @@
 # EAIM 진로 (eaim-career)
 
 2022 개정 중학교 선택 교과 「진로와 직업」(교육부 고시 제2022-33호 [별책 18]) 성취기준 14개와
-창의적 체험활동 진로 활동([별책 40])으로 만드는 EAIM 진로 플랫폼. v1.2 (2026-10-02)
+창의적 체험활동 진로 활동([별책 40])으로 만드는 EAIM 진로 플랫폼. v1.3 (2026-10-02)
 
 ## 앱 (모두 AI 없음 · 공개 연습 · 수업 QR이면 선생님께 내기)
 | 앱 | 파일 | 성취기준 | 규모 |
@@ -15,6 +15,9 @@
 | 💡 창업가 정신 탐험대 | entre-explorer.html | [9진로02-06] | 1차시 |
 | 🎪 축제 부스 창업 게임 | booth-startup.html | [9진로02-06] | 1차시 · 게임 |
 | ⚖️ 진로 결정 저울 | decision-scale.html | [9진로03-01] | 1차시 |
+| 🗺️ 나의 진로 경로 지도 | path-map.html | [9진로03-02] | 1차시 |
+| 📚 진로 학습 계획표 | study-plan.html | [9진로03-03] | 1차시(+일주일 실천) |
+| 🎓 졸업 뒤 첫걸음 | after-grad.html | [9진로03-04] | 1차시(+21일 습관) |
 
 나머지 성취기준 앱은 career-apps.js 에 ready:false 로 자리만 있음(첫 화면 "준비 중").
 
@@ -25,6 +28,9 @@
 - career-apps.js 앱 표 · career-class.js 교실 연결(도덕 moral-class.js 를 옮김 + saveGame) · career-ui.js 화면 도우미(쉬운 말·읽어 주기) · career.css
 - shared/ 공통 교실 모듈 v1.0 사본(기준본: 사회·역사) — 고치지 않음
 - 앱마다 *-data.js 자료 파일
+
+## 설치(아이콘)
+career.webmanifest · career-sw.js(네트워크 먼저, teacher.html·수업 코드 주소는 저장 안 함) · career-icon-192/512.png · career-icon-maskable-512.png · apple-touch-icon.png · favicon.png
 
 ## 배포
 배포 주소 https://eaim-career.vercel.app → Firebase 콘솔 Authentication 승인된 도메인에 배포 주소 추가.

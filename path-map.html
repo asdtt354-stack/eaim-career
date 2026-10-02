@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="career.webmanifest">
+<meta name="theme-color" content="#e2703a">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="EAIM 진로">
+<title>나의 진로 경로 지도 · EAIM 진로</title>
+<!-- 나의 진로 경로 지도 v1.0 (2026-10-02) — [9진로03-02], AI 없음, 공개(내기는 수업 QR) -->
+<link rel="stylesheet" href="career.css">
+<style>
+  .steps button{font:inherit;font-size:.82rem;padding:4px 12px;border-radius:999px;background:#efe9df;color:var(--sub);font-weight:700}
+  .steps button[aria-current]{background:var(--main);color:#fff}
+  .steps button:disabled{opacity:.5}
+  .fields{display:grid;gap:6px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+  .map{width:100%;max-width:760px;display:block;margin:0 auto}
+  #map{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  @media (max-width:600px){#map .map{min-width:560px}}
+  .opt{display:grid;gap:6px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+  .route-a{border-left:6px solid var(--teal)}
+  .route-b{border-left:6px solid var(--main)}
+  .sig{display:flex;gap:6px;flex-wrap:wrap}
+  .sig button{background:#fff;color:var(--ink);border:2px solid var(--line);font-size:.84rem;padding:6px 10px;font-weight:600}
+  .sig button.on{border-color:var(--main);background:var(--main-soft)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="home" href="index.html">← EAIM 진로</a>
+    <h1>🗺️ 나의 진로 경로 지도</h1>
+    <button class="easy-btn" type="button" aria-pressed="false">쉬운 말</button>
+  </header>
+  <p class="row" style="margin:0"><span class="badge blue">[9진로03-02]</span><span class="badge blue">진로 설계와 실천</span>
+    <a class="badge blue" href="guide.html#student-path-map" style="text-decoration:none">📘 사용법</a>
+    <span id="mode" class="mode hidden"></span></p>
+
+  <nav class="steps" style="margin-top:12px" aria-label="단계">
+    <button type="button" data-go="1">1 관심 분야</button>
+    <button type="button" data-go="2">2 우선 경로</button>
+    <button type="button" data-go="3">3 대안 경로</button>
+  </nav>
+
+  <div class="card"><div id="map"></div><p class="muted small center" style="margin:4px 0 0">지도는 칸을 채울수록 그려져요. (휴대폰은 지도를 옆으로 밀어 봐요)</p></div>
+
+  <section id="step1">
+    <div class="card" id="i1">
+      <h2>관심 있는 진로 분야를 골라요 <button class="say" data-say="i1">🔊</button></h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>관심 분야를 <b>1~2개</b> 눌러요</li><li>가장 가고 싶은 직업(🥇)과, 다른 길로 갈 때의 직업(🥈)을 써요 — 같은 직업이어도 돼요</li><li><b>우선 경로 그리기</b> 를 눌러요</li></ol><ol class="e"><li>분야를 1~2개 눌러요</li><li>직업 두 개를 써요 (같아도 돼요)</li><li>다음 단추를 눌러요</li></ol></div>
+      <p class="read">💡 알아 두기</p>
+      <p class="n" style="margin-top:2px">진로 경로는 한 길만 있지 않아요. <b>우선 경로</b>(가장 가고 싶은 길)와 <b>대안 경로</b>(다른 길도 열어 두기)를 함께 그리면 고등학교를 고를 때 기초가 돼요.</p>
+      <p class="e" style="margin-top:2px">가고 싶은 길과 다른 길을 함께 그려요.</p>
+      <div class="fields" id="fields"></div>
+      <div class="grid two" style="margin-top:10px">
+        <div><label class="field" for="jobA">🥇 <span class="n">가장 가고 싶은 직업</span><span class="e">가장 하고 싶은 일</span></label><input type="text" id="jobA" maxlength="20" placeholder="예: 물리치료사"></div>
+        <div><label class="field" for="jobB">🥈 <span class="n">대안 직업 (같아도 돼요)</span><span class="e">다른 직업 (같아도 돼요)</span></label><input type="text" id="jobB" maxlength="20" placeholder="예: 스포츠 트레이너"></div>
+      </div>
+    </div>
+    <div class="row"><button type="button" id="to2" disabled>우선 경로 그리기 →</button></div>
+  </section>
+
+  <section id="step2" hidden>
+    <div class="card route-a">
+      <h2>🥇 우선 경로</h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>고등학교 유형 칸을 하나 눌러요</li><li>고등학교에서 할 일을 써요</li><li>졸업 뒤의 길을 하나 누르고 무엇을 할지 써요</li></ol><ol class="e"><li>고등학교를 하나 눌러요</li><li>할 일을 써요</li><li>졸업 뒤 길을 눌러요</li></ol></div>
+      <h3>고등학교</h3><div class="opt" id="hA"></div>
+      <input type="text" id="hDoA" maxlength="80" placeholder="고등학교에서 할 일 예: 생명과학·체육 과목 고르기, 스포츠 동아리" style="margin-top:8px">
+      <h3>졸업 뒤</h3><div class="opt" id="aA"></div>
+      <input type="text" id="aDoA" maxlength="80" placeholder="예: 물리치료학과 진학 → 국가시험" style="margin-top:8px">
+      <p class="muted small">고등학교 입학 조건과 직업에 필요한 자격은 학교·교육청 안내와 <a href="https://www.career.go.kr" target="_blank" rel="noopener">커리어넷</a>에서 꼭 확인해요.</p>
+    </div>
+    <div class="row"><button type="button" class="ghost" data-go="1">← 이전</button><button type="button" id="to3" disabled>대안 경로 그리기 →</button></div>
+  </section>
+
+  <section id="step3" hidden>
+    <div class="card route-b">
+      <h2>🥈 대안 경로</h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>대안 경로의 고등학교와 졸업 뒤 길을 골라 써요 (우선 경로와 같아도 돼요)</li><li>언제 대안 경로로 갈아탈지 신호를 눌러요</li><li>지도 아래에 나에게 하는 한마디를 써요</li></ol><ol class="e"><li>다른 길을 골라 써요</li><li>언제 바꿀지 눌러요</li><li>한마디를 써요</li></ol></div>
+      <h3>고등학교</h3><div class="opt" id="hB"></div>
+      <input type="text" id="hDoB" maxlength="80" placeholder="고등학교에서 할 일" style="margin-top:8px">
+      <h3>졸업 뒤</h3><div class="opt" id="aB"></div>
+      <input type="text" id="aDoB" maxlength="80" placeholder="예: 스포츠 관련 자격 과정 → 트레이너로 일하기" style="margin-top:8px">
+      <h3>🔀 언제 갈아탈까요? (여러 개)</h3>
+      <div class="sig" id="sig"></div>
+      <label class="field" for="note"><span class="n">경로를 그리고 나에게 하는 한마디</span><span class="e">나에게 한마디</span></label>
+      <input type="text" id="note" maxlength="100" placeholder="예: 길은 여러 개야. 지금은 과학 공부부터!">
+      <div class="row no-print" style="margin-top:12px">
+        <button type="button" class="ghost" id="btnCopy">📋 복사</button>
+        <button type="button" class="ghost" id="btnPrint">🖨 지도 인쇄</button>
+        <button type="button" class="teal hidden" id="send">선생님께 내기</button>
+      </div>
+      <div id="reply" class="reply hidden"></div>
+    </div>
+    <div class="row no-print"><button type="button" class="ghost" data-go="2">← 이전</button></div>
+  </section>
+  <div class="std" id="stdBox"></div>
+</div>
+
+<script src="curriculum-career.js"></script>
+<script src="career-apps.js"></script>
+<script src="path-map-data.js"></script>
+<script src="career-class.js"></script>
+<script src="career-ui.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.PM_DATA, esc = CU.esc, tx = CU.tx;
+  const $ = (id) => document.getElementById(id);
+  const s0 = window.EAIM_CAREER_CURRICULUM.find('[9진로03-02]');
+  $('stdBox').innerHTML = `<b>${s0.code}</b> ${esc(s0.text)}<br><span class="small">교육과정 해설: ${esc(s0.note)}</span>`;
+  const ST = CU.sstore('path_map');
+  let S = ST.load({ step: 1, reached: 1, fields: [], jobA: '', jobB: '', hA: '', hDoA: '', aA: '', aDoA: '', hB: '', hDoB: '', aB: '', aDoB: '', sig: [], note: '' });
+  const save = () => { ST.save(S); drawMap(); };
+  const H = (id) => D.highs.find(x => x.id === id), A = (id) => D.afters.find(x => x.id === id);
+
+  function drawMap() {
+    const W = 760, Hh = 300, xs = [70, 280, 490, 690];
+    const node = (x, y, ic, t1, t2, col, on) => `<g><circle cx="${x}" cy="${y}" r="26" fill="${on ? col : '#fff'}" stroke="${col}" stroke-width="3"/><text x="${x}" y="${y + 7}" text-anchor="middle" font-size="20">${ic}</text>
+      <text x="${x}" y="${y + 46}" text-anchor="middle" font-size="12" font-weight="700" fill="#2b2a33">${esc(t1)}</text><text x="${x}" y="${y + 62}" text-anchor="middle" font-size="10.5" fill="#6b6874">${esc((t2 || '').slice(0, 16))}${(t2 || '').length > 16 ? '…' : ''}</text></g>`;
+    const row = (y, col, h, hDo, a, aDo, job, tag) => {
+      const hh = H(h), aa = A(a);
+      return `<path d="M${xs[0]} ${Hh / 2} C${xs[0] + 90} ${Hh / 2} ${xs[1] - 90} ${y} ${xs[1]} ${y} L${xs[3]} ${y}" stroke="${col}" stroke-width="5" fill="none" stroke-linecap="round" ${h ? '' : 'stroke-dasharray="4 8" opacity=".45"'}/>` +
+        node(xs[1], y, hh ? hh.icon : '🏫', hh ? hh.name : '고등학교', hDo, col, !!hh) + node(xs[2], y, aa ? aa.icon : '🎓', aa ? aa.name : '졸업 뒤', aDo, col, !!aa) +
+        node(xs[3], y, tag, job || '직업', '', col, !!job);
+    };
+    let g = row(70, '#2a9d8f', S.hA, S.hDoA, S.aA, S.aDoA, S.jobA.trim(), '🥇') + row(220, '#e2703a', S.hB, S.hDoB, S.aB, S.aDoB, S.jobB.trim() || S.jobA.trim(), '🥈');
+    if (S.sig.length) g += `<path d="M${(xs[1] + xs[2]) / 2} 82 L${(xs[1] + xs[2]) / 2} 208" stroke="#e9b949" stroke-width="3" stroke-dasharray="6 5" marker-end="url(#ar)"/><text x="${(xs[1] + xs[2]) / 2 + 8}" y="150" font-size="11" fill="#9a7413">🔀 갈아타기</text>`;
+    g += `<circle cx="${xs[0]}" cy="${Hh / 2}" r="30" fill="#2b2a33"/><text x="${xs[0]}" y="${Hh / 2 + 6}" text-anchor="middle" font-size="14" font-weight="800" fill="#fff">중학교</text>
+      <text x="${xs[0]}" y="${Hh / 2 + 48}" text-anchor="middle" font-size="11" fill="#6b6874">${S.fields.map(f => D.fields.find(x => x.id === f).icon).join(' ')}</text>`;
+    $('map').innerHTML = `<svg class="map" viewBox="0 0 ${W} ${Hh}" role="img" aria-label="나의 진로 경로 지도"><defs><marker id="ar" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#e9b949"/></marker></defs>${g}</svg>`;
+  }
+
+  /* 1 */
+  function draw1() {
+    $('fields').innerHTML = D.fields.map(f => `<button type="button" class="chip ${S.fields.includes(f.id) ? 'on' : ''}" data-f="${f.id}">${f.icon} ${esc(f.name)}</button>`).join('');
+    $('jobA').value = S.jobA; $('jobB').value = S.jobB; check1();
+  }
+  function check1() { $('to2').disabled = !(S.fields.length && S.jobA.trim()); }
+  $('fields').addEventListener('click', (e) => { const b = e.target.closest('[data-f]'); if (!b) return; const id = b.dataset.f;
+    if (S.fields.includes(id)) S.fields = S.fields.filter(x => x !== id); else { if (S.fields.length >= 2) return CU.toast('2개까지 골라요.'); S.fields.push(id); }
+    save(); draw1(); });
+  ['jobA', 'jobB'].forEach(id => $(id).addEventListener('input', (e) => { S[id] = e.target.value; save(); check1(); }));
+  $('to2').addEventListener('click', () => go(2));
+
+  /* 2·3 */
+  const opts = (list, key, cur) => list.map(o => `<button type="button" class="chip ${cur === o.id ? 'on' : ''}" data-k="${key}" data-v="${o.id}"><b>${o.icon} ${esc(o.name)}</b>${o.t ? `<br><span class="small muted">${tx(o)}</span>` : ''}</button>`).join('');
+  function drawRoute(sfx) {
+    $('h' + sfx).innerHTML = opts(D.highs, 'h' + sfx, S['h' + sfx]); $('a' + sfx).innerHTML = opts(D.afters, 'a' + sfx, S['a' + sfx]);
+    $('hDo' + sfx).value = S['hDo' + sfx]; $('aDo' + sfx).value = S['aDo' + sfx];
+  }
+  function draw2() { drawRoute('A'); $('to3').disabled = !(S.hA && S.aA); }
+  function draw3() { drawRoute('B'); $('sig').innerHTML = D.signals.map(t => `<button type="button" class="${S.sig.includes(t) ? 'on' : ''}" data-s="${esc(t)}">${esc(t)}</button>`).join(''); $('note').value = S.note; }
+  document.addEventListener('click', (e) => { const b = e.target.closest('[data-k]'); if (!b) return; S[b.dataset.k] = b.dataset.v; save(); (S.step === 2 ? draw2 : draw3)(); });
+  ['hDoA', 'aDoA', 'hDoB', 'aDoB', 'note'].forEach(id => $(id).addEventListener('input', (e) => { S[id] = e.target.value; save(); }));
+  $('sig').addEventListener('click', (e) => { const b = e.target.closest('[data-s]'); if (!b) return; const t = b.dataset.s; S.sig = S.sig.includes(t) ? S.sig.filter(x => x !== t) : [...S.sig, t]; save(); draw3(); });
+  $('to3').addEventListener('click', () => go(3));
+
+  function summary() {
+    const r = (h, hd, a, ad, j) => `${H(h)?.name || '?'}(${hd.trim()}) → ${A(a)?.name || '?'}(${ad.trim()}) → ${j}`;
+    return [
+      `[관심 분야] ${S.fields.map(f => D.fields.find(x => x.id === f).name).join(', ')}`,
+      `[🥇 우선 경로] ${r(S.hA, S.hDoA, S.aA, S.aDoA, S.jobA.trim())}`,
+      `[🥈 대안 경로] ${r(S.hB, S.hDoB, S.aB, S.aDoB, S.jobB.trim() || S.jobA.trim())}`,
+      `[갈아탈 신호] ${S.sig.join(', ')}`, `[한마디] ${S.note.trim()}`,
+    ].join('\n');
+  }
+  $('btnCopy').addEventListener('click', () => CU.copy(summary()));
+  $('btnPrint').addEventListener('click', () => window.print());
+  $('send').addEventListener('click', async () => {
+    if (!S.hB || !S.aB || !S.sig.length) return CU.toast('대안 경로와 갈아탈 신호를 채워 주세요.');
+    if (CareerClass.safetyCheck([S.jobA, S.jobB, S.hDoA, S.aDoA, S.hDoB, S.aDoB, S.note].join(' '))) return CareerClass.showNotice('danger');
+    $('send').disabled = true; $('send').textContent = '내는 중...';
+    const r = await CareerClass.submit({ kind: 'path-map', title: `진로 경로 지도 — ${S.jobA.trim()}`, content: summary(),
+      detail: { fields: S.fields, A: { job: S.jobA.trim(), high: S.hA, highDo: S.hDoA.trim(), after: S.aA, afterDo: S.aDoA.trim() }, B: { job: S.jobB.trim(), high: S.hB, highDo: S.hDoB.trim(), after: S.aB, afterDo: S.aDoB.trim() }, signals: S.sig, note: S.note.trim() } });
+    $('send').disabled = false; $('send').textContent = '선생님께 내기';
+    if (r.ok) CU.toast('선생님께 냈어요.');
+  });
+
+  function go(n) {
+    S.step = n; S.reached = Math.max(S.reached || 1, n); save();
+    [1, 2, 3].forEach(i => { $('step' + i).hidden = i !== n; });
+    document.querySelectorAll('.steps button').forEach(b => { const k = +b.dataset.go; b.removeAttribute('aria-current'); if (k === n) b.setAttribute('aria-current', 'step'); b.disabled = k > S.reached; });
+    ({ 1: draw1, 2: draw2, 3: draw3 })[n](); window.scrollTo({ top: 0 });
+  }
+  document.addEventListener('click', (e) => { const b = e.target.closest('[data-go]'); if (!b || b.disabled) return; if (+b.dataset.go > S.reached) return; go(+b.dataset.go); });
+  go(Math.min(S.step || 1, S.reached || 1));
+  CU.classroom({ app: 'path-map', modeEl: $('mode'), sendEl: $('send'), replyEl: $('reply') });
+})();
+</script>
+<p class="eaim-copy">© 2026 박성애 · EAIM · 교육 목적 무료 사용, 무단 복제·상업적 이용 금지 · <a href="https://eaim.kr/#copyright" target="_blank" rel="noopener" style="color:inherit">이용 안내</a></p>
+</body>
+</html>

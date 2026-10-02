@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="career.webmanifest">
+<meta name="theme-color" content="#e2703a">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="EAIM 진로">
 <title>축제 부스 창업 게임 · EAIM 진로</title>
 <!-- 축제 부스 창업 게임 v1.0 (2026-10-02) — [9진로02-06], AI 없음, 공개(점수·내기는 수업 QR) -->
 <link rel="stylesheet" href="career.css">
@@ -57,6 +62,7 @@
     </div>
     <div class="card">
       <h2>어떤 문제를 풀 부스인가요?</h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>부스 카드를 <b>하나</b> 눌러요</li><li>부스 이름은 써도, 안 써도 돼요</li><li><b>축제 시작!</b> 을 눌러요</li></ol><ol class="e"><li>카드를 하나 눌러요</li><li>이름은 안 써도 돼요</li><li>축제 시작! 을 눌러요</li></ol></div>
       <div class="booths" id="booths"></div>
       <label class="field" for="teamName">우리 부스 이름 (선택)</label>
       <input type="text" id="teamName" maxlength="20" placeholder="예: 시원한 한 모금">
@@ -69,6 +75,7 @@
     <div class="hud" id="hud"></div>
     <div class="card">
       <h2 id="planTitle"></h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>＋ / − 로 준비할 수량을 정해요</li><li>가격과 홍보 단추를 하나씩 눌러요</li><li><b>부스 열기!</b> 를 눌러 결과를 봐요</li></ol><ol class="e"><li>＋ − 로 수량을 정해요</li><li>가격, 홍보를 눌러요</li><li>부스 열기! 를 눌러요</li></ol></div>
       <div class="tip" id="crowd"></div>
       <h3>📦 몇 개 더 준비할까요?</h3>
       <p class="muted small" id="stockNote"></p>
@@ -90,6 +97,7 @@
     <div class="event" id="event"></div>
     <div class="card">
       <h2 id="resTitle"></h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>결과표와 💬 도움말을 읽어요</li><li>배운 점을 한 줄 써요</li><li><b>다음</b> 을 눌러 다음 시간을 준비해요</li></ol><ol class="e"><li>결과를 읽어요</li><li>한 줄 써요</li><li>다음 을 눌러요</li></ol></div>
       <div class="crowd" id="crowdViz" aria-hidden="true"></div>
       <table class="r" id="resTable"></table>
       <div class="meter"><b>😊 손님 만족</b><div class="bar"><i id="satBar"></i></div><span id="satNum"></span></div>
@@ -115,6 +123,7 @@
     </div>
     <div class="card">
       <h2>돌아보기</h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>위의 배지를 확인해요</li><li>두 칸에 돌아보기를 써요</li><li>복사하거나 다시 해요 (수업이면 <b>선생님께 내기</b>)</li></ol><ol class="e"><li>배지를 봐요</li><li>두 칸을 써요</li><li>복사하거나 내요</li></ol></div>
       <div id="lessons" class="muted small"></div>
       <label class="field" for="valueQ"><span class="n">돈 말고, 우리 부스가 만든 가치는 무엇인가요?</span><span class="e">돈 말고 누구를 도왔나요?</span></label>
       <textarea id="valueQ" maxlength="300"></textarea>

@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="career.webmanifest">
+<meta name="theme-color" content="#e2703a">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="EAIM 진로">
 <title>경험 잇기 · EAIM 진로</title>
 <!-- 경험 잇기 v1.0 (2026-10-02) — [9진로02-04], 진로 마인드맵, AI 없음, 공개(내기는 수업 QR) -->
 <link rel="stylesheet" href="career.css">
@@ -23,6 +28,8 @@
   .finds button.on{color:#fff}
   .ex.link{border-color:var(--gold);background:var(--gold-soft)}
   .map{width:100%;max-width:620px;display:block;margin:0 auto}
+  #map{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  @media (max-width:600px){#map .map{min-width:560px}}
   .nexts{display:grid;gap:6px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
 </style>
 </head>
@@ -48,6 +55,7 @@
   <section id="step1">
     <div class="card" id="i1">
       <h2>내가 해 온 경험을 모아요 <button class="say" data-say="i1">🔊</button></h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>어디서 한 경험인지 단추를 눌러요</li><li>경험을 짧게 쓰고 <b>더하기</b> (3개 이상)</li><li>위 마인드맵에 경험이 생겨요</li></ol><ol class="e"><li>단추를 눌러요</li><li>쓰고 더하기</li><li>위 그림을 봐요</li></ol></div>
       <p class="n">작은 경험도 괜찮아요. 수업, 동아리, 봉사, 집, 취미… 기억에 남는 경험을 <b>3~8개</b> 적어요.</p>
       <p class="e">기억나는 경험을 3개 넘게 써요. 작은 것도 좋아요.</p>
       <div class="places" id="places"></div>
@@ -61,6 +69,7 @@
   <section id="step2" hidden>
     <div class="card" id="i2">
       <h2>경험에서 무엇을 찾았나요? <button class="say" data-say="i2">🔊</button></h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>경험마다 단추를 <b>하나</b> 눌러요</li><li>위 마인드맵 색이 바뀌어요</li></ol><ol class="e"><li>하나씩 눌러요</li><li>색이 바뀌어요</li></ol></div>
       <p class="n">경험마다 가장 크게 남은 것을 하나 골라요. 마인드맵 색이 바뀌어요.</p>
       <p class="e">경험마다 하나 골라요.</p>
       <div class="exps" id="list2"></div>
@@ -71,6 +80,7 @@
   <section id="step3" hidden>
     <div class="card" id="i3">
       <h2>경험을 진로와 이어요 <button class="say" data-say="i3">🔊</button></h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>관심 진로를 써요</li><li>이어지는 경험을 눌러 🔗 로 바꿔요</li><li>까닭을 쓰고 다음 경험 2개를 골라요</li></ol><ol class="e"><li>직업을 써요</li><li>경험을 눌러요</li><li>다음 경험을 골라요</li></ol></div>
       <label class="field" for="career"><span class="n">관심 있는 진로(직업·분야)</span><span class="e">관심 있는 직업</span></label>
       <input type="text" id="career" maxlength="20" placeholder="예: 영상 편집자">
       <label class="field"><span class="n">이 진로와 이어지는 경험을 눌러요 (1개 이상)</span><span class="e">이 직업과 이어지는 경험을 눌러요</span></label>

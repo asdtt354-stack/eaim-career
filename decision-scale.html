@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="career.webmanifest">
+<meta name="theme-color" content="#e2703a">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="EAIM 진로">
 <title>진로 결정 저울 · EAIM 진로</title>
 <!-- 진로 결정 저울 v1.0 (2026-10-02) — [9진로03-01], AI 없음, 공개(내기는 수업 QR) -->
 <link rel="stylesheet" href="career.css">
@@ -52,6 +57,7 @@
   <section id="step1">
     <div class="card" id="i1">
       <h2>사람마다 결정하는 방식이 달라요 <button class="say" data-say="i1">🔊</button></h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>장면을 읽고 방식 단추를 눌러요 (3개)</li><li>세 방식 설명을 읽어요</li><li>나의 방식을 <b>하나</b> 눌러요</li></ol><ol class="e"><li>장면마다 단추를 눌러요</li><li>설명을 읽어요</li><li>내 방식을 눌러요</li></ol></div>
       <p class="n">친구들의 결정 장면을 읽고 어떤 방식인지 골라요. 정답보다 <b>각 방식의 좋은 점과 아쉬운 점</b>을 알아보는 것이 중요해요.</p>
       <p class="e">친구들은 어떻게 정했을까요? 골라요.</p>
       <div id="scenes"></div>
@@ -69,6 +75,7 @@
   <section id="step2" hidden>
     <div class="card">
       <h2>① 고민 중인 진로 2~3개</h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>진로를 2~3개 써요</li><li>따질 것마다 <b>조금 · 중요 · 아주 중요</b> 를 눌러 4~6개 골라요</li><li>③ 표에서 점수(1~5)를 고르면 저울이 움직여요</li></ol><ol class="e"><li>진로를 써요</li><li>중요한 것을 눌러요</li><li>점수를 골라요</li></ol></div>
       <div class="grid" id="opts"></div>
       <h2 style="margin-top:16px">② 무엇을 따질까요? (4~6개) 그리고 얼마나 중요해요?</h2>
       <div class="crit" id="crit"></div>
@@ -89,6 +96,7 @@
   <section id="step3" hidden>
     <div class="card" id="i3">
       <h2>조언을 구하고, 잠정적으로 정해요 <button class="say" data-say="i3">🔊</button></h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>물어볼 사람 단추를 눌러요</li><li>질문 · 잠정 결정 · 까닭을 써요</li><li>아래 결정 카드를 확인해요</li></ol><ol class="e"><li>물어볼 사람을 눌러요</li><li>빈칸을 써요</li><li>카드를 봐요</li></ol></div>
       <p class="n">잠정 결정은 "지금의 나"가 내리는 결정이에요. 더 알게 되면 바꿀 수 있어요.</p>
       <p class="e">지금 정하는 거예요. 나중에 바꿔도 돼요.</p>
       <label class="field">누구에게 물어볼까요? (여러 명)</label>

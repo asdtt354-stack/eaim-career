@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="career.webmanifest">
+<meta name="theme-color" content="#e2703a">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="EAIM 진로">
 <title>EAIM 진로</title>
 <!-- EAIM 진로 첫 화면 v1.0 (2026-10-02) — 영역 → 성취기준 → 앱. 앱 목록은 career-apps.js, 성취기준은 curriculum-career.js 에서 읽습니다 -->
 <link rel="stylesheet" href="career.css">
@@ -45,13 +50,25 @@
   <div class="hero-in">
     <h1>EAIM 진로</h1>
     <p>나를 알고, 변하는 직업 세계를 탐색하고, 나만의 길을 설계하는 진로 수업이에요. 감성·예술적 환경·상호작용·음악화가 살아 있는 활동으로 만나요. 활동은 누구나 연습할 수 있고, 선생님께 내기는 수업 QR로 들어왔을 때만 돼요.</p>
-    <div class="links"><a href="guide.html">📘 사용 가이드</a><a href="eaim-career-lessonplan.html">📝 지도안</a><a href="guide.html#student">🙋 학생 사용법</a><a href="teacher.html">선생님 페이지</a></div>
+    <div class="links"><a href="#install">📲 아이콘으로 두기</a><a href="guide.html">📘 사용 가이드</a><a href="eaim-career-lessonplan.html">📝 지도안</a><a href="guide.html#student">🙋 학생 사용법</a><a href="teacher.html">선생님 페이지</a></div>
   </div>
 </header>
 <main class="wrap">
   <h2 style="margin:18px 0 10px">✨ 지금 해 볼 수 있어요</h2>
+  <p class="todo" style="margin:0 0 12px"><span class="h">👉 이렇게 시작해요</span>카드를 누르면 활동이 열려요. 활동 안의 초록 상자 <b>"👉 지금 할 일"</b> 순서대로 누르고 쓰면 돼요. 💡 표시는 읽어 두는 설명이에요.</p>
   <div class="feature" id="feature"></div>
   <div id="areas"></div>
+  <div class="card" id="install">
+    <h2 style="margin-top:0">📲 홈 화면·바탕화면에 아이콘으로 두기</h2>
+    <p class="muted small" style="margin:0 0 8px">한 번 두면 아이콘을 눌러 바로 열려요.</p>
+    <div class="row"><button type="button" id="btnInstall" class="hidden">⬇ 설치하기</button></div>
+    <ul class="small" style="margin:8px 0 0;padding-left:18px">
+      <li><b>컴퓨터(크롬·엣지)</b>: 주소창 오른쪽의 설치 아이콘(⊕ 또는 ⬇)을 누르거나 위 <b>설치하기</b> → 바탕화면에 아이콘이 생겨요</li>
+      <li><b>안드로이드 크롬</b>: ⋮ 메뉴 → <b>홈 화면에 추가</b></li>
+      <li><b>삼성 인터넷</b>: ≡ 메뉴 → <b>현재 페이지 추가</b> → <b>홈 화면</b> (주소창의 ⬇ 설치는 쓰지 않아요)</li>
+      <li><b>아이폰·아이패드(사파리)</b>: 공유 버튼 → <b>홈 화면에 추가</b></li>
+    </ul>
+  </div>
   <div class="foot">
     <span>2022 개정 「진로와 직업」(별책 18) 성취기준과 창의적 체험활동 진로 활동(별책 40)으로 만들었어요.</span>
     <span><a href="guide.html">📘 사용 가이드</a> · <a href="eaim-career-lessonplan.html">📝 지도안</a> · <a href="teacher.html">선생님 페이지</a></span>
@@ -59,6 +76,15 @@
 </main>
 <script src="curriculum-career.js"></script>
 <script src="career-apps.js"></script>
+<script>
+/* 설치 — 서비스 워커 등록과 설치 단추(크롬·엣지가 설치를 허락할 때만 보임) */
+if ('serviceWorker' in navigator && location.protocol === 'https:') { try { navigator.serviceWorker.register('career-sw.js'); } catch (e) {} }
+let deferredInstall = null;
+window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredInstall = e; document.getElementById('btnInstall').classList.remove('hidden'); });
+document.getElementById('btnInstall').addEventListener('click', async () => { if (!deferredInstall) return; deferredInstall.prompt(); await deferredInstall.userChoice; deferredInstall = null; document.getElementById('btnInstall').classList.add('hidden'); });
+window.addEventListener('appinstalled', () => { document.getElementById('install').querySelector('p').textContent = '설치했어요! 이제 아이콘으로 열 수 있어요.'; });
+if (matchMedia('(display-mode: standalone)').matches) document.getElementById('install').classList.add('hidden');
+</script>
 <script>
 (function () {
   const APPS = window.CAREER_APPS, AREAS = window.CAREER_AREAS, CUR = window.EAIM_CAREER_CURRICULUM;

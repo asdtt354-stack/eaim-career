@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="career.webmanifest">
+<meta name="theme-color" content="#e2703a">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="EAIM 진로">
+<title>졸업 뒤 첫걸음 · EAIM 진로</title>
+<!-- 졸업 뒤 첫걸음 v1.0 (2026-10-02) — [9진로03-04], AI 없음, 공개(내기는 수업 QR). 21일 습관 표는 이 기기에 남김(eaim_career_after_grad) -->
+<link rel="stylesheet" href="career.css">
+<style>
+  .steps button{font:inherit;font-size:.82rem;padding:4px 12px;border-radius:999px;background:#efe9df;color:var(--sub);font-weight:700}
+  .steps button[aria-current]{background:var(--main);color:#fff}
+  .steps button:disabled{opacity:.5}
+  .tl{position:relative;padding-left:26px}
+  .tl::before{content:'';position:absolute;left:10px;top:6px;bottom:6px;width:4px;border-radius:4px;background:linear-gradient(var(--teal),var(--main))}
+  .stg{position:relative;margin:0 0 14px}
+  .stg::before{content:'';position:absolute;left:-22px;top:6px;width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid var(--teal)}
+  .stg.ok::before{background:var(--teal)}
+  .exs button{background:#f5f1ea;color:var(--ink);font-weight:500;font-size:.82rem;padding:5px 10px;margin:4px 4px 0 0}
+  .area{border:2px solid var(--line);border-radius:16px;padding:14px;margin:10px 0;background:#fff}
+  .area.ok{border-color:var(--teal)}
+  .q3{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+  .q3 button{background:#fff;color:var(--ink);border:2px solid var(--line);font-weight:500;text-align:left;justify-content:flex-start}
+  .q3 button.good{border-color:var(--teal);background:var(--teal-soft)}
+  .q3 button.bad{border-color:var(--gold);background:var(--gold-soft)}
+  .hab{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .hab button{background:#fff;color:var(--ink);border:2px solid var(--line);font-size:.84rem;padding:6px 10px;font-weight:600}
+  .hab button.on{border-color:var(--main);background:var(--main-soft)}
+  .grid21{display:grid;grid-template-columns:auto repeat(7,minmax(0,1fr));gap:3px;align-items:center;font-size:.78rem}
+  .grid21 .lbl{font-weight:700;padding-right:6px;max-width:140px}
+  .grid21 button{padding:0;height:30px;border-radius:8px;background:#f1ece4;color:var(--sub);font-size:.72rem;border:0}
+  .grid21 button.on{background:var(--teal);color:#fff}
+  .wk{font-size:.8rem;color:var(--sub);margin:8px 0 2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="home" href="index.html">← EAIM 진로</a>
+    <h1>🎓 졸업 뒤 첫걸음</h1>
+    <button class="easy-btn" type="button" aria-pressed="false">쉬운 말</button>
+  </header>
+  <p class="row" style="margin:0"><span class="badge blue">[9진로03-04]</span><span class="badge blue">진로 설계와 실천</span>
+    <a class="badge blue" href="guide.html#student-after-grad" style="text-decoration:none">📘 사용법</a>
+    <span id="mode" class="mode hidden"></span></p>
+
+  <nav class="steps" style="margin-top:12px" aria-label="단계">
+    <button type="button" data-go="1">1 졸업 뒤 그림</button>
+    <button type="button" data-go="2">2 자기 관리 미션</button>
+    <button type="button" data-go="3">3 21일 습관</button>
+  </nav>
+
+  <section id="step1">
+    <div class="card" id="i1">
+      <h2>졸업 뒤, 나는 어떤 길을 걸을까요? <button class="say" data-say="i1">🔊</button></h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>네 시기마다 목표를 써요 (예시를 누르면 칸이 채워져요)</li><li>네 칸을 다 쓰면 <b>다음</b> 단추가 나와요</li></ol><ol class="e"><li>시기마다 목표를 써요</li><li>다 쓰면 다음</li></ol></div>
+      <div class="tl" id="stages"></div>
+    </div>
+    <div class="row"><button type="button" id="to2" class="hidden">자기 관리 미션 →</button></div>
+  </section>
+
+  <section id="step2" hidden>
+    <div class="card" id="i2">
+      <h2>자기 관리 미션 다섯 가지 <button class="say" data-say="i2">🔊</button></h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>상황을 읽고 내가 할 행동을 <b>하나</b> 눌러요</li><li>풀이를 읽고, 기르고 싶은 습관 카드를 <b>하나</b> 눌러요</li><li>다섯 미션 중 <b>3개 이상</b> 습관을 고르면 다음으로 가요</li></ol><ol class="e"><li>행동을 하나 눌러요</li><li>습관을 하나 눌러요</li><li>3개 넘게 고르면 다음</li></ol></div>
+      <p class="read">💡 알아 두기</p>
+      <p class="n" style="margin-top:2px">꿈을 이루려면 공부뿐 아니라 <b>몸·마음, 시간, 용돈, 관계</b>를 관리하는 생활 습관과 <b>새로운 도전</b>이 필요해요.</p>
+      <p class="e" style="margin-top:2px">몸·마음, 시간, 용돈, 친구 관리와 새 도전이 필요해요.</p>
+      <div id="areas"></div>
+    </div>
+    <div class="row"><button type="button" class="ghost" data-go="1">← 이전</button><button type="button" id="to3" disabled>21일 습관 표 →</button></div>
+  </section>
+
+  <section id="step3" hidden>
+    <div class="card">
+      <h2>🗓️ 21일 습관 챌린지</h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>오늘부터 습관을 지킨 날 칸을 눌러 초록으로 바꿔요</li><li>표를 인쇄하거나 선생님께 내요 (21일 동안 이 기기에 남아요)</li><li>다 하면 아래에 돌아보기를 써요</li></ol><ol class="e"><li>한 날을 눌러요</li><li>인쇄하거나 내요</li><li>끝나면 돌아보기</li></ol></div>
+      <div id="grid"></div>
+      <p class="muted small" id="cnt"></p>
+      <label class="field" for="look"><span class="n">돌아보기: 습관이 나의 진로 준비에 어떤 도움이 되었나요?</span><span class="e">습관이 어떤 도움이 되었나요?</span></label>
+      <textarea id="look" maxlength="300"></textarea>
+      <div class="row no-print" style="margin-top:12px">
+        <button type="button" class="ghost" id="btnCopy">📋 복사</button>
+        <button type="button" class="ghost" id="btnPrint">🖨 인쇄</button>
+        <button type="button" class="ghost" id="btnClear">이 기기에서 지우기</button>
+        <button type="button" class="teal hidden" id="send">선생님께 내기</button>
+      </div>
+      <div id="reply" class="reply hidden"></div>
+    </div>
+    <div class="row no-print"><button type="button" class="ghost" data-go="2">← 이전</button></div>
+  </section>
+  <div class="std" id="stdBox"></div>
+</div>
+
+<script src="curriculum-career.js"></script>
+<script src="career-apps.js"></script>
+<script src="after-grad-data.js"></script>
+<script src="career-class.js"></script>
+<script src="career-ui.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.AG_DATA, esc = CU.esc;
+  const $ = (id) => document.getElementById(id);
+  const s0 = window.EAIM_CAREER_CURRICULUM.find('[9진로03-04]');
+  $('stdBox').innerHTML = `<b>${s0.code}</b> ${esc(s0.text)}<br><span class="small">교육과정 해설: ${esc(s0.note)}</span>`;
+  const STORE = CU.store('after_grad');
+  const DEF = { step: 1, reached: 1, goals: {}, ans: {}, habits: {}, days: {}, look: '' };
+  let S = STORE.load(DEF);
+  const save = () => STORE.save(S);
+
+  /* 1 */
+  function draw1() {
+    $('stages').innerHTML = D.stages.map(s => `<div class="stg ${(S.goals[s.id] || '').trim() ? 'ok' : ''}"><b>${s.icon} ${esc(s.name)}</b> <span class="small muted">${esc(s.t)}</span>
+      <input type="text" data-g="${s.id}" maxlength="60" value="${esc(S.goals[s.id] || '')}" placeholder="이 시기의 목표" style="margin-top:6px">
+      <div class="exs">${s.ex.map(x => `<button type="button" data-ex="${s.id}" data-v="${esc(x)}">${esc(x)}</button>`).join('')}</div></div>`).join('');
+    check1();
+  }
+  function check1() { $('to2').classList.toggle('hidden', !D.stages.every(s => (S.goals[s.id] || '').trim())); document.querySelectorAll('.stg').forEach((el, i) => el.classList.toggle('ok', !!(S.goals[D.stages[i].id] || '').trim())); }
+  $('stages').addEventListener('input', (e) => { const t = e.target; if (!t.dataset.g) return; S.goals[t.dataset.g] = t.value; save(); check1(); });
+  $('stages').addEventListener('click', (e) => { const b = e.target.closest('[data-ex]'); if (!b) return; S.goals[b.dataset.ex] = b.dataset.v; save(); draw1(); });
+  $('to2').addEventListener('click', () => go(2));
+
+  /* 2 */
+  function draw2() {
+    $('areas').innerHTML = D.areas.map(a => { const pick = S.ans[a.id];
+      return `<div class="area ${S.habits[a.id] ? 'ok' : ''}"><b>${a.icon} ${esc(a.name)}</b><p style="margin:6px 0 0">${esc(a.q)}</p>
+        <div class="q3">${a.opts.map((o, i) => `<button type="button" class="${pick != null ? (o.good ? 'good' : (pick === i ? 'bad' : '')) : ''}" data-a="${a.id}" data-i="${i}" ${pick != null ? 'disabled' : ''}>${pick === i ? '👉 ' : ''}${esc(o.t)}</button>`).join('')}</div>
+        ${pick != null ? `<div class="tip" style="margin-top:8px">${a.opts[pick].good ? '좋은 선택이에요! ' : '다른 방법도 생각해 봐요. '}${esc(a.why)}</div>
+        <div class="small" style="font-weight:700;margin-top:6px">기르고 싶은 습관 하나</div><div class="hab">${a.habits.map(h => `<button type="button" class="${S.habits[a.id] === h ? 'on' : ''}" data-h="${a.id}" data-v="${esc(h)}">${S.habits[a.id] === h ? '✓ ' : ''}${esc(h)}</button>`).join('')}</div>` : ''}</div>`; }).join('');
+    $('to3').disabled = Object.keys(S.habits).length < 3;
+  }
+  $('areas').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-a]'); if (b) { S.ans[b.dataset.a] = +b.dataset.i; save(); return draw2(); }
+    const h = e.target.closest('[data-h]'); if (h) { if (S.habits[h.dataset.h] === h.dataset.v) delete S.habits[h.dataset.h]; else S.habits[h.dataset.h] = h.dataset.v; save(); draw2(); }
+  });
+  $('to3').addEventListener('click', () => go(3));
+
+  /* 3 */
+  const habList = () => D.areas.filter(a => S.habits[a.id]).map(a => ({ id: a.id, icon: a.icon, t: S.habits[a.id] }));
+  function draw3() {
+    const hs = habList();
+    let h = '';
+    for (let w = 0; w < 3; w++) {
+      h += `<div class="wk">${w + 1}주차 (${w * 7 + 1}~${w * 7 + 7}일)</div><div class="grid21">`;
+      hs.forEach(x => { h += `<span class="lbl">${x.icon} ${esc(x.t)}</span>` + Array.from({ length: 7 }, (_, d) => { const k = `${x.id}_${w * 7 + d}`;
+        return `<button type="button" class="${S.days[k] ? 'on' : ''}" data-k="${k}" aria-label="${esc(x.t)} ${w * 7 + d + 1}일째">${S.days[k] ? '✓' : w * 7 + d + 1}</button>`; }).join(''); });
+      h += '</div>';
+    }
+    $('grid').innerHTML = h; $('look').value = S.look; count();
+  }
+  function count() { const hs = habList(), tot = hs.length * D.days, n = Object.entries(S.days).filter(([k, v]) => v && hs.some(x => k.startsWith(x.id + '_'))).length;
+    $('cnt').textContent = `지킨 날 ${n} / ${tot}칸${n && n === tot ? ' — 21일 완주! 🎉' : ''}`; return { n, tot }; }
+  $('grid').addEventListener('click', (e) => { const b = e.target.closest('[data-k]'); if (!b) return; S.days[b.dataset.k] = !S.days[b.dataset.k]; save(); draw3(); });
+  $('look').addEventListener('input', (e) => { S.look = e.target.value; save(); });
+  $('btnClear').addEventListener('click', () => { if (!confirm('이 기기에 남은 기록을 지울까요? (선생님께 낸 것은 지워지지 않아요)')) return; STORE.clear(); S = Object.assign({}, DEF); go(1); });
+
+  function summary() {
+    const c = count();
+    return [
+      `[졸업 뒤 그림] ${D.stages.map(s => `${s.name}: ${(S.goals[s.id] || '').trim()}`).join(' / ')}`,
+      `[자기 관리 미션] ${D.areas.filter(a => S.ans[a.id] != null).map(a => `${a.name}${a.opts[S.ans[a.id]].good ? '✔' : ''}`).join(', ')}`,
+      `[21일 습관] ${habList().map(x => x.t).join(', ')} — 지킨 날 ${c.n}/${c.tot}칸`,
+      S.look.trim() ? `[돌아보기] ${S.look.trim()}` : '',
+    ].filter(Boolean).join('\n');
+  }
+  $('btnCopy').addEventListener('click', () => CU.copy(summary()));
+  $('btnPrint').addEventListener('click', () => window.print());
+  $('send').addEventListener('click', async () => {
+    if (CareerClass.safetyCheck(Object.values(S.goals).join(' ') + ' ' + S.look)) return CareerClass.showNotice('danger');
+    const c = count();
+    $('send').disabled = true; $('send').textContent = '내는 중...';
+    const r = await CareerClass.submit({ kind: 'after-grad', title: `졸업 뒤 첫걸음 — ${(S.goals.s3 || '').trim().slice(0, 30)}`, content: summary(),
+      result: { score: c.n, total: c.tot }, detail: { goals: S.goals, answers: S.ans, habits: S.habits, done: c.n, look: S.look.trim() } });
+    $('send').disabled = false; $('send').textContent = '선생님께 내기';
+    if (r.ok) CU.toast('선생님께 냈어요. 21일 뒤에 돌아보기를 쓰고 다시 내도 돼요.');
+  });
+
+  function go(n) {
+    S.step = n; S.reached = Math.max(S.reached || 1, n); save();
+    [1, 2, 3].forEach(i => { $('step' + i).hidden = i !== n; });
+    document.querySelectorAll('.steps button').forEach(b => { const k = +b.dataset.go; b.removeAttribute('aria-current'); if (k === n) b.setAttribute('aria-current', 'step'); b.disabled = k > S.reached; });
+    ({ 1: draw1, 2: draw2, 3: draw3 })[n](); window.scrollTo({ top: 0 });
+  }
+  document.addEventListener('click', (e) => { const b = e.target.closest('[data-go]'); if (!b || b.disabled) return; if (+b.dataset.go > S.reached) return; go(+b.dataset.go); });
+  go(Math.min(S.step || 1, S.reached || 1));
+  CU.classroom({ app: 'after-grad', modeEl: $('mode'), sendEl: $('send'), replyEl: $('reply') });
+})();
+</script>
+<p class="eaim-copy">© 2026 박성애 · EAIM · 교육 목적 무료 사용, 무단 복제·상업적 이용 금지 · <a href="https://eaim.kr/#copyright" target="_blank" rel="noopener" style="color:inherit">이용 안내</a></p>
+</body>
+</html>

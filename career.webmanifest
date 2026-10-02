@@ -1,0 +1,16 @@
+{
+  "name": "EAIM 진로",
+  "short_name": "EAIM 진로",
+  "description": "나를 알고, 직업 세계를 탐색하고, 나만의 길을 설계하는 EAIM 진로 수업",
+  "lang": "ko",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fbf8f3",
+  "theme_color": "#e2703a",
+  "icons": [
+    { "src": "career-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "career-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "career-icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

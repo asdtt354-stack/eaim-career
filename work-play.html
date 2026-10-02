@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="career.webmanifest">
+<meta name="theme-color" content="#e2703a">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="EAIM 진로">
 <title>일과 여가 시소 · EAIM 진로</title>
 <!-- 일과 여가 시소 v1.0 (2026-10-02) — [9진로01-04], AI 없음, 공개(내기는 수업 QR) -->
 <link rel="stylesheet" href="career.css">
@@ -51,6 +56,7 @@
   <section id="step1">
     <div class="card" id="i1">
       <h2>일일까, 여가일까? <button class="say" data-say="i1">🔊</button></h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>카드마다 💼 🎈 🔄 중 하나를 눌러요</li><li>풀이를 읽어요</li><li>8장을 다 하면 <b>다음</b> 단추가 나와요</li></ol><ol class="e"><li>하나씩 눌러요</li><li>풀이를 읽어요</li><li>다 하면 다음</li></ol></div>
       <p class="n">같은 활동도 <b>누가, 왜 하느냐</b>에 따라 일이 되기도 하고 여가가 되기도 해요. 카드를 나눠 봐요.</p>
       <p class="e">같은 활동도 일이 되거나 여가가 돼요. 나눠 봐요.</p>
       <div id="cards"></div>
@@ -62,6 +68,7 @@
   <section id="step2" hidden>
     <div class="card" id="i2">
       <h2>여가가 주는 것 <button class="say" data-say="i2">🔊</button></h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>이야기를 읽어요</li><li>여가가 준 것을 이야기마다 <b>2개</b>씩 눌러요</li></ol><ol class="e"><li>이야기를 읽어요</li><li>2개씩 눌러요</li></ol></div>
       <p class="n">여가는 쉬고 노는 시간이면서 <b>소질과 재능이 자라고 배움을 얻는 시간</b>이에요. 때로는 직업과 이어지기도 해요. 이야기 속 여가가 준 것을 골라요(2개).</p>
       <p class="e">여가는 쉬고, 배우고, 재능을 키우는 시간이에요. 무엇을 주었나요? 2개 골라요.</p>
       <div id="stories"></div>
@@ -72,6 +79,7 @@
   <section id="step3" hidden>
     <div class="card" id="i3">
       <h2>나의 일과 여가 시소 <button class="say" data-say="i3">🔊</button></h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>＋ / − 로 <b>12조각</b>을 나눠요</li><li>시소가 기우는 모습과 도움말을 봐요</li><li>아래 칸에 좋아하는 여가와 어른이 된 나를 써요</li></ol><ol class="e"><li>＋ − 로 12조각을 나눠요</li><li>시소를 봐요</li><li>아래 칸을 써요</li></ol></div>
       <p class="n">일주일 가운데 학교 밖 시간을 <b>12조각</b>으로 나눠 봐요. 학생에게는 공부도 중요한 일이에요. 실제 내 모습대로 나눠요 — 맞고 틀린 것은 없어요.</p>
       <p class="e">일주일 시간을 12조각으로 나눠요. 내 모습대로 해요.</p>
       <p class="muted small" id="left"></p>

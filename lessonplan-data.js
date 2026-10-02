@@ -1,4 +1,4 @@
-/* EAIM 진로 — 지도안 자료 (lessonplan-data.js) v1.2 (2026-10-02)
+/* EAIM 진로 — 지도안 자료 (lessonplan-data.js) v1.3 (2026-10-02)
    앱(여러 차시 앱은 차시)마다: 성취기준·영역, 기본으로 고를 핵심 아이디어·내용 요소(curriculum-career.js 의 순서 번호),
    탐구 질문·마음 열기(초안), 앱 단계(화면의 단계 이름·제목에서 옮김), 결과물, 창체 진로 활동 연계, 배려할 점.
    앱 화면을 고치면 여기도 맞춘다. 가이드(guide.html 6번)도 이 파일을 읽는다. */
@@ -54,6 +54,45 @@ window.CAREER_LESSONS = [
     output: '나의 경험 마인드맵',
     cce: { activity: '진로 탐색 활동 · 진로 설계 및 실천 활동', example: '진로체험 활동: 지역 사회⋅대학⋅산업체 연계 체험활동 등' },
     care: '경험의 크기를 비교하지 않고 작은 경험도 소중히 다룬다. 다른 사람을 알아볼 수 있는 이야기는 쓰지 않게 한다. 다음 경험은 학교·지역에서 할 수 있는 것을 함께 찾는다.' },
+
+  { id: 'path-map', app: 'path-map', code: '[9진로03-02]', area: '03', ki: [2], k: [1], p: [2], v: [3],
+    scope: 'lesson', sessions: 1, minutes: 45,
+    q: '내가 가고 싶은 길과 다른 길을 어떻게 함께 준비할까?',
+    hook: '내비게이션은 길이 막히면 어떻게 하나요?',
+    steps: [
+      { name: '관심 분야', title: '관심 있는 진로 분야를 골라요', guide: '관심 분야 1~2개를 고르고 가장 가고 싶은 직업과 대안 직업을 쓴다' },
+      { name: '우선 경로', title: '우선 경로', guide: '고등학교 유형과 고등학교에서 할 일, 졸업 뒤 길과 할 일을 골라 우선 경로를 지도에 그린다(입학 조건·자격은 학교·교육청 안내와 커리어넷으로 확인)' },
+      { name: '대안 경로', title: '대안 경로', guide: '대안 경로를 그리고 언제 갈아탈지 신호를 고른 뒤 나에게 하는 한마디를 쓴다' },
+    ],
+    output: '나의 진로 경로 지도',
+    cce: { activity: '진로 설계 및 실천 활동', example: '진로계획 활동: 진로 상담, 진로 의사 결정, 진로 설계 등' },
+    care: '고등학교 유형에 서열을 매기지 않는다. 고등학교 유형 설명은 일반적인 특징이므로 실제 입학 조건은 지역 교육청·학교 안내로 확인하게 한다. 필요하면 개별 진로 상담으로 이어 간다.' },
+
+  { id: 'study-plan', app: 'study-plan', code: '[9진로03-03]', area: '03', ki: [1], k: [1], p: [1], v: [1, 2],
+    scope: 'lesson', sessions: 1, minutes: 45,
+    q: '진로 목표를 이루려면 지금 어떻게 공부하면 좋을까?',
+    hook: '게임 개발자가 되려면 수학이 필요할까요? 국어는요?',
+    steps: [
+      { name: '진로와 과목', title: '이 직업에는 어떤 공부가 도움이 될까요?', guide: '직업 네 가지에 도움이 될 과목을 2개 이상 고르고 예시와 견주어 모든 교과·창체가 진로의 토대임을 확인한다' },
+      { name: '나의 학습 방법', title: '진로 목표와 학습 목표', guide: '진로 목표와 이번 달 학습 목표를 쓰고, 효과가 알려진 학습 방법(스스로 떠올리기·나눠서 복습·설명하기·예시 찾기·개념 지도·집중 시간 나누기) 가운데 두 가지를 고른다' },
+      { name: '주간 계획표', title: '이번 주 학습 계획표', guide: '요일마다 과목·방법·시간을 정해 계획표를 만들고, 일주일 동안 실천 체크와 돌아보기를 한다' },
+    ],
+    output: '나의 진로 학습 계획표',
+    cce: { activity: '진로 설계 및 실천 활동', example: '진로 준비 활동: 진로 목표 설정, 진로 실천 계획 수립 등' },
+    care: '직업과 과목의 연결은 예시이며 다른 선택도 까닭이 있으면 인정한다. 계획 시간을 친구와 비교하지 않고, 실천 기록은 성장 확인용으로 쓴다(교수·학습 계속성).' },
+
+  { id: 'after-grad', app: 'after-grad', code: '[9진로03-04]', area: '03', ki: [2], k: [2], p: [2], v: [3],
+    scope: 'lesson', sessions: 1, minutes: 45,
+    q: '졸업 뒤의 나를 위해 지금 어떤 습관을 기를까?',
+    hook: '3년 뒤, 고등학교를 졸업하는 날의 나는 어떤 모습일까요?',
+    steps: [
+      { name: '졸업 뒤 그림', title: '졸업 뒤, 나는 어떤 길을 걸을까요?', guide: '중학교 졸업 전·고1·고교 졸업·20대의 목표를 시간 줄 위에 쓴다' },
+      { name: '자기 관리 미션', title: '자기 관리 미션 다섯 가지', guide: '몸·마음·시간·용돈·관계·새로운 도전 상황에서 행동을 고르고 풀이를 읽은 뒤 기르고 싶은 습관을 3개 이상 고른다' },
+      { name: '21일 습관', title: '21일 습관 챌린지', guide: '고른 습관을 21일 표로 만들어 지킨 날을 표시하고, 끝나면 습관이 진로 준비에 준 도움을 돌아본다' },
+    ],
+    output: '21일 습관 챌린지 표',
+    cce: { activity: '진로 설계 및 실천 활동', example: '진로 준비 활동: 진로 목표 설정, 진로 실천 계획 수립 등' },
+    care: '용돈·가정 형편은 학생마다 다르므로 금액을 묻지 않는다. 몸·마음 관리는 생활 습관만 다루고 건강 정보를 묻거나 저장하지 않는다. 힘든 마음이 드러나면 상담으로 이어 준다.' },
 
   { id: 'path-board', app: 'path-board', code: '[9진로02-02]', area: '02', ki: [1, 2], k: [2], p: [1], v: [0, 1],
     scope: 'lesson', sessions: 1, minutes: 45,
@@ -158,6 +197,6 @@ window.CAREER_LESSONS = [
 ];
 /* 차시 예고(이전·다음)와 목록 순서 — 교육과정 영역·성취기준 흐름 */
 (function () {
-  const ORDER = ['multi-growth-1', 'multi-growth-2', 'dream-team', 'work-play', 'job-change-cards', 'path-board', 'exp-link', 'entre-explorer', 'booth-startup', 'multi-growth-3', 'decision-scale', 'multi-growth-4'];
+  const ORDER = ['multi-growth-1', 'multi-growth-2', 'dream-team', 'work-play', 'job-change-cards', 'path-board', 'exp-link', 'entre-explorer', 'booth-startup', 'multi-growth-3', 'decision-scale', 'path-map', 'study-plan', 'after-grad', 'multi-growth-4'];
   window.CAREER_LESSONS.sort((a, b) => ORDER.indexOf(a.id) - ORDER.indexOf(b.id));
 })();

@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="career.webmanifest">
+<meta name="theme-color" content="#e2703a">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="EAIM 진로">
 <title>진로 경로 보드게임 · EAIM 진로</title>
 <!-- 진로 경로 보드게임 v1.0 (2026-10-02) — [9진로02-02], 한 기기 1~4명, AI 없음, 공개(점수·내기는 수업 QR)
      발걸음마다 5음 음계 소리(브라우저 오디오, 끌 수 있음) — Musicalization -->
@@ -48,6 +53,7 @@
   .route span{background:#f5f1ea;border-radius:8px;padding:2px 8px}
   .route i{font-style:normal;color:var(--sub)}
   .mytrail{font-size:1.2rem;letter-spacing:2px}
+  @media (max-width:520px){.dice{font-size:2.2rem;min-width:64px;padding:2px 10px}.turn .who{font-size:.95rem}.pieces{font-size:.8rem;gap:4px}#hint{font-size:.78rem}}
 </style>
 </head>
 <body>
@@ -70,6 +76,7 @@
     </div>
     <div class="card">
       <h2>몇 명이 함께하나요?</h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>인원 단추를 눌러요</li><li>동물 말을 누르면 바뀌어요. 별명과 꿈 직업을 골라요</li><li><b>게임 시작</b> 을 눌러요</li></ol><ol class="e"><li>몇 명인지 눌러요</li><li>말, 별명, 꿈을 골라요</li><li>게임 시작 을 눌러요</li></ol></div>
       <p class="muted small">기기 한 대를 돌려 가며 해요. 별명만 써요(이름은 쓰지 않아요).</p>
       <div class="seg" id="count"></div>
       <div id="players"></div>
@@ -202,7 +209,7 @@
     const p = P[cur], job = D.jobs.find(j => j.id === p.job);
     $('who').textContent = `${pName(p)} 차례 · 꿈: ${job.icon} ${job.name}`;
     $('myPieces').innerHTML = Object.entries(D.pieces).map(([k, v]) => `<span>${v.icon} ${p.pieces[k] || 0}</span>`).join('');
-    $('hint').textContent = p.skip ? '이번 차례는 쉬어요(다시 도전 준비). 주사위를 누르면 다음 사람에게 넘어가요.' : (p.bonus ? `☕ 쉼표 보너스: 이번 주사위 +${p.bonus}` : '주사위를 눌러요.');
+    $('hint').textContent = p.skip ? '이번 차례는 쉬어요(다시 도전 준비). 주사위를 누르면 다음 사람에게 넘어가요.' : (p.bonus ? `☕ 쉼표 보너스: 이번 주사위 +${p.bonus}` : '👉 주사위(🎲)를 눌러요. 카드가 뜨면 단추 하나를 골라요.');
     $('dice').disabled = busy;
   }
 

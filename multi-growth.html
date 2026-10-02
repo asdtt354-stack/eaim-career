@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="career.webmanifest">
+<meta name="theme-color" content="#e2703a">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="EAIM 진로">
 <title>다문화 성장 프로젝트 · EAIM 진로</title>
 <!-- 다문화 성장 프로젝트 v1.0 (2026-10-02) — [9진로01-02]·[9진로02-06]·[9진로03-02], 4차시, AI 없음, 공개(내기는 수업 QR)
      나라 이름·가족 이야기·사는 곳은 묻지 않는다. 진행 상태는 이 기기에만(eaim_career_multi_growth) + 파일로 저장·불러오기 -->
@@ -13,9 +18,17 @@
   .tabs button{background:#fff;color:var(--ink);border:2px solid var(--line);font-size:.86rem;padding:8px 12px}
   .tabs button[aria-current]{border-color:var(--main);background:var(--main-soft)}
   .tabs button .ok{color:var(--teal)}
+  @media (max-width:560px){.tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}.tabs .tn{display:none}.tabs button{padding:8px 4px;flex-direction:column}}
+  .stitle{font-size:.82rem;color:var(--sub);margin:-6px 0 10px}
   .layout{display:grid;gap:14px;grid-template-columns:minmax(0,1fr) 300px;align-items:start}
-  @media (max-width:820px){.layout{grid-template-columns:minmax(0,1fr)}.treebox{order:-1}}
   .treebox{position:sticky;top:10px}
+  /* 휴대폰: 나무가 위에 붙어 질문을 가리지 않게 — 질문 아래에 두고, 위에는 작은 진행 줄만 (v1.1) */
+  @media (max-width:820px){.layout{grid-template-columns:minmax(0,1fr)}.treebox{position:static;order:0}}
+  .strip{display:flex;align-items:center;gap:6px;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-radius:14px;padding:8px 12px;margin:0 0 12px;font-size:.86rem}
+  .strip span{padding:2px 8px;border-radius:999px;background:#f1ece4;color:var(--sub)}
+  .strip span.ok{background:var(--teal-soft);color:var(--teal);font-weight:700}
+  .strip button{margin-left:auto;font-size:.8rem;padding:5px 12px}
+  @media (min-width:821px){.strip button{display:none}}
   .treebox svg{width:100%;height:auto;display:block}
   .sgroup h3{display:flex;align-items:center;gap:6px}
   .sgrid{display:grid;gap:6px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
@@ -52,6 +65,7 @@
   </div>
 
   <nav class="tabs" id="tabs" aria-label="차시"></nav>
+  <div class="strip" id="strip" aria-live="polite"></div>
 
   <div class="layout">
     <main style="min-width:0">
@@ -59,6 +73,7 @@
       <section id="ss1">
         <div class="card" id="i1">
           <h2>🌱 1차시 · 나의 강점 보물지도 <button class="say" data-say="i1">🔊</button></h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>나에게 맞는 강점 칸을 <b>3개 이상</b> 눌러요 (다시 누르면 빠져요)</li><li>나를 한 문장으로 써요</li><li>다 하면 🌳 성장나무에 <b>뿌리</b>가 생겨요 → <b>다음 차시</b></li></ol><ol class="e"><li>좋은 점을 3개 넘게 눌러요</li><li>한 문장을 써요</li><li>나무에 뿌리가 생겨요</li></ol></div>
           <p class="n">나에게는 이미 많은 보물이 있어요. <b>두 언어, 두 문화를 아는 것도 큰 강점</b>이고, 마음과 재능도 강점이에요. 나에게 맞는 것을 <b>3개 이상(최대 8개)</b> 골라요.</p>
           <p class="e">나의 좋은 점을 골라요. 3개 넘게 골라요. 두 가지 말, 두 문화도 좋은 점이에요.</p>
           <p class="count" id="cnt1"></p>
@@ -72,6 +87,7 @@
       <section id="ss2" hidden>
         <div class="card" id="i2">
           <h2>🧭 2차시 · 강점과 이어지는 직업 <button class="say" data-say="i2">🔊</button></h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>✨ 표시된 직업을 살펴봐요 (<b>모두 보기</b>로 다른 직업도)</li><li>직업 카드 <b>3개</b>를 눌러요</li><li>끌리는 까닭과 묻고 싶은 질문을 써요</li></ol><ol class="e"><li>✨ 직업을 봐요</li><li>3개를 눌러요</li><li>까닭을 써요</li></ol></div>
           <p class="n">내 강점과 이어지는 직업에 <b>✨</b>가 붙어요. 하지만 <b>언어 직업만 있는 것이 아니에요 — 모든 직업이 열려 있어요.</b> 관심 가는 직업을 <b>3개</b> 골라요.</p>
           <p class="e">✨는 내 좋은 점과 맞는 직업이에요. 어떤 직업도 할 수 있어요. 3개 골라요.</p>
           <div class="row" style="margin-bottom:8px"><button type="button" class="ghost" id="fitOnly">✨ 이어지는 직업만</button><button type="button" class="ghost" id="allJobs">모두 보기</button></div>
@@ -87,6 +103,7 @@
       <section id="ss3" hidden>
         <div class="card" id="i3">
           <h2>💡 3차시 · 나만의 성장 창업 아이디어 <button class="say" data-say="i3">🔊</button></h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>불편 칸을 하나 누르거나 직접 써요</li><li>누구를 위해 · 어떻게 · 이름을 써요</li><li>첫 실험과 함께할 사람(역할)을 써요</li></ol><ol class="e"><li>하나 누르거나 써요</li><li>빈칸을 써요</li><li>첫 실험을 써요</li></ol></div>
           <p class="n">창업가 정신은 <b>내 강점으로 누군가의 불편을 풀고 가치를 만드는 것</b>이에요. 우리 학교·동네에서 풀고 싶은 불편을 골라 아이디어를 만들어요.</p>
           <p class="e">내 좋은 점으로 다른 사람을 도와요. 불편한 것을 하나 골라요.</p>
           <div class="sgrid" id="probs"></div>
@@ -109,6 +126,7 @@
       <section id="ss4" hidden>
         <div class="card" id="i4">
           <h2>🍎 4차시 · 나의 진로 경로와 성장나무 <button class="say" data-say="i4">🔊</button></h2>
+      <div class="todo"><span class="h">👉 지금 할 일</span><ol class="n"><li>지금 할 일 칸을 하나 이상 눌러요</li><li>우선 경로와 대안 경로를 써요</li><li>아래 포스터를 인쇄하거나 선생님께 내요</li></ol><ol class="e"><li>할 일을 눌러요</li><li>길 두 개를 써요</li><li>포스터를 봐요</li></ol></div>
           <p class="n">진로는 한 길만 있지 않아요. <b>우선 경로</b>와 <b>대안 경로</b>를 함께 그리고, 지금부터 할 일을 정해요.</p>
           <p class="e">가고 싶은 길 1개와 다른 길 1개를 생각해요. 지금 할 일을 정해요.</p>
           <label class="field">지금 중학교에서 할 일 (여러 개)</label>
@@ -146,7 +164,7 @@
       </div>
     </main>
 
-    <aside class="treebox">
+    <aside class="treebox" id="treeBox">
       <div class="card" style="margin-top:0">
         <h2 style="text-align:center">🌳 나의 성장나무</h2>
         <div id="tree"></div>
@@ -176,7 +194,16 @@
   const STORE = CU.store('multi_growth');
   const DEF = { tab: 1, strengths: [], me: '', jobs: [], jobWhy: '', jobAsk: '', fitOnly: true, prob: -1, pOwn: '', iFor: '', iHow: '', iName: '', iTest: '', iTeam: '', now: [], nowText: '', highText: '', pathA: '', pathB: '', cheer: '' };
   let S = STORE.load(DEF);
-  const save = () => { STORE.save(S); drawTree(); drawTabs(); };
+  let wasDone = {};
+  const save = () => { STORE.save(S); drawTree(); drawTabs(); drawStrip(); };
+  function drawStrip() {
+    const now = {};
+    $('strip').innerHTML = '🌳 ' + D.sessions.map(s => { now[s.n] = !!done[s.n](); return `<span class="${now[s.n] ? 'ok' : ''}">${s.icon} ${esc(s.part)}${now[s.n] ? ' ✔' : ''}</span>`; }).join('') +
+      '<button type="button" class="ghost" id="seeTree">나무 보기 ↓</button>';
+    D.sessions.forEach(s => { if (now[s.n] && wasDone[s.n] === false) CU.toast(`🌳 ${s.part}가 자랐어요!`); });
+    wasDone = now;
+  }
+  document.addEventListener('click', (e) => { if (e.target.id === 'seeTree') $('treeBox').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
 
   const done = {
     1: () => S.strengths.length >= 3 && S.me.trim().length > 0,
@@ -187,7 +214,7 @@
 
   /* ── 차시 탭 ── */
   function drawTabs() {
-    $('tabs').innerHTML = D.sessions.map(s => `<button type="button" data-tab="${s.n}" ${S.tab === s.n ? 'aria-current="step"' : ''}>${s.icon} ${s.n}차시 ${esc(s.name)} ${done[s.n]() ? '<span class="ok">✔</span>' : ''}</button>`).join('');
+    $('tabs').innerHTML = D.sessions.map(s => `<button type="button" data-tab="${s.n}" ${S.tab === s.n ? 'aria-current="step"' : ''}>${s.icon} ${s.n}차시<span class="tn"> ${esc(s.name)}</span> ${done[s.n]() ? '<span class="ok">✔</span>' : ''}</button>`).join('');
     $('prev').disabled = S.tab === 1; $('next').classList.toggle('hidden', S.tab === 4);
   }
   function go(n) { S.tab = n; STORE.save(S); [1, 2, 3, 4].forEach(i => { $('ss' + i).hidden = i !== n; }); drawTabs(); draw[n](); window.scrollTo({ top: 0 }); }
@@ -350,7 +377,7 @@
   $('btnPrint').addEventListener('click', () => window.print());
   $('btnCopy').addEventListener('click', () => CU.copy(allText()));
 
-  drawTree(); go(S.tab || 1);
+  drawTree(); drawStrip(); go(S.tab || 1);
   CU.classroom({ app: 'multi-growth', modeEl: $('mode'), sendEl: $('send'), replyEl: $('reply') });
 })();
 </script>
