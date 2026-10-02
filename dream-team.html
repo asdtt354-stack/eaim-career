@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>함께 일하고 싶은 동료 · EAIM 진로</title>
+<!-- 함께 일하고 싶은 동료 v1.0 (2026-10-02) — [9진로01-03], AI 없음, 공개(내기는 수업 QR) -->
+<link rel="stylesheet" href="career.css">
+<style>
+  .steps button{font:inherit;font-size:.82rem;padding:4px 12px;border-radius:999px;background:#efe9df;color:var(--sub);font-weight:700}
+  .steps button[aria-current]{background:var(--main);color:#fff}
+  .steps button:disabled{opacity:.5}
+  .ppl{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+  .pc{border:2px solid var(--line);border-radius:16px;padding:12px;background:#fff;text-align:left;color:var(--ink);font-weight:400;display:block;width:100%}
+  .pc.on{border-color:var(--main);background:var(--main-soft)}
+  .pc .ic{font-size:1.8rem}
+  .pc b{font-size:1rem}
+  .pc .sk{font-size:.78rem;color:var(--sub)}
+  .pc .quote{display:block;margin:6px 0 0;font-size:.86rem;border:0;padding:0;background:none;color:var(--ink)}
+  .crisis{border-radius:16px;padding:14px;margin:10px 0;border:2px solid var(--line);background:#fff}
+  .crisis.good{border-color:var(--teal);background:var(--teal-soft)}
+  .crisis.bad{border-color:var(--gold);background:var(--gold-soft)}
+  .radar{max-width:320px;margin:0 auto;display:block}
+  .stars button{background:none;border:0;color:#d8cfc2;font-size:1.5rem;padding:0 2px}
+  .stars button.on{color:var(--gold)}
+  .srow{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap;border-bottom:1px dashed var(--line);padding:8px 0}
+  .namecard{border-radius:20px;padding:20px;background:linear-gradient(135deg,#fff,#eef6ff);border:3px solid var(--blue)}
+  .namecard .big{font-size:2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="home" href="index.html">← EAIM 진로</a>
+    <h1>🤝 함께 일하고 싶은 동료</h1>
+    <button class="easy-btn" type="button" aria-pressed="false">쉬운 말</button>
+  </header>
+  <p class="row" style="margin:0"><span class="badge teal">[9진로01-03]</span><span class="badge teal">진로와 나의 이해</span>
+    <a class="badge blue" href="guide.html#student-dream-team" style="text-decoration:none">📘 사용법</a>
+    <span id="mode" class="mode hidden"></span></p>
+
+  <nav class="steps" style="margin-top:12px" aria-label="단계">
+    <button type="button" data-go="1">1 드림팀 꾸리기</button>
+    <button type="button" data-go="2">2 위기를 넘어라</button>
+    <button type="button" data-go="3">3 나는 어떤 동료?</button>
+  </nav>
+
+  <section id="step1">
+    <div class="card" id="i1">
+      <h2>미션을 고르고 동료 3명을 뽑아요 <button class="say" data-say="i1">🔊</button></h2>
+      <p class="n">직업 세계에서는 혼자보다 함께 일할 때가 많아요. 동료 카드를 읽고 <b>함께 일하고 싶은 동료 3명</b>을 골라요. 실력만 볼지, 태도도 볼지 생각해 봐요.</p>
+      <p class="e">같이 일할 친구 3명을 골라요. 잘하는 것과 행동을 함께 봐요.</p>
+      <h3>미션</h3><div class="grid two" id="missions"></div>
+      <h3>동료 카드 <span class="muted small" id="cnt"></span></h3>
+      <div class="ppl" id="ppl"></div>
+      <p class="muted small">동료 카드의 인물은 모두 지어낸 인물이에요.</p>
+    </div>
+    <div class="row"><button type="button" id="to2" disabled>위기 카드 뒤집기 →</button></div>
+  </section>
+
+  <section id="step2" hidden>
+    <div class="card">
+      <h2>우리 팀에 위기가 찾아왔어요!</h2>
+      <div id="crises"></div>
+      <h3>우리 팀의 다섯 가지 힘</h3>
+      <div id="radar"></div>
+      <div class="tip" id="lesson2"></div>
+      <label class="field" for="why2"><span class="n">함께 일하고 싶은 직업인은 어떤 사람일까요? 한 문장으로</span><span class="e">같이 일하고 싶은 사람은 어떤 사람인가요?</span></label>
+      <textarea id="why2" maxlength="200" placeholder="예: 실력보다 약속을 지키고 친구 말을 잘 듣는 사람"></textarea>
+    </div>
+    <div class="row"><button type="button" class="ghost" data-go="1">← 다시 뽑기</button><button type="button" id="to3" class="hidden">나는 어떤 동료? →</button></div>
+  </section>
+
+  <section id="step3" hidden>
+    <div class="card" id="i3">
+      <h2>나는 어떤 동료일까요? <button class="say" data-say="i3">🔊</button></h2>
+      <p class="n">나를 돌아보며 별을 매겨요(1~5). 잘하는 것도, 키우고 싶은 것도 있어요.</p>
+      <p class="e">나는 얼마나 잘하나요? 별을 눌러요.</p>
+      <div id="self"></div>
+      <label class="field" for="grow"><span class="n">가장 키우고 싶은 힘과 이번 주 실천 한 가지</span><span class="e">키우고 싶은 힘, 이번 주에 할 일</span></label>
+      <div class="pick" id="growPick" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+      <input type="text" id="grow" maxlength="80" placeholder="예: 모둠 활동에서 친구 의견을 먼저 끝까지 듣기">
+      <label class="field" for="motto"><span class="n">나를 소개하는 동료 한마디</span><span class="e">나를 소개하는 한마디</span></label>
+      <input type="text" id="motto" maxlength="40" placeholder="예: 맡은 일은 끝까지, 친구 말은 끝까지!">
+    </div>
+    <div class="card">
+      <div class="namecard" id="card"></div>
+      <div class="row no-print" style="margin-top:12px">
+        <button type="button" class="ghost" id="btnCopy">📋 복사</button>
+        <button type="button" class="ghost" id="btnPrint">🖨 인쇄</button>
+        <button type="button" class="teal hidden" id="send">선생님께 내기</button>
+      </div>
+      <p class="muted small">이름·전화번호 같은 개인정보는 쓰지 않아요.</p>
+      <div id="reply" class="reply hidden"></div>
+    </div>
+    <div class="row no-print"><button type="button" class="ghost" data-go="2">← 이전</button></div>
+  </section>
+  <div class="std" id="stdBox"></div>
+</div>
+
+<script src="curriculum-career.js"></script>
+<script src="career-apps.js"></script>
+<script src="dream-team-data.js"></script>
+<script src="career-class.js"></script>
+<script src="career-ui.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.DT_DATA, esc = CU.esc, tx = CU.tx;
+  const $ = (id) => document.getElementById(id);
+  const TK = Object.keys(D.traits);
+  const s0 = window.EAIM_CAREER_CURRICULUM.find('[9진로01-03]');
+  $('stdBox').innerHTML = `<b>${s0.code}</b> ${esc(s0.text)}<br><span class="small">교육과정 해설: ${esc(s0.note)}</span>`;
+  const ST = CU.sstore('dream_team');
+  let S = ST.load({ step: 1, reached: 1, mission: '', team: [], why2: '', self: {}, growK: '', grow: '', motto: '' });
+  const save = () => ST.save(S);
+
+  /* 1 */
+  function draw1() {
+    $('missions').innerHTML = D.missions.map(m => `<button type="button" class="chip ${S.mission === m.id ? 'on' : ''}" data-m="${m.id}"><b>${m.icon} ${esc(m.name)}</b><br><span class="small muted">${esc(m.t)}</span></button>`).join('');
+    $('ppl').innerHTML = D.people.map(p => `<button type="button" class="pc ${S.team.includes(p.id) ? 'on' : ''}" data-p="${p.id}">
+      <span class="ic">${p.icon}</span> <b>${esc(p.name)}</b> <span class="sk">· ${esc(p.skill)}</span><span class="quote">${esc(p.say)}</span></button>`).join('');
+    $('cnt').textContent = `(${S.team.length}/3)`;
+    $('to2').disabled = !(S.mission && S.team.length === 3);
+  }
+  $('missions').addEventListener('click', (e) => { const b = e.target.closest('[data-m]'); if (!b) return; S.mission = b.dataset.m; save(); draw1(); });
+  $('ppl').addEventListener('click', (e) => { const b = e.target.closest('[data-p]'); if (!b) return; const id = b.dataset.p;
+    if (S.team.includes(id)) S.team = S.team.filter(x => x !== id); else { if (S.team.length >= 3) return CU.toast('3명까지 골라요. 한 명을 빼고 골라요.'); S.team.push(id); }
+    save(); draw1(); });
+  $('to2').addEventListener('click', () => go(2));
+
+  /* 2 */
+  function teamSum() { const t = {}; TK.forEach(k => t[k] = 0); S.team.forEach(id => { const p = D.people.find(x => x.id === id); TK.forEach(k => t[k] += p.s[k]); }); return t; }
+  function radar(t) {
+    const R = 110, C = 150, max = 6, pt = (i, r) => { const a = -Math.PI / 2 + i * 2 * Math.PI / TK.length; return [C + r * Math.cos(a), C + r * Math.sin(a)]; };
+    let g = '';
+    [2, 4, 6].forEach(v => { g += `<polygon points="${TK.map((k, i) => pt(i, R * v / max).join(',')).join(' ')}" fill="none" stroke="#e8e2d8"/>`; });
+    TK.forEach((k, i) => { const [x, y] = pt(i, R + 22); g += `<line x1="${C}" y1="${C}" x2="${pt(i, R)[0]}" y2="${pt(i, R)[1]}" stroke="#e8e2d8"/><text x="${x}" y="${y + 4}" font-size="12" text-anchor="middle" fill="#2b2a33">${D.traits[k].icon} ${esc(D.traits[k].name)} ${t[k]}</text>`; });
+    g += `<polygon points="${TK.map((k, i) => pt(i, Math.max(6, R * t[k] / max)).join(',')).join(' ')}" fill="rgba(226,112,58,.35)" stroke="#e2703a" stroke-width="2"/>`;
+    return `<svg class="radar" viewBox="0 0 300 300" role="img" aria-label="우리 팀의 다섯 가지 힘">${g}</svg>`;
+  }
+  function crisisOk(c, t) { return c.need.reduce((n, k) => n + t[k], 0) >= 4; }
+  function draw2() {
+    const t = teamSum();
+    $('crises').innerHTML = D.crises.map(c => { const ok = crisisOk(c, t);
+      return `<div class="crisis ${ok ? 'good' : 'bad'}"><b>${c.icon} ${esc(c.name)}</b> <span class="small muted">필요한 힘: ${c.need.map(k => D.traits[k].icon + ' ' + D.traits[k].name).join(', ')}</span>
+        <p style="margin:6px 0 0">${ok ? '✅ ' : '😥 '}${esc(ok ? c.good : c.bad)}</p></div>`; }).join('');
+    $('radar').innerHTML = radar(t);
+    const okN = D.crises.filter(c => crisisOk(c, t)).length;
+    const hasStar = S.team.includes('p1');
+    $('lesson2').innerHTML = `위기 ${okN} / ${D.crises.length}개를 넘었어요. ` + (hasStar && okN < 3 ? '실력이 가장 뛰어난 레오를 뽑았지만, 협업과 약속이 부족하면 팀이 흔들려요. ' : '') +
+      tx({ t: '함께 일하고 싶은 직업인은 실력과 함께 협업·신뢰성·창의성·도전 정신·의사소통 능력 같은 태도를 갖춘 사람이에요. 다시 뽑아 비교해 봐도 좋아요.', e: '같이 일하고 싶은 사람은 실력과 좋은 태도를 함께 가진 사람이에요.' });
+    $('why2').value = S.why2; check2();
+  }
+  function check2() { $('to3').classList.toggle('hidden', !S.why2.trim()); }
+  $('why2').addEventListener('input', (e) => { S.why2 = e.target.value; save(); check2(); });
+  $('to3').addEventListener('click', () => go(3));
+
+  /* 3 */
+  function draw3() {
+    $('self').innerHTML = TK.map(k => `<div class="srow"><div><b>${D.traits[k].icon} ${esc(D.traits[k].name)}</b><br><span class="small muted">${esc(D.selfItems[k])}</span></div>
+      <div class="stars" role="group" aria-label="${esc(D.traits[k].name)} 별점">${[1, 2, 3, 4, 5].map(n => `<button type="button" class="${(S.self[k] || 0) >= n ? 'on' : ''}" data-k="${k}" data-v="${n}" aria-label="${n}점">★</button>`).join('')}</div></div>`).join('');
+    $('growPick').innerHTML = TK.map(k => `<button type="button" class="${S.growK === k ? 'teal' : 'ghost'}" data-g="${k}">${D.traits[k].icon} ${esc(D.traits[k].name)}</button>`).join('');
+    $('grow').value = S.grow; $('motto').value = S.motto; drawCard();
+  }
+  function best() { return TK.filter(k => S.self[k]).sort((a, b) => S.self[b] - S.self[a]).slice(0, 2); }
+  function drawCard() {
+    const m = D.missions.find(x => x.id === S.mission), g = D.traits[S.growK];
+    $('card').innerHTML = `<div class="muted small">🤝 함께 일하고 싶은 동료 명함</div>
+      <div class="big">${best().map(k => D.traits[k].icon).join(' ') || '🙂'}</div>
+      <div style="font-size:1.2rem;font-weight:800">"${esc(S.motto || '나를 소개하는 동료 한마디')}"</div>
+      <p style="margin:8px 0 0">💪 나의 힘: ${best().map(k => esc(D.traits[k].name)).join(', ') || '-'}</p>
+      <p style="margin:4px 0 0">🌱 키울 힘: ${g ? g.icon + ' ' + esc(g.name) : '-'} — ${esc(S.grow || '')}</p>
+      <p class="small muted" style="margin:8px 0 0">${m ? m.icon + ' ' + esc(m.name) + ' 드림팀에서 배운 것: ' : ''}${esc(S.why2)}</p>`;
+  }
+  $('self').addEventListener('click', (e) => { const b = e.target.closest('[data-k]'); if (!b) return; S.self[b.dataset.k] = +b.dataset.v; save(); draw3(); });
+  $('growPick').addEventListener('click', (e) => { const b = e.target.closest('[data-g]'); if (!b) return; S.growK = b.dataset.g; save(); draw3(); });
+  $('grow').addEventListener('input', (e) => { S.grow = e.target.value; save(); drawCard(); });
+  $('motto').addEventListener('input', (e) => { S.motto = e.target.value; save(); drawCard(); });
+
+  function summary() {
+    const m = D.missions.find(x => x.id === S.mission), t = teamSum();
+    return [
+      `[미션] ${m ? m.name : ''} · 뽑은 동료: ${S.team.map(id => D.people.find(p => p.id === id).name).join(', ')}`,
+      `[위기] ${D.crises.filter(c => crisisOk(c, t)).length}/${D.crises.length} 통과 · 팀의 힘 ${TK.map(k => D.traits[k].name + ' ' + t[k]).join(', ')}`,
+      `[함께 일하고 싶은 직업인] ${S.why2.trim()}`,
+      `[나의 별점] ${TK.map(k => D.traits[k].name + ' ' + (S.self[k] || 0)).join(', ')}`,
+      `[키울 힘] ${S.growK ? D.traits[S.growK].name : ''} — ${S.grow.trim()}`,
+      `[동료 한마디] ${S.motto.trim()}`,
+    ].join('\n');
+  }
+  $('btnCopy').addEventListener('click', () => CU.copy(summary()));
+  $('btnPrint').addEventListener('click', () => window.print());
+  $('send').addEventListener('click', async () => {
+    if (TK.some(k => !S.self[k]) || !S.growK || !S.grow.trim()) return CU.toast('별점 다섯 개와 키울 힘·실천을 채워 주세요.');
+    if (CareerClass.safetyCheck(S.why2 + ' ' + S.grow + ' ' + S.motto)) return CareerClass.showNotice('danger');
+    $('send').disabled = true; $('send').textContent = '내는 중...';
+    const t = teamSum();
+    const r = await CareerClass.submit({ kind: 'dream-team', title: `동료 명함 — ${S.motto.trim() || '나의 동료 한마디'}`, content: summary(),
+      result: { score: D.crises.filter(c => crisisOk(c, t)).length, total: D.crises.length },
+      detail: { mission: S.mission, team: S.team, why: S.why2.trim(), self: S.self, grow: { trait: S.growK, act: S.grow.trim() }, motto: S.motto.trim() } });
+    $('send').disabled = false; $('send').textContent = '선생님께 내기';
+    if (r.ok) CU.toast('선생님께 냈어요.');
+  });
+
+  function go(n) {
+    S.step = n; S.reached = Math.max(S.reached || 1, n); save();
+    [1, 2, 3].forEach(i => { $('step' + i).hidden = i !== n; });
+    document.querySelectorAll('.steps button').forEach(b => { const k = +b.dataset.go; b.removeAttribute('aria-current'); if (k === n) b.setAttribute('aria-current', 'step'); b.disabled = k > S.reached; });
+    ({ 1: draw1, 2: draw2, 3: draw3 })[n](); window.scrollTo({ top: 0 });
+  }
+  document.addEventListener('click', (e) => { const b = e.target.closest('[data-go]'); if (!b || b.disabled) return; if (+b.dataset.go > S.reached) return; go(+b.dataset.go); });
+  go(Math.min(S.step || 1, S.reached || 1));
+  CU.classroom({ app: 'dream-team', modeEl: $('mode'), sendEl: $('send'), replyEl: $('reply') });
+})();
+</script>
+<p class="eaim-copy">© 2026 박성애 · EAIM · 교육 목적 무료 사용, 무단 복제·상업적 이용 금지 · <a href="https://eaim.kr/#copyright" target="_blank" rel="noopener" style="color:inherit">이용 안내</a></p>
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>진로 결정 저울 · EAIM 진로</title>
+<!-- 진로 결정 저울 v1.0 (2026-10-02) — [9진로03-01], AI 없음, 공개(내기는 수업 QR) -->
+<link rel="stylesheet" href="career.css">
+<style>
+  .steps button{font:inherit;font-size:.82rem;padding:4px 12px;border-radius:999px;background:#efe9df;color:var(--sub);font-weight:700}
+  .steps button[aria-current]{background:var(--main);color:#fff}
+  .steps button:disabled{opacity:.5}
+  .pick3{display:grid;gap:6px;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:8px}
+  .pick3 button{background:#fff;color:var(--ink);border:2px solid var(--line);font-size:.84rem;padding:8px 4px;flex-direction:column}
+  .pick3 button.ok{border-color:var(--teal);background:var(--teal-soft)}
+  .pick3 button.no{border-color:var(--red);background:#fde8e7}
+  .stylebox{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+  .sty{border:2px solid var(--line);border-radius:14px;padding:12px;background:#fff;font-size:.88rem}
+  .sty.on{border-color:var(--main);background:var(--main-soft)}
+  .crit{display:grid;gap:6px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+  .w{display:flex;gap:4px;margin-top:6px}
+  .w button{flex:1;padding:4px;font-size:.78rem;background:#fff;color:var(--ink);border:1px solid var(--line)}
+  .w button.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+  .tbl{overflow-x:auto}
+  table.sc{border-collapse:collapse;width:100%;font-size:.86rem;min-width:420px}
+  table.sc th,table.sc td{border-bottom:1px solid var(--line);padding:6px;text-align:center}
+  table.sc th:first-child,table.sc td:first-child{text-align:left}
+  table.sc select{width:auto;padding:4px 6px}
+  .scale{max-width:420px;margin:0 auto;display:block}
+  .rank .meter b{min-width:120px}
+  .dcard{border-radius:20px;padding:20px;border:3px solid var(--teal);background:linear-gradient(160deg,#fff,#effaf8)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="home" href="index.html">← EAIM 진로</a>
+    <h1>⚖️ 진로 결정 저울</h1>
+    <button class="easy-btn" type="button" aria-pressed="false">쉬운 말</button>
+  </header>
+  <p class="row" style="margin:0"><span class="badge blue">[9진로03-01]</span><span class="badge blue">진로 설계와 실천</span>
+    <a class="badge blue" href="guide.html#student-decision-scale" style="text-decoration:none">📘 사용법</a>
+    <span id="mode" class="mode hidden"></span></p>
+
+  <nav class="steps" style="margin-top:12px" aria-label="단계">
+    <button type="button" data-go="1">1 나의 결정 방식</button>
+    <button type="button" data-go="2">2 진로 저울</button>
+    <button type="button" data-go="3">3 잠정 결정</button>
+  </nav>
+
+  <section id="step1">
+    <div class="card" id="i1">
+      <h2>사람마다 결정하는 방식이 달라요 <button class="say" data-say="i1">🔊</button></h2>
+      <p class="n">친구들의 결정 장면을 읽고 어떤 방식인지 골라요. 정답보다 <b>각 방식의 좋은 점과 아쉬운 점</b>을 알아보는 것이 중요해요.</p>
+      <p class="e">친구들은 어떻게 정했을까요? 골라요.</p>
+      <div id="scenes"></div>
+    </div>
+    <div class="card hidden" id="styleCard">
+      <h2>세 가지 결정 방식</h2>
+      <div class="stylebox" id="styles"></div>
+      <label class="field"><span class="n">나는 보통 어떤 방식으로 결정하나요?</span><span class="e">나는 어떻게 정하나요?</span></label>
+      <div class="row" id="myStyle"></div>
+      <div class="tip"><span class="n">진로처럼 중요한 결정은 <b>정보를 충분히 모으고</b>, <b>부모님·선생님·친구·전문가와 이야기</b>한 뒤, <b>마지막에는 내가 정하는 것</b>이 좋아요. 방법은 상황에 따라 고를 수 있어요.</span><span class="e">중요한 결정은 알아보고, 어른과 이야기하고, 내가 정해요.</span></div>
+    </div>
+    <div class="row"><button type="button" id="to2" class="hidden">진로 저울로 →</button></div>
+  </section>
+
+  <section id="step2" hidden>
+    <div class="card">
+      <h2>① 고민 중인 진로 2~3개</h2>
+      <div class="grid" id="opts"></div>
+      <h2 style="margin-top:16px">② 무엇을 따질까요? (4~6개) 그리고 얼마나 중요해요?</h2>
+      <div class="crit" id="crit"></div>
+    </div>
+    <div class="card">
+      <h2>③ 점수 매기기 (1~5)</h2>
+      <div class="tbl" id="tbl"></div>
+    </div>
+    <div class="card">
+      <h2>⚖️ 진로 저울</h2>
+      <div id="scale"></div>
+      <div class="rank" id="rank"></div>
+      <p class="muted small">점수는 생각을 정리하는 도구일 뿐이에요. 결과가 마음과 다르면, 그 까닭이 나에게 중요한 것을 알려 줘요.</p>
+    </div>
+    <div class="row"><button type="button" class="ghost" data-go="1">← 이전</button><button type="button" id="to3" disabled>잠정 결정하기 →</button></div>
+  </section>
+
+  <section id="step3" hidden>
+    <div class="card" id="i3">
+      <h2>조언을 구하고, 잠정적으로 정해요 <button class="say" data-say="i3">🔊</button></h2>
+      <p class="n">잠정 결정은 "지금의 나"가 내리는 결정이에요. 더 알게 되면 바꿀 수 있어요.</p>
+      <p class="e">지금 정하는 거예요. 나중에 바꿔도 돼요.</p>
+      <label class="field">누구에게 물어볼까요? (여러 명)</label>
+      <div class="row" id="helpers"></div>
+      <label class="field" for="ask"><span class="n">묻고 싶은 질문</span><span class="e">물어볼 것</span></label>
+      <input type="text" id="ask" maxlength="100" placeholder="예: 이 일을 하려면 고등학교 때 무엇을 해 두면 좋을까요?">
+      <label class="field" for="pick">잠정 결정</label>
+      <select id="pick"></select>
+      <label class="field" for="why"><span class="n">이렇게 정한 까닭 (저울 결과와 내 마음을 함께)</span><span class="e">왜 정했나요?</span></label>
+      <textarea id="why" maxlength="300"></textarea>
+      <label class="field" for="when"><span class="n">언제 다시 점검할까요?</span><span class="e">언제 다시 볼까요?</span></label>
+      <select id="when"><option>이번 학기 끝</option><option>다음 학기 시작</option><option>중학교 3학년 2학기</option><option>고등학교 1학년 1학기</option></select>
+    </div>
+    <div class="card">
+      <div class="dcard" id="dcard"></div>
+      <div class="row no-print" style="margin-top:12px">
+        <button type="button" class="ghost" id="btnCopy">📋 복사</button>
+        <button type="button" class="ghost" id="btnPrint">🖨 인쇄</button>
+        <button type="button" class="teal hidden" id="send">선생님께 내기</button>
+      </div>
+      <div id="reply" class="reply hidden"></div>
+    </div>
+    <div class="row no-print"><button type="button" class="ghost" data-go="2">← 이전</button></div>
+  </section>
+  <div class="std" id="stdBox"></div>
+</div>
+
+<script src="curriculum-career.js"></script>
+<script src="career-apps.js"></script>
+<script src="decision-scale-data.js"></script>
+<script src="career-class.js"></script>
+<script src="career-ui.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.DS_DATA, esc = CU.esc, tx = CU.tx;
+  const $ = (id) => document.getElementById(id);
+  const SK = Object.keys(D.styles);
+  const s0 = window.EAIM_CAREER_CURRICULUM.find('[9진로03-01]');
+  $('stdBox').innerHTML = `<b>${s0.code}</b> ${esc(s0.text)}<br><span class="small">교육과정 해설: ${esc(s0.note)}</span>`;
+  const ST = CU.sstore('decision_scale');
+  let S = ST.load({ step: 1, reached: 1, scene: {}, my: '', opts: ['', '', ''], crit: {}, score: {}, helpers: [], ask: '', pick: '', why: '', when: '이번 학기 끝' });
+  const save = () => ST.save(S);
+
+  /* 1 */
+  function draw1() {
+    $('scenes').innerHTML = D.scenes.map((sc, i) => { const got = S.scene[i];
+      return `<div class="story" id="sc${i}"><p style="margin:0">${tx(sc)} <button class="say" data-say="sc${i}">🔊</button></p><div class="pick3">${SK.map(k => {
+        const c = got ? (k === sc.a ? 'ok' : (k === got ? 'no' : '')) : '';
+        return `<button type="button" class="${c}" data-sc="${i}" data-k="${k}" ${got ? 'disabled' : ''}><span style="font-size:1.4rem">${D.styles[k].icon}</span>${esc(D.styles[k].name)}</button>`; }).join('')}</div></div>`; }).join('');
+    const all = D.scenes.every((x, i) => S.scene[i]);
+    $('styleCard').classList.toggle('hidden', !all);
+    if (all) {
+      $('styles').innerHTML = SK.map(k => { const s = D.styles[k];
+        return `<div class="sty ${S.my === k ? 'on' : ''}"><b>${s.icon} ${esc(s.name)}</b> <span class="small muted">(${esc(s.sub)})</span><br>${tx(s)}<br><span class="small">👍 ${esc(s.plus)}</span><br><span class="small">🤔 ${esc(s.minus)}</span></div>`; }).join('');
+      $('myStyle').innerHTML = SK.map(k => `<button type="button" class="${S.my === k ? 'teal' : 'ghost'}" data-my="${k}">${D.styles[k].icon} ${esc(D.styles[k].name)}</button>`).join('');
+    }
+    $('to2').classList.toggle('hidden', !S.my);
+  }
+  $('scenes').addEventListener('click', (e) => { const b = e.target.closest('[data-sc]'); if (!b || S.scene[b.dataset.sc]) return; S.scene[b.dataset.sc] = b.dataset.k; save(); draw1(); });
+  $('myStyle').addEventListener('click', (e) => { const b = e.target.closest('[data-my]'); if (!b) return; S.my = b.dataset.my; save(); draw1(); });
+  $('to2').addEventListener('click', () => go(2));
+
+  /* 2 */
+  const optList = () => S.opts.map((o, i) => ({ i, name: o.trim() })).filter(o => o.name);
+  const critList = () => D.criteria.filter(c => S.crit[c.id]);
+  function totals() {
+    return optList().map(o => ({ ...o, sum: critList().reduce((n, c) => n + S.crit[c.id] * ((S.score[o.i] || {})[c.id] || 0), 0),
+      max: critList().reduce((n, c) => n + S.crit[c.id] * 5, 0) })).sort((a, b) => b.sum - a.sum);
+  }
+  function draw2() {
+    $('opts').innerHTML = [0, 1, 2].map(i => `<input type="text" data-opt="${i}" maxlength="20" value="${esc(S.opts[i])}" placeholder="${['예: 요리사', '예: 제과제빵사', '(선택) 세 번째'][i]}" aria-label="진로 ${i + 1}">`).join('');
+    drawCrit(); drawTbl(); drawScale();
+  }
+  function drawCrit() {
+    $('crit').innerHTML = D.criteria.map(c => { const w = S.crit[c.id] || 0;
+      return `<div class="chip ${w ? 'on' : ''}"><b>${c.icon} ${esc(c.name)}</b><br><span class="small muted">${esc(c.t)}</span>
+        <div class="w">${[[0, '안 따짐'], [1, '조금'], [2, '중요'], [3, '아주 중요']].map(([v, l]) => `<button type="button" class="${w === v && v ? 'on' : ''}" data-c="${c.id}" data-w="${v}">${l}</button>`).join('')}</div></div>`; }).join('');
+  }
+  function drawTbl() {
+    const os = optList(), cs = critList();
+    if (os.length < 2 || cs.length < 4) { $('tbl').innerHTML = `<p class="muted">${os.length < 2 ? '진로를 2개 이상 써요. ' : ''}${cs.length < 4 ? `따질 것을 4개 이상 골라요(지금 ${cs.length}개).` : ''}</p>`; return; }
+    $('tbl').innerHTML = `<table class="sc"><thead><tr><th>따질 것 (중요도)</th>${os.map(o => `<th>${esc(o.name)}</th>`).join('')}</tr></thead><tbody>
+      ${cs.map(c => `<tr><td>${c.icon} ${esc(c.name)} ×${S.crit[c.id]}</td>${os.map(o => `<td><select data-o="${o.i}" data-c="${c.id}" aria-label="${esc(o.name)} ${esc(c.name)}">
+        <option value="0">-</option>${[1, 2, 3, 4, 5].map(n => `<option ${((S.score[o.i] || {})[c.id] || 0) === n ? 'selected' : ''}>${n}</option>`).join('')}</select></td>`).join('')}</tr>`).join('')}</tbody></table>`;
+  }
+  function filled() { const os = optList(), cs = critList(); return os.length >= 2 && cs.length >= 4 && cs.length <= 6 && os.every(o => cs.every(c => (S.score[o.i] || {})[c.id])); }
+  function drawScale() {
+    const t = totals();
+    $('to3').disabled = !filled();
+    if (!filled()) { $('scale').innerHTML = '<p class="muted center">점수를 모두 매기면 저울이 움직여요.</p>'; $('rank').innerHTML = ''; return; }
+    const A = t[0], B = t[1], diff = (A.sum - B.sum) / Math.max(1, A.max);
+    const ang = Math.max(-16, Math.min(16, diff * 60)) * Math.PI / 180;   // A가 무거우면 왼쪽이 내려감
+    const L = 120, lx = 200 - L * Math.cos(ang), ly = 70 + L * Math.sin(ang), rx = 200 + L * Math.cos(ang), ry = 70 - L * Math.sin(ang);
+    const pan = (x, y, label, sum, col) => `<line x1="${x}" y1="${y}" x2="${x - 40}" y2="${y + 66}" stroke="#888"/><line x1="${x}" y1="${y}" x2="${x + 40}" y2="${y + 66}" stroke="#888"/>
+      <path d="M${x - 50} ${y + 66} Q${x} ${y + 100} ${x + 50} ${y + 66} Z" fill="${col}"/><text x="${x}" y="${y + 84}" text-anchor="middle" font-size="13" fill="#fff" font-weight="800">${sum}</text>
+      <text x="${x}" y="${y + 120}" text-anchor="middle" font-size="14" font-weight="700" fill="#2b2a33">${esc(label)}</text>`;
+    $('scale').innerHTML = `<svg class="scale" viewBox="0 0 400 260" role="img" aria-label="진로 저울: ${esc(A.name)} ${A.sum}점, ${esc(B.name)} ${B.sum}점">
+      <path d="M200 70 L170 255 L230 255 Z" fill="#c9b9a3"/>
+      <line x1="${lx}" y1="${ly}" x2="${rx}" y2="${ry}" stroke="#8a7a66" stroke-width="8" stroke-linecap="round"/><circle cx="200" cy="70" r="8" fill="#6b5d4d"/>
+      ${pan(lx, ly, A.name, A.sum, '#2a9d8f')}${pan(rx, ry, B.name, B.sum, '#e2703a')}</svg>`;
+    $('rank').innerHTML = t.map((o, i) => `<div class="meter"><b>${i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉'} ${esc(o.name)}</b><div class="bar"><i style="width:${Math.round(100 * o.sum / o.max)}%"></i></div><span>${o.sum}/${o.max}</span></div>`).join('');
+  }
+  $('opts').addEventListener('input', (e) => { const t = e.target; if (t.dataset.opt == null) return; S.opts[+t.dataset.opt] = t.value; save(); drawTbl(); drawScale(); });
+  $('crit').addEventListener('click', (e) => { const b = e.target.closest('[data-w]'); if (!b) return; const w = +b.dataset.w;
+    if (w && !S.crit[b.dataset.c] && critList().length >= 6) return CU.toast('따질 것은 6개까지 골라요.');
+    if (w) S.crit[b.dataset.c] = w; else delete S.crit[b.dataset.c]; save(); drawCrit(); drawTbl(); drawScale(); });
+  $('tbl').addEventListener('change', (e) => { const t = e.target; if (!t.dataset.o) return; (S.score[t.dataset.o] = S.score[t.dataset.o] || {})[t.dataset.c] = +t.value; save(); drawScale(); });
+  $('to3').addEventListener('click', () => go(3));
+
+  /* 3 */
+  function draw3() {
+    $('helpers').innerHTML = D.helpers.map(h => `<button type="button" class="${S.helpers.includes(h.id) ? 'teal' : 'ghost'}" data-h="${h.id}">${h.icon} ${esc(h.name)}</button>`).join('');
+    const os = optList(); if (!S.pick || !os.some(o => o.name === S.pick)) S.pick = totals()[0]?.name || '';
+    $('pick').innerHTML = os.map(o => `<option ${S.pick === o.name ? 'selected' : ''}>${esc(o.name)}</option>`).join('') + `<option value="__undecided" ${S.pick === '__undecided' ? 'selected' : ''}>아직 정하지 않고 더 알아볼래요</option>`;
+    $('ask').value = S.ask; $('why').value = S.why; $('when').value = S.when; drawCard();
+  }
+  function pickName() { return S.pick === '__undecided' ? '더 알아보기' : S.pick; }
+  function drawCard() {
+    const st = D.styles[S.my];
+    $('dcard').innerHTML = `<div class="muted small">⚖️ 나의 잠정 진로 결정 카드</div>
+      <div style="font-size:1.5rem;font-weight:800;margin:4px 0">${esc(pickName() || '-')}</div>
+      <p style="margin:4px 0">📊 저울: ${totals().map(o => `${esc(o.name)} ${o.sum}`).join(' · ')}</p>
+      <p style="margin:4px 0">💬 까닭: ${esc(S.why)}</p>
+      <p style="margin:4px 0">🙋 물어볼 사람: ${S.helpers.map(id => D.helpers.find(h => h.id === id).name).join(', ') || '-'} — ${esc(S.ask)}</p>
+      <p style="margin:4px 0">🔁 다시 점검: ${esc(S.when)}</p>
+      <p class="small muted" style="margin:6px 0 0">나의 결정 방식: ${st ? st.icon + ' ' + esc(st.name) : '-'}</p>`;
+  }
+  $('helpers').addEventListener('click', (e) => { const b = e.target.closest('[data-h]'); if (!b) return; const id = b.dataset.h; S.helpers = S.helpers.includes(id) ? S.helpers.filter(x => x !== id) : [...S.helpers, id]; save(); draw3(); });
+  [['ask', 'input'], ['why', 'input'], ['when', 'change'], ['pick', 'change']].forEach(([id, ev]) => $(id).addEventListener(ev, (e) => { S[id] = e.target.value; save(); drawCard(); }));
+
+  function summary() {
+    const st = D.styles[S.my];
+    return [
+      `[결정 방식] 장면 맞힘 ${D.scenes.filter((x, i) => S.scene[i] === x.a).length}/${D.scenes.length} · 나는 ${st ? st.name : ''}`,
+      `[따진 것] ${critList().map(c => `${c.name}×${S.crit[c.id]}`).join(', ')}`,
+      `[저울] ${totals().map(o => `${o.name} ${o.sum}/${o.max}`).join(' · ')}`,
+      `[잠정 결정] ${pickName()} — ${S.why.trim()}`,
+      `[조언] ${S.helpers.map(id => D.helpers.find(h => h.id === id).name).join(', ')} — ${S.ask.trim()}`,
+      `[다시 점검] ${S.when}`,
+    ].join('\n');
+  }
+  $('btnCopy').addEventListener('click', () => CU.copy(summary()));
+  $('btnPrint').addEventListener('click', () => window.print());
+  $('send').addEventListener('click', async () => {
+    if (!S.why.trim() || !S.helpers.length) return CU.toast('까닭과 물어볼 사람을 채워 주세요.');
+    if (CareerClass.safetyCheck(S.why + ' ' + S.ask + ' ' + S.opts.join(' '))) return CareerClass.showNotice('danger');
+    $('send').disabled = true; $('send').textContent = '내는 중...';
+    const r = await CareerClass.submit({ kind: 'decision', title: `잠정 진로 결정 — ${pickName()}`, content: summary(),
+      detail: { style: S.my, options: optList().map(o => o.name), criteria: S.crit, totals: totals().map(o => ({ name: o.name, sum: o.sum, max: o.max })), pick: pickName(), why: S.why.trim(), helpers: S.helpers, ask: S.ask.trim(), when: S.when } });
+    $('send').disabled = false; $('send').textContent = '선생님께 내기';
+    if (r.ok) CU.toast('선생님께 냈어요.');
+  });
+
+  function go(n) {
+    S.step = n; S.reached = Math.max(S.reached || 1, n); save();
+    [1, 2, 3].forEach(i => { $('step' + i).hidden = i !== n; });
+    document.querySelectorAll('.steps button').forEach(b => { const k = +b.dataset.go; b.removeAttribute('aria-current'); if (k === n) b.setAttribute('aria-current', 'step'); b.disabled = k > S.reached; });
+    ({ 1: draw1, 2: draw2, 3: draw3 })[n](); window.scrollTo({ top: 0 });
+  }
+  document.addEventListener('click', (e) => { const b = e.target.closest('[data-go]'); if (!b || b.disabled) return; if (+b.dataset.go > S.reached) return; go(+b.dataset.go); });
+  go(Math.min(S.step || 1, S.reached || 1));
+  CU.classroom({ app: 'decision-scale', modeEl: $('mode'), sendEl: $('send'), replyEl: $('reply') });
+})();
+</script>
+<p class="eaim-copy">© 2026 박성애 · EAIM · 교육 목적 무료 사용, 무단 복제·상업적 이용 금지 · <a href="https://eaim.kr/#copyright" target="_blank" rel="noopener" style="color:inherit">이용 안내</a></p>
+</body>
+</html>

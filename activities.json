@@ -1,5 +1,97 @@
 [
   {
+    "platform": "career",
+    "subjects": [
+      "진로와 직업"
+    ],
+    "fusion": [
+      "창의적 체험활동"
+    ],
+    "grade": [
+      "중1",
+      "중2",
+      "중3"
+    ],
+    "target": "student",
+    "scope": "lesson",
+    "sessions": 1,
+    "minutes": 45,
+    "classroom": true,
+    "ai": false,
+    "makerNote": "",
+    "id": "career/dream-team",
+    "title": "함께 일하고 싶은 동료",
+    "activityType": "writing",
+    "standards": [
+      "[9진로01-03]"
+    ],
+    "tags": [
+      "바람직한 직업인",
+      "협업",
+      "신뢰성",
+      "창의성",
+      "도전 정신",
+      "의사소통"
+    ],
+    "url": "dream-team.html",
+    "summary": "미션을 고르고 지어낸 동료 8명 가운데 3명으로 드림팀을 꾸려 위기 카드 세 장을 넘으며 팀의 다섯 가지 힘(협업·신뢰성·창의성·도전 정신·의사소통 능력)을 확인하고, 나를 돌아보며 동료 명함을 만드는 활동 (공개, 내기는 수업에서)",
+    "cce": {
+      "area": "진로 활동",
+      "activity": "진로 탐색 활동",
+      "example": "직업이해 활동: 직업관 확립, 일과 직업의 역할 이해, 직업 세계의 변화 탐구 등",
+      "focus": [
+        "긍정적인 자아 개념 강화",
+        "일과 직업에 대한 폭넓은 가치 탐구"
+      ]
+    },
+    "guide": "guide.html#dream-team"
+  },
+  {
+    "platform": "career",
+    "subjects": [
+      "진로와 직업"
+    ],
+    "fusion": [
+      "창의적 체험활동"
+    ],
+    "grade": [
+      "중1",
+      "중2",
+      "중3"
+    ],
+    "target": "student",
+    "scope": "lesson",
+    "sessions": 1,
+    "minutes": 45,
+    "classroom": true,
+    "ai": false,
+    "makerNote": "",
+    "activityType": "writing",
+    "id": "career/work-play",
+    "title": "일과 여가 시소",
+    "standards": [
+      "[9진로01-04]"
+    ],
+    "tags": [
+      "일과 여가",
+      "여가의 의미",
+      "재능 계발",
+      "조화로운 삶",
+      "행복"
+    ],
+    "url": "work-play.html",
+    "summary": "같은 활동도 목적에 따라 일·여가가 되는 카드 8장을 나누고, 여가가 직업과 이어진 지어낸 이야기에서 여가가 주는 것(쉼·재능·배움·관계·건강)을 찾은 뒤, 일주일 12조각으로 나의 일·여가 시소를 맞추고 어른이 된 나의 조화로운 모습을 쓰는 활동 (공개, 내기는 수업에서)",
+    "cce": {
+      "area": "진로 활동",
+      "activity": "진로 탐색 활동",
+      "example": "자아탐색 활동: 자기이해, 생애 탐색, 가치관 확립 등",
+      "focus": [
+        "일과 직업에 대한 폭넓은 가치 탐구"
+      ]
+    },
+    "guide": "guide.html#work-play"
+  },
+  {
     "id": "career/job-change-cards",
     "title": "직업 세계 변화 카드 게임",
     "platform": "career",
@@ -95,6 +187,51 @@
     "guide": "guide.html#path-board"
   },
   {
+    "platform": "career",
+    "subjects": [
+      "진로와 직업"
+    ],
+    "fusion": [
+      "창의적 체험활동"
+    ],
+    "grade": [
+      "중1",
+      "중2",
+      "중3"
+    ],
+    "target": "student",
+    "scope": "lesson",
+    "sessions": 1,
+    "minutes": 45,
+    "classroom": true,
+    "ai": false,
+    "makerNote": "",
+    "activityType": "writing",
+    "id": "career/exp-link",
+    "title": "경험 잇기",
+    "standards": [
+      "[9진로02-04]"
+    ],
+    "tags": [
+      "경험",
+      "진로 활동",
+      "마인드맵",
+      "주도적 진로 탐색",
+      "다음 경험"
+    ],
+    "url": "exp-link.html",
+    "summary": "교과·동아리·봉사·행사·집·취미·진로 체험에서 겪은 경험 3~8개를 마인드맵으로 모으고, 경험마다 찾은 것(흥미·잘하는 것·보람·새로 익힌 힘·어려움에서 배움)을 고른 뒤, 관심 진로와 이어지는 경험을 잇고 다음에 해 볼 진로 활동을 정하는 활동 (공개, 내기는 수업에서)",
+    "cce": {
+      "area": "진로 활동",
+      "activity": "진로 탐색 활동 · 진로 설계 및 실천 활동",
+      "example": "진로이해 활동: 직업 흥미 및 적성 탐색 등 / 진로 준비 활동: 진로 목표 설정, 진로 실천 계획 수립 등",
+      "focus": [
+        "실제 경험을 통한 직업 세계의 이해"
+      ]
+    },
+    "guide": "guide.html#exp-link"
+  },
+  {
     "id": "career/entre-explorer",
     "title": "창업가 정신 탐험대",
     "platform": "career",
@@ -185,6 +322,51 @@
       ]
     },
     "guide": "guide.html#booth-startup"
+  },
+  {
+    "platform": "career",
+    "subjects": [
+      "진로와 직업"
+    ],
+    "fusion": [
+      "창의적 체험활동"
+    ],
+    "grade": [
+      "중1",
+      "중2",
+      "중3"
+    ],
+    "target": "student",
+    "scope": "lesson",
+    "sessions": 1,
+    "minutes": 45,
+    "classroom": true,
+    "ai": false,
+    "makerNote": "",
+    "id": "career/decision-scale",
+    "title": "진로 결정 저울",
+    "activityType": "writing",
+    "standards": [
+      "[9진로03-01]"
+    ],
+    "tags": [
+      "진로의사결정",
+      "결정 방식",
+      "고려 사항",
+      "잠정적 결정",
+      "조언 구하기"
+    ],
+    "url": "decision-scale.html",
+    "summary": "세 가지 결정 방식(따져 보는·마음 가는·맡기는)을 알아본 뒤, 고민 중인 진로 2~3개를 흥미·적성·가치관·학업 능력·신체적 조건 등 기준과 중요도로 저울에 달고, 조언 구할 사람과 잠정 결정·다시 점검할 때를 정하는 활동 (공개, 내기는 수업에서)",
+    "cce": {
+      "area": "진로 활동",
+      "activity": "진로 설계 및 실천 활동",
+      "example": "진로계획 활동: 진로 상담, 진로 의사 결정, 진로 설계 등",
+      "focus": [
+        "진로 탐색 및 진학으로의 연계"
+      ]
+    },
+    "guide": "guide.html#decision-scale"
   },
   {
     "id": "career/multi-growth",

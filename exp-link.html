@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>경험 잇기 · EAIM 진로</title>
+<!-- 경험 잇기 v1.0 (2026-10-02) — [9진로02-04], 진로 마인드맵, AI 없음, 공개(내기는 수업 QR) -->
+<link rel="stylesheet" href="career.css">
+<style>
+  .steps button{font:inherit;font-size:.82rem;padding:4px 12px;border-radius:999px;background:#efe9df;color:var(--sub);font-weight:700}
+  .steps button[aria-current]{background:var(--main);color:#fff}
+  .steps button:disabled{opacity:.5}
+  .places{display:flex;gap:6px;flex-wrap:wrap}
+  .places button{background:#fff;color:var(--ink);border:2px solid var(--line);font-weight:600;font-size:.86rem;padding:6px 10px}
+  .places button.on{border-color:var(--main);background:var(--main-soft)}
+  .exps{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+  .ex{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:12px;padding:8px 10px;background:#fff;flex-wrap:wrap}
+  .ex .tx{flex:1;min-width:140px}
+  .ex .x{background:#fff;color:var(--sub);border:1px solid var(--line);padding:4px 10px;font-size:.8rem}
+  .finds{display:flex;gap:4px;flex-wrap:wrap}
+  .finds button{background:#fff;color:var(--ink);border:2px solid var(--line);font-size:.78rem;padding:4px 8px;font-weight:600}
+  .finds button.on{color:#fff}
+  .ex.link{border-color:var(--gold);background:var(--gold-soft)}
+  .map{width:100%;max-width:620px;display:block;margin:0 auto}
+  .nexts{display:grid;gap:6px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="home" href="index.html">← EAIM 진로</a>
+    <h1>🔗 경험 잇기</h1>
+    <button class="easy-btn" type="button" aria-pressed="false">쉬운 말</button>
+  </header>
+  <p class="row" style="margin:0"><span class="badge">[9진로02-04]</span><span class="badge">직업 세계와 진로 탐색</span>
+    <a class="badge blue" href="guide.html#student-exp-link" style="text-decoration:none">📘 사용법</a>
+    <span id="mode" class="mode hidden"></span></p>
+
+  <nav class="steps" style="margin-top:12px" aria-label="단계">
+    <button type="button" data-go="1">1 경험 모으기</button>
+    <button type="button" data-go="2">2 경험에서 찾기</button>
+    <button type="button" data-go="3">3 진로와 잇기</button>
+  </nav>
+
+  <div class="card"><div id="map"></div></div>
+
+  <section id="step1">
+    <div class="card" id="i1">
+      <h2>내가 해 온 경험을 모아요 <button class="say" data-say="i1">🔊</button></h2>
+      <p class="n">작은 경험도 괜찮아요. 수업, 동아리, 봉사, 집, 취미… 기억에 남는 경험을 <b>3~8개</b> 적어요.</p>
+      <p class="e">기억나는 경험을 3개 넘게 써요. 작은 것도 좋아요.</p>
+      <div class="places" id="places"></div>
+      <div class="row" style="margin-top:8px"><input type="text" id="exText" maxlength="30" style="flex:1;min-width:180px"><button type="button" id="add">더하기</button></div>
+      <div class="exps" id="list1"></div>
+      <p class="muted small">이름이나 다른 사람을 알아볼 수 있는 이야기는 쓰지 않아요.</p>
+    </div>
+    <div class="row"><button type="button" id="to2" disabled>경험에서 찾기 →</button></div>
+  </section>
+
+  <section id="step2" hidden>
+    <div class="card" id="i2">
+      <h2>경험에서 무엇을 찾았나요? <button class="say" data-say="i2">🔊</button></h2>
+      <p class="n">경험마다 가장 크게 남은 것을 하나 골라요. 마인드맵 색이 바뀌어요.</p>
+      <p class="e">경험마다 하나 골라요.</p>
+      <div class="exps" id="list2"></div>
+    </div>
+    <div class="row"><button type="button" class="ghost" data-go="1">← 이전</button><button type="button" id="to3" disabled>진로와 잇기 →</button></div>
+  </section>
+
+  <section id="step3" hidden>
+    <div class="card" id="i3">
+      <h2>경험을 진로와 이어요 <button class="say" data-say="i3">🔊</button></h2>
+      <label class="field" for="career"><span class="n">관심 있는 진로(직업·분야)</span><span class="e">관심 있는 직업</span></label>
+      <input type="text" id="career" maxlength="20" placeholder="예: 영상 편집자">
+      <label class="field"><span class="n">이 진로와 이어지는 경험을 눌러요 (1개 이상)</span><span class="e">이 직업과 이어지는 경험을 눌러요</span></label>
+      <div class="exps" id="list3"></div>
+      <label class="field" for="why"><span class="n">어떻게 이어지나요?</span><span class="e">어떻게 이어져요?</span></label>
+      <textarea id="why" maxlength="300" placeholder="예: 방송부에서 영상을 편집할 때 시간 가는 줄 몰랐고, 친구들이 잘한다고 했어요."></textarea>
+      <label class="field"><span class="n">다음에 해 볼 경험 (2개까지)</span><span class="e">다음에 해 볼 것 2개</span></label>
+      <div class="nexts" id="nexts"></div>
+      <input type="text" id="plan" maxlength="80" placeholder="예: 이번 학기 안에 영상 공모전에 친구와 함께 나가 보기" style="margin-top:8px">
+    </div>
+    <div class="card">
+      <div class="row no-print">
+        <button type="button" class="ghost" id="btnCopy">📋 복사</button>
+        <button type="button" class="ghost" id="btnPrint">🖨 마인드맵 인쇄</button>
+        <button type="button" class="teal hidden" id="send">선생님께 내기</button>
+      </div>
+      <div id="reply" class="reply hidden"></div>
+    </div>
+    <div class="row no-print"><button type="button" class="ghost" data-go="2">← 이전</button></div>
+  </section>
+  <div class="std" id="stdBox"></div>
+</div>
+
+<script src="curriculum-career.js"></script>
+<script src="career-apps.js"></script>
+<script src="exp-link-data.js"></script>
+<script src="career-class.js"></script>
+<script src="career-ui.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = window.EL_DATA, esc = CU.esc;
+  const $ = (id) => document.getElementById(id);
+  const s0 = window.EAIM_CAREER_CURRICULUM.find('[9진로02-04]');
+  $('stdBox').innerHTML = `<b>${s0.code}</b> ${esc(s0.text)}<br><span class="small">교육과정 해설: ${esc(s0.note)}</span>`;
+  const ST = CU.sstore('exp_link');
+  let S = ST.load({ step: 1, reached: 1, place: 'class', exps: [], career: '', why: '', nexts: [], plan: '' });
+  const save = () => ST.save(S);
+  const P = (id) => D.places.find(p => p.id === id);
+
+  /* 마인드맵 */
+  function drawMap() {
+    const W = 620, H = 380, cx = 310, cy = 200, n = S.exps.length;
+    let g = '';
+    const pos = S.exps.map((e, i) => { const a = -Math.PI / 2 + (i + .5) * 2 * Math.PI / Math.max(n, 1); return [cx + 210 * Math.cos(a), cy + 135 * Math.sin(a)]; });
+    const career = S.career.trim(), linked = S.exps.filter(e => e.link);
+    const kx = W - 70, ky = 36;
+    S.exps.forEach((e, i) => { const [x, y] = pos[i]; g += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="#d8cfc2" stroke-width="2"/>`; });
+    if (career) S.exps.forEach((e, i) => { if (!e.link) return; const [x, y] = pos[i]; g += `<path d="M${x} ${y} Q${(x + kx) / 2} ${Math.min(y, ky) - 10} ${kx} ${ky}" stroke="#e9b949" stroke-width="3" fill="none" stroke-dasharray="6 5"/>`; });
+    S.exps.forEach((e, i) => { const [x, y] = pos[i], f = D.finds[e.find], col = f ? f.color : '#ffffff', txt = e.t.length > 11 ? e.t.slice(0, 11) + '…' : e.t;
+      g += `<g><rect x="${x - 70}" y="${y - 22}" width="140" height="44" rx="14" fill="${col}" stroke="${e.link ? '#e9b949' : '#d8cfc2'}" stroke-width="${e.link ? 4 : 2}"/>
+        <text x="${x}" y="${y - 3}" text-anchor="middle" font-size="11" fill="${f ? '#fff' : '#6b6874'}">${P(e.place).icon} ${f ? f.icon + ' ' + esc(f.name) : ''}</text>
+        <text x="${x}" y="${y + 13}" text-anchor="middle" font-size="12" font-weight="700" fill="${f ? '#fff' : '#2b2a33'}">${esc(txt)}</text></g>`; });
+    g += `<circle cx="${cx}" cy="${cy}" r="34" fill="#2b2a33"/><text x="${cx}" y="${cy + 6}" text-anchor="middle" font-size="18" font-weight="800" fill="#fff">나</text>`;
+    if (career) g += `<rect x="${kx - 66}" y="${ky - 22}" width="132" height="44" rx="22" fill="#e9b949"/><text x="${kx}" y="${ky + 5}" text-anchor="middle" font-size="13" font-weight="800" fill="#2b2a33">🧭 ${esc(career.slice(0, 9))}</text>`;
+    $('map').innerHTML = `<svg class="map" viewBox="0 0 ${W} ${H}" role="img" aria-label="나의 경험 마인드맵 — 경험 ${n}개${career ? ', 관심 진로 ' + esc(career) : ''}">${g}</svg>` +
+      (n ? '' : '<p class="muted center small" style="margin:0">경험을 더하면 마인드맵이 자라요.</p>');
+  }
+
+  /* 1 */
+  function draw1() {
+    $('places').innerHTML = D.places.map(p => `<button type="button" class="${S.place === p.id ? 'on' : ''}" data-pl="${p.id}">${p.icon} ${esc(p.name)}</button>`).join('');
+    $('exText').placeholder = '예: ' + P(S.place).ex;
+    $('list1').innerHTML = S.exps.map((e, i) => `<div class="ex"><span>${P(e.place).icon}</span><span class="tx">${esc(e.t)}</span><button type="button" class="x" data-del="${i}">지우기</button></div>`).join('');
+    $('add').disabled = S.exps.length >= D.maxExp;
+    $('to2').disabled = S.exps.length < 3; drawMap();
+  }
+  $('places').addEventListener('click', (e) => { const b = e.target.closest('[data-pl]'); if (!b) return; S.place = b.dataset.pl; save(); draw1(); $('exText').focus(); });
+  function addExp() { const t = $('exText').value.trim(); if (!t) return CU.toast('경험을 짧게 써 주세요.'); if (S.exps.length >= D.maxExp) return CU.toast(`${D.maxExp}개까지 쓸 수 있어요.`);
+    S.exps.push({ place: S.place, t, find: '', link: false }); $('exText').value = ''; save(); draw1(); }
+  $('add').addEventListener('click', addExp);
+  $('exText').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addExp(); } });
+  $('list1').addEventListener('click', (e) => { const b = e.target.closest('[data-del]'); if (!b) return; S.exps.splice(+b.dataset.del, 1); save(); draw1(); });
+  $('to2').addEventListener('click', () => go(2));
+
+  /* 2 */
+  function draw2() {
+    $('list2').innerHTML = S.exps.map((e, i) => `<div class="ex"><span>${P(e.place).icon}</span><span class="tx">${esc(e.t)}</span>
+      <div class="finds">${Object.entries(D.finds).map(([k, f]) => `<button type="button" class="${e.find === k ? 'on' : ''}" style="${e.find === k ? `background:${f.color};border-color:${f.color}` : ''}" data-i="${i}" data-f="${k}" title="${esc(f.t)}">${f.icon} ${esc(f.name)}</button>`).join('')}</div></div>`).join('');
+    $('to3').disabled = !S.exps.every(e => e.find); drawMap();
+  }
+  $('list2').addEventListener('click', (e) => { const b = e.target.closest('[data-f]'); if (!b) return; S.exps[+b.dataset.i].find = b.dataset.f; save(); draw2(); });
+  $('to3').addEventListener('click', () => go(3));
+
+  /* 3 */
+  function draw3() {
+    $('career').value = S.career; $('why').value = S.why; $('plan').value = S.plan;
+    $('list3').innerHTML = S.exps.map((e, i) => `<button type="button" class="ex ${e.link ? 'link' : ''}" data-l="${i}" style="text-align:left;color:var(--ink);font-weight:400"><span>${e.link ? '🔗' : '○'}</span><span class="tx">${P(e.place).icon} ${esc(e.t)}</span><span class="small muted">${D.finds[e.find] ? D.finds[e.find].icon + ' ' + esc(D.finds[e.find].name) : ''}</span></button>`).join('');
+    $('nexts').innerHTML = D.nexts.map(t => `<button type="button" class="chip ${S.nexts.includes(t) ? 'on' : ''}" data-n="${esc(t)}">${esc(t)}</button>`).join('');
+    drawMap();
+  }
+  $('list3').addEventListener('click', (e) => { const b = e.target.closest('[data-l]'); if (!b) return; const x = S.exps[+b.dataset.l]; x.link = !x.link; save(); draw3(); });
+  $('nexts').addEventListener('click', (e) => { const b = e.target.closest('[data-n]'); if (!b) return; const t = b.dataset.n;
+    S.nexts = S.nexts.includes(t) ? S.nexts.filter(x => x !== t) : [...S.nexts, t].slice(-2); save(); draw3(); });
+  $('career').addEventListener('input', (e) => { S.career = e.target.value; save(); drawMap(); });
+  $('why').addEventListener('input', (e) => { S.why = e.target.value; save(); });
+  $('plan').addEventListener('input', (e) => { S.plan = e.target.value; save(); });
+
+  function summary() {
+    return [
+      `[나의 경험 ${S.exps.length}개] ` + S.exps.map(e => `${P(e.place).name}: ${e.t}(${D.finds[e.find]?.name || '-'})`).join(' / '),
+      `[관심 진로] ${S.career.trim()} ← ${S.exps.filter(e => e.link).map(e => e.t).join(', ')}`,
+      `[어떻게 이어지나] ${S.why.trim()}`,
+      `[다음 경험] ${S.nexts.join(', ')} — ${S.plan.trim()}`,
+    ].join('\n');
+  }
+  $('btnCopy').addEventListener('click', () => CU.copy(summary()));
+  $('btnPrint').addEventListener('click', () => window.print());
+  $('send').addEventListener('click', async () => {
+    if (!S.career.trim() || !S.exps.some(e => e.link) || !S.why.trim() || !S.nexts.length) return CU.toast('관심 진로·이어지는 경험·까닭·다음 경험을 채워 주세요.');
+    if (CareerClass.safetyCheck(S.exps.map(e => e.t).join(' ') + ' ' + S.why + ' ' + S.plan)) return CareerClass.showNotice('danger');
+    $('send').disabled = true; $('send').textContent = '내는 중...';
+    const r = await CareerClass.submit({ kind: 'exp-link', title: `경험 잇기 — ${S.career.trim()}`, content: summary(),
+      detail: { exps: S.exps, career: S.career.trim(), why: S.why.trim(), nexts: S.nexts, plan: S.plan.trim() } });
+    $('send').disabled = false; $('send').textContent = '선생님께 내기';
+    if (r.ok) CU.toast('선생님께 냈어요.');
+  });
+
+  function go(n) {
+    S.step = n; S.reached = Math.max(S.reached || 1, n); save();
+    [1, 2, 3].forEach(i => { $('step' + i).hidden = i !== n; });
+    document.querySelectorAll('.steps button').forEach(b => { const k = +b.dataset.go; b.removeAttribute('aria-current'); if (k === n) b.setAttribute('aria-current', 'step'); b.disabled = k > S.reached; });
+    ({ 1: draw1, 2: draw2, 3: draw3 })[n](); window.scrollTo({ top: 0 });
+  }
+  document.addEventListener('click', (e) => { const b = e.target.closest('[data-go]'); if (!b || b.disabled) return; if (+b.dataset.go > S.reached) return; go(+b.dataset.go); });
+  go(Math.min(S.step || 1, S.reached || 1));
+  CU.classroom({ app: 'exp-link', modeEl: $('mode'), sendEl: $('send'), replyEl: $('reply') });
+})();
+</script>
+<p class="eaim-copy">© 2026 박성애 · EAIM · 교육 목적 무료 사용, 무단 복제·상업적 이용 금지 · <a href="https://eaim.kr/#copyright" target="_blank" rel="noopener" style="color:inherit">이용 안내</a></p>
+</body>
+</html>

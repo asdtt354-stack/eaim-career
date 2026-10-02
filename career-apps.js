@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════
-   EAIM 진로 — 앱 표 (career-apps.js)  v1.1 (2026-10-02)
+   EAIM 진로 — 앱 표 (career-apps.js)  v1.2 (2026-10-02)
    첫 화면(index.html), 교사 페이지(teacher.html), 교실 연결(career-class.js),
    지도안·가이드가 모두 이 표 하나를 읽습니다. 앱을 새로 만들면 ready:true 로 바꿉니다.
 
@@ -29,15 +29,21 @@ window.CAREER_APPS = {
   'path-board':       { area: '02', order: 2, std: '[9진로02-02]', stds: ['[9진로02-02]'], icon: '🎲', name: '진로 경로 보드게임', file: 'path-board.html', open: true, ready: true, activityType: 'game', game: true,
                         desc: '주사위로 학교·일 경험·도전 세 갈래 길을 오가며 꿈에 닿는 여러 길을 겪어요 (1~4명)' },
 
+  'dream-team':       { area: '01', order: 3, std: '[9진로01-03]', stds: ['[9진로01-03]'], icon: '🤝', name: '함께 일하고 싶은 동료', file: 'dream-team.html', open: true, ready: true, activityType: 'writing',
+                        desc: '드림팀을 꾸려 위기를 넘으며 함께 일하고 싶은 직업인의 태도를 찾고, 나의 동료 명함을 만들어요' },
+  'decision-scale':   { area: '03', order: 1, std: '[9진로03-01]', stds: ['[9진로03-01]'], icon: '⚖️', name: '진로 결정 저울', file: 'decision-scale.html', open: true, ready: true, activityType: 'writing',
+                        desc: '나의 결정 방식을 알고, 따질 것을 저울에 달아 잠정적으로 진로를 정해요' },
+
+  'work-play':        { area: '01', order: 4, std: '[9진로01-04]', stds: ['[9진로01-04]'], icon: '🎢', name: '일과 여가 시소', file: 'work-play.html', open: true, ready: true, activityType: 'writing',
+                        desc: '일과 여가를 나눠 보고, 여가가 주는 것을 찾고, 나의 일·여가 시소를 맞춰요' },
+  'exp-link':         { area: '02', order: 4, std: '[9진로02-04]', stds: ['[9진로02-04]'], icon: '🔗', name: '경험 잇기', file: 'exp-link.html', open: true, ready: true, activityType: 'writing',
+                        desc: '나의 경험을 마인드맵으로 모으고, 경험에서 찾은 것을 진로와 이어요' },
+
   /* ── 준비 중 (성취기준마다 하나씩) ── */
   'job-people':       { area: '01', order: 1, std: '[9진로01-01]', icon: '🎙️', name: '직업인의 하루',        open: true, ready: false, desc: '여러 직업인의 진로 특성과 삶의 모습을 살펴봐요' },
   'my-traits':        { area: '01', order: 2, std: '[9진로01-02]', icon: '🔍', name: '나의 진로 특성 찾기',   open: true, ready: false, desc: '흥미·적성·가치관을 여러 방법으로 살펴봐요' },
-  'dream-team':       { area: '01', order: 3, std: '[9진로01-03]', icon: '🤝', name: '함께 일하고 싶은 동료', open: true, ready: false, desc: '협업·신뢰·소통을 갖춘 직업인의 자세를 찾아요' },
-  'work-play':        { area: '01', order: 4, std: '[9진로01-04]', icon: '⚖️', name: '일과 여가 저울',        open: true, ready: false, desc: '일과 여가가 조화로운 행복한 삶을 그려요' },
   'info-detective':   { area: '02', order: 3, std: '[9진로02-03]', icon: '🕵️', name: '진로 정보 탐정',        open: true, ready: false, desc: '진로 정보를 찾는 여러 방법을 익히고 관심 분야를 조사해요' },
-  'exp-link':         { area: '02', order: 4, std: '[9진로02-04]', icon: '🔗', name: '경험 잇기',             open: true, ready: false, desc: '학교 활동과 경험을 나의 진로와 이어요' },
   'high-school':      { area: '02', order: 5, std: '[9진로02-05]', icon: '🏫', name: '고등학교 탐험',         open: true, ready: false, desc: '고등학교 유형·특성·교육과정을 살펴봐요' },
-  'decision-scale':   { area: '03', order: 1, std: '[9진로03-01]', icon: '🧮', name: '진로 결정 저울',        open: true, ready: false, desc: '고려할 것들을 저울에 달아 잠정적으로 진로를 정해요' },
   'path-map':         { area: '03', order: 2, std: '[9진로03-02]', icon: '🗺️', name: '나의 진로 경로 지도',   open: true, ready: false, desc: '우선 경로와 대안 경로를 함께 그려요' },
   'study-plan':       { area: '03', order: 3, std: '[9진로03-03]', icon: '📚', name: '진로 학습 계획표',      open: true, ready: false, desc: '진로 목표에 맞는 학습 계획을 세우고 실천해요' },
   'after-grad':       { area: '03', order: 4, std: '[9진로03-04]', icon: '🎓', name: '졸업 뒤 첫걸음',        open: true, ready: false, desc: '졸업 이후 계획과 자기 관리 방법을 세워요' },
